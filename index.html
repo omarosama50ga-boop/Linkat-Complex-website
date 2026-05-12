@@ -207,7 +207,7 @@
     <div class="nav-container">
       <div class="logo"><i class="fas fa-skull logo-icon"></i><span>DARCK<span class="neon-text">CODE</span></span></div>
       <div class="search-wrapper"><i class="fas fa-search search-icon"></i><input type="text" id="globalSearch" class="search-input" placeholder="Search AI tools..."></div>
-      <button id="langToggle" class="lang-btn">🇸🇦 العربية</button>
+      <button id="langToggle" class="lang-btn"> EG العربية</button>
     </div>
   </nav>
   <section class="hero">
@@ -415,7 +415,7 @@
     document.getElementById('footerText').innerText = t.footerText;
     document.getElementById('globalSearch').placeholder = t.searchPlaceholder;
     document.getElementById('resultsInfo').innerHTML = `${t.showing} <span id="visibleCount">0</span> ${t.toolsLabel}`;
-    document.getElementById('langToggle').innerText = currentLang === 'en' ? '🇸🇦 العربية' : '🇬🇧 English';
+    document.getElementById('langToggle').innerText = currentLang === 'en' ? 'EG العربية' : '🇬🇧 English';
     renderCategories(); renderTools(); renderCanva(); renderFreeServices(); renderImageResources();
   }
 
