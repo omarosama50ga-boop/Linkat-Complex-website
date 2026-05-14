@@ -1,1348 +1,1046 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <title>DARCK CODE | AI Tools & Creative Hub</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      href="https://cdn-icons-png.flaticon.com/512/2103/2103633.png"
-    />
-    <meta
-      property="og:image"
-      content="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop"
-    />
-    <meta
-      name="twitter:image"
-      content="https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=1200&auto=format&fit=crop"
-    />
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        background: #05050f;
-        font-family: "Inter", sans-serif;
-        color: #edf2ff;
-        overflow-x: hidden;
-        cursor: default;
-      }
-      body::before {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: radial-gradient(
-          circle at 20% 30%,
-          rgba(76, 0, 255, 0.08),
-          rgba(0, 255, 255, 0.02)
-        );
-        z-index: -2;
-      }
-      body::after {
-        content: "";
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: repeating-linear-gradient(
-          45deg,
-          rgba(0, 255, 255, 0.02) 0px,
-          rgba(0, 255, 255, 0.02) 2px,
-          transparent 2px,
-          transparent 8px
-        );
-        pointer-events: none;
-        z-index: -1;
-      }
-      .cursor-glow {
-        position: fixed;
-        width: 380px;
-        height: 380px;
-        background: radial-gradient(
-          circle,
-          rgba(0, 255, 255, 0.2),
-          rgba(128, 0, 255, 0) 70%
-        );
-        border-radius: 50%;
-        pointer-events: none;
-        transform: translate(-50%, -50%);
-        transition: transform 0.08s linear;
-        z-index: 9999;
-        mix-blend-mode: screen;
-        opacity: 0.5;
-      }
-      .preloader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: #020210;
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        backdrop-filter: blur(12px);
-        transition: opacity 0.6s ease;
-      }
-      .neon-loader {
-        width: 70px;
-        height: 70px;
-        border: 3px solid rgba(0, 255, 255, 0.2);
-        border-top: 3px solid #0ff;
-        border-right: 3px solid #a55eff;
-        border-radius: 50%;
-        animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
-        margin: 0 auto 20px;
-        box-shadow: 0 0 15px cyan;
-      }
-      @keyframes spin {
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-      .glass-nav {
-        background: rgba(5, 5, 20, 0.75);
-        backdrop-filter: blur(14px);
-        border-bottom: 1px solid rgba(0, 255, 255, 0.2);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-      .nav-container {
-        max-width: 1400px;
-        margin: 0 auto;
-        padding: 0.9rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 15px;
-      }
-      .logo {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        font-weight: 800;
-        font-size: 1.6rem;
-      }
-      .logo-icon {
-        color: #0ff;
-        text-shadow: 0 0 5px cyan;
-      }
-      .neon-text {
-        background: linear-gradient(120deg, cyan, #b277ff);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-      .search-wrapper {
-        flex: 1;
-        max-width: 380px;
-        position: relative;
-      }
-      .search-input {
-        width: 100%;
-        background: rgba(15, 15, 35, 0.7);
-        border: 1px solid rgba(0, 255, 255, 0.4);
-        border-radius: 60px;
-        padding: 12px 20px 12px 45px;
-        color: white;
-        font-family: "Inter", sans-serif;
-        transition: all 0.2s;
-      }
-      .search-input:focus {
-        outline: none;
-        border-color: cyan;
-        box-shadow: 0 0 12px rgba(0, 255, 255, 0.4);
-      }
-      .search-icon {
-        position: absolute;
-        left: 18px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: cyan;
-      }
-      .lang-btn {
-        background: rgba(0, 255, 255, 0.1);
-        border: 1px solid cyan;
-        border-radius: 40px;
-        padding: 8px 18px;
-        font-weight: 600;
-        cursor: pointer;
-        color: cyan;
-        transition: 0.2s;
-      }
-      .lang-btn:hover {
-        background: cyan;
-        color: #030318;
-        box-shadow: 0 0 12px cyan;
-      }
-      .hero {
-        text-align: center;
-        padding: 4rem 2rem 3rem;
-      }
-      .glitch-text {
-        font-size: 3.3rem;
-        font-weight: 800;
-      }
-      .gradient-text {
-        background: linear-gradient(135deg, #0ff, #a55eff, #ff5e7c);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-      .hero-stats {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin-top: 2rem;
-      }
-      .stat {
-        background: rgba(0, 255, 255, 0.08);
-        padding: 0.5rem 1.2rem;
-        border-radius: 40px;
-        backdrop-filter: blur(4px);
-      }
-      .control-bar {
-        max-width: 1300px;
-        margin: 1.5rem auto 0;
-        padding: 0 2rem;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-        align-items: center;
-      }
-      .filter-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-      }
-      .filter-chip {
-        background: rgba(20, 20, 45, 0.7);
-        border: 1px solid rgba(0, 255, 255, 0.3);
-        padding: 8px 20px;
-        border-radius: 40px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: 0.2s;
-        color: #ccddf8;
-      }
-      .filter-chip.active,
-      .filter-chip:hover {
-        background: cyan;
-        color: #030318;
-        border-color: cyan;
-        box-shadow: 0 0 12px cyan;
-      }
-      .results-info {
-        background: rgba(0, 0, 0, 0.4);
-        padding: 6px 16px;
-        border-radius: 30px;
-        font-size: 0.85rem;
-      }
-      .container,
-      .resource-section {
-        max-width: 1400px;
-        margin: 2rem auto;
-        padding: 0 2rem;
-      }
-      .tools-grid,
-      .resource-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: 28px;
-      }
-      .ai-card,
-      .resource-card {
-        background: rgba(15, 15, 30, 0.55);
-        backdrop-filter: blur(12px);
-        border-radius: 32px;
-        padding: 1.6rem;
-        border: 1px solid rgba(0, 255, 255, 0.2);
-        transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 10px 25px -8px rgba(0, 0, 0, 0.5);
-      }
-      .ai-card::before,
-      .resource-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 4px;
-        background: linear-gradient(90deg, cyan, #a55eff, cyan);
-        transform: scaleX(0);
-        transform-origin: left;
-        transition: transform 0.4s;
-      }
-      .ai-card:hover::before,
-      .resource-card:hover::before {
-        transform: scaleX(1);
-      }
-      .ai-card:hover,
-      .resource-card:hover {
-        transform: translateY(-8px);
-        border-color: rgba(0, 255, 255, 0.7);
-        box-shadow: 0 25px 35px -12px rgba(0, 200, 255, 0.3);
-      }
-      .card-icon {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        background: linear-gradient(145deg, cyan, violet);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-      }
-      .card-title {
-        font-size: 1.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-      .card-desc {
-        color: #b9c8ff;
-        font-size: 0.9rem;
-        line-height: 1.4;
-        margin: 0.6rem 0;
-      }
-      .btn-visit,
-      .copy-btn,
-      .canva-search-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: linear-gradient(95deg, #0ff, #a55eff);
-        border: none;
-        padding: 8px 16px;
-        border-radius: 40px;
-        font-weight: 600;
-        color: #030318;
-        margin-top: 12px;
-        margin-right: 8px;
-        cursor: pointer;
-        text-decoration: none;
-        font-size: 0.8rem;
-      }
-      .copy-btn,
-      .canva-search-btn {
-        background: rgba(0, 255, 255, 0.2);
-        color: cyan;
-        border: 1px solid cyan;
-      }
-      .section-title {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-        border-left: 5px solid cyan;
-        padding-left: 20px;
-        margin-top: 2rem;
-        cursor: pointer;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        transition: 0.2s;
-      }
-      .section-title:hover {
-        text-shadow: 0 0 5px cyan;
-      }
-      .toggle-icon {
-        font-size: 1.5rem;
-        transition: transform 0.3s;
-      }
-      .collapsed .resource-grid {
-        display: none;
-      }
-      .no-results {
-        text-align: center;
-        padding: 3rem;
-        background: rgba(0, 0, 0, 0.3);
-        border-radius: 40px;
-      }
-      .hidden {
-        display: none;
-      }
-      .keyword-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 15px;
-      }
-      .keyword-badge {
-        background: rgba(0, 255, 255, 0.15);
-        border-radius: 30px;
-        padding: 6px 14px;
-        font-size: 0.75rem;
-        cursor: pointer;
-        transition: 0.2s;
-        border: 1px solid rgba(0, 255, 255, 0.3);
-      }
-      .keyword-badge:hover {
-        background: cyan;
-        color: black;
-        transform: scale(1.02);
-      }
-      footer {
-        margin-top: 4rem;
-        background: rgba(0, 0, 0, 0.55);
-        backdrop-filter: blur(10px);
-        border-top: 1px solid rgba(0, 255, 255, 0.2);
-        padding: 2rem;
-        text-align: center;
-      }
-      @media (max-width: 700px) {
-        .glitch-text {
-          font-size: 2rem;
-        }
-        .nav-container {
-          flex-direction: column;
-        }
-        .control-bar {
-          flex-direction: column;
-          align-items: stretch;
-          gap: 15px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="preloader" class="preloader">
-      <div class="loader-container">
-        <div class="neon-loader"></div>
-        <div class="loader-text" id="preloaderText">
-          INITIALIZING DARCK CODE
-        </div>
-      </div>
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<title>DARCK CODE | AI Tools & Creative Hub</title>
+<!-- AI Head Icon -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2300f5ff'/%3E%3Cstop offset='100%25' stop-color='%237b2cff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='28' fill='%230b1020'/%3E%3Cpath d='M64 22c-18 0-32 14-32 32v20c0 18 14 32 32 32s32-14 32-32V54c0-18-14-32-32-32zm0 12c11 0 20 9 20 20v20c0 11-9 20-20 20s-20-9-20-20V54c0-11 9-20 20-20z' fill='url(%23g)'/%3E%3Ccircle cx='64' cy='64' r='10' fill='%23ffffff'/%3E%3Cpath d='M64 6v14M64 108v14M6 64h14M108 64h14M20 20l10 10M98 98l10 10M20 108l10-10M98 30l10-10' stroke='url(%23g)' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+<style>
+:root{
+  --cyan:#00f5ff;--purple:#a855f7;--pink:#ff3e9d;--bg:#05050f;
+  --card-bg:rgba(15,15,35,0.6);--border:rgba(0,245,255,0.18);
+  --text:#e8f0ff;--muted:#8899cc;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);font-family:"Space Grotesk",sans-serif;color:var(--text);overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 10% 20%,rgba(76,0,255,.12) 0%,transparent 60%),radial-gradient(ellipse 50% 50% at 90% 80%,rgba(0,245,255,.07) 0%,transparent 60%);z-index:-2;pointer-events:none}
+body::after{content:"";position:fixed;inset:0;background:repeating-linear-gradient(45deg,rgba(0,245,255,.015) 0px,rgba(0,245,255,.015) 1px,transparent 1px,transparent 10px);z-index:-1;pointer-events:none}
+
+.cursor-glow{position:fixed;width:340px;height:340px;background:radial-gradient(circle,rgba(0,245,255,.18),rgba(128,0,255,0) 70%);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%);transition:left .08s linear,top .08s linear;z-index:9999;mix-blend-mode:screen;opacity:.5}
+
+.preloader{position:fixed;inset:0;background:#020210;z-index:10000;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:18px;transition:opacity .6s ease}
+.neon-loader{width:65px;height:65px;border:3px solid rgba(0,245,255,.15);border-top:3px solid var(--cyan);border-right:3px solid var(--purple);border-radius:50%;animation:spin 1s ease-in-out infinite;box-shadow:0 0 20px rgba(0,245,255,.3)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loader-text{font-family:"Syne",sans-serif;font-size:.85rem;letter-spacing:.3em;color:var(--cyan)}
+
+.glass-nav{background:rgba(5,5,20,.8);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-container{max-width:1420px;margin:0 auto;padding:.9rem 2rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.logo-icon{color:var(--cyan);font-size:1.6rem;filter:drop-shadow(0 0 6px var(--cyan))}
+.logo-text{font-family:"Syne",sans-serif;font-size:1.5rem;font-weight:800}
+.logo-text span{background:linear-gradient(120deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent}
+.search-wrapper{flex:1;max-width:420px;position:relative}
+.search-input{width:100%;background:rgba(15,15,40,.8);border:1px solid rgba(0,245,255,.35);border-radius:50px;padding:11px 20px 11px 44px;color:var(--text);font-family:inherit;font-size:.9rem;transition:.2s}
+.search-input:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 14px rgba(0,245,255,.3)}
+.search-icon{position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--cyan);font-size:.85rem}
+.nav-right{display:flex;align-items:center;gap:12px}
+.lang-btn{background:rgba(0,245,255,.08);border:1px solid rgba(0,245,255,.5);border-radius:40px;padding:8px 18px;font-weight:600;cursor:pointer;color:var(--cyan);font-family:inherit;font-size:.85rem;transition:.2s}
+.lang-btn:hover{background:var(--cyan);color:#030318;box-shadow:0 0 14px var(--cyan)}
+.tools-count-badge{background:linear-gradient(135deg,rgba(0,245,255,.15),rgba(168,85,247,.15));border:1px solid rgba(168,85,247,.4);border-radius:40px;padding:7px 15px;font-size:.8rem;font-weight:600;color:var(--purple);white-space:nowrap}
+
+.hero{text-align:center;padding:4.5rem 2rem 2.5rem}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(168,85,247,.12);border:1px solid rgba(168,85,247,.3);border-radius:30px;padding:6px 18px;font-size:.8rem;color:var(--purple);margin-bottom:1.5rem;letter-spacing:.05em}
+.hero h1{font-family:"Syne",sans-serif;font-size:3.5rem;line-height:1.1;margin-bottom:1rem}
+.gradient-text{background:linear-gradient(135deg,var(--cyan),var(--purple),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-sub{color:var(--muted);font-size:1.05rem;max-width:500px;margin:0 auto 2rem}
+.hero-stats{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap}
+.stat{background:rgba(0,245,255,.07);border:1px solid var(--border);padding:.5rem 1.4rem;border-radius:40px;font-size:.85rem;font-weight:500;display:flex;align-items:center;gap:8px}
+.stat-num{color:var(--cyan);font-weight:700;font-size:1rem}
+
+/* UNIFIED FILTER BAR */
+.filter-section{max-width:1420px;margin:2rem auto 0;padding:0 2rem}
+.filter-label{font-size:.75rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem}
+.filter-scroll{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  padding-bottom:12px;
+  scrollbar-width:thin;
+  flex-wrap:nowrap;
+  cursor:grab;
+  user-select:none;
+  scroll-behavior:smooth;
+}
+.filter-scroll:active{cursor:grabbing}
+.filter-scroll::-webkit-scrollbar{height:4px}
+.filter-scroll::-webkit-scrollbar-track{background:rgba(0,245,255,.05);border-radius:10px}
+.filter-scroll::-webkit-scrollbar-thumb{background:rgba(0,245,255,.4);border-radius:10px}
+.filter-chip{background:rgba(15,15,35,.7);border:1px solid rgba(0,245,255,.2);padding:7px 16px;border-radius:40px;font-weight:500;cursor:pointer;transition:.2s;color:#b0c4f0;white-space:nowrap;font-family:inherit;font-size:.8rem;flex-shrink:0}
+.filter-chip.active,.filter-chip:hover{background:var(--cyan);color:#030318;border-color:var(--cyan);box-shadow:0 0 12px rgba(0,245,255,.4)}
+.filter-chip.section-chip{border-color:rgba(168,85,247,.3);color:var(--purple)}
+.filter-chip.section-chip.active,.filter-chip.section-chip:hover{background:var(--purple);color:#fff;border-color:var(--purple);box-shadow:0 0 12px rgba(168,85,247,.4)}
+
+.results-bar{max-width:1420px;margin:.8rem auto 0;padding:0 2rem;display:flex;justify-content:space-between;align-items:center}
+.results-info{font-size:.82rem;color:var(--muted)}
+.results-info span{color:var(--cyan);font-weight:600}
+
+.section-wrap{max-width:1420px;margin:0 auto;padding:0 2rem 2rem}
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px}
+.resource-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:20px}
+
+.section-header{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 0 1.2rem;cursor:pointer;user-select:none;border-bottom:1px solid rgba(0,245,255,.1);margin-bottom:1.5rem}
+.section-header-left{display:flex;align-items:center;gap:14px}
+.section-icon-wrap{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.section-title-text{font-family:"Syne",sans-serif;font-size:1.25rem;font-weight:700}
+.section-subtitle{font-size:.78rem;color:var(--muted);margin-top:2px}
+.section-badge{background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.3);border-radius:20px;padding:3px 12px;font-size:.72rem;color:var(--cyan);font-weight:600}
+.toggle-btn{width:32px;height:32px;border-radius:50%;background:rgba(0,245,255,.08);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--muted);transition:.3s;flex-shrink:0}
+.section-header:hover .toggle-btn{background:rgba(0,245,255,.15);color:var(--cyan)}
+
+.ai-card,.resource-card{background:var(--card-bg);backdrop-filter:blur(14px);border-radius:24px;padding:1.5rem;border:1px solid var(--border);transition:all .3s cubic-bezier(.2,.9,.4,1.1);position:relative;overflow:hidden}
+.ai-card::before,.resource-card::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--cyan),var(--purple),var(--pink));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.ai-card:hover::before,.resource-card:hover::before{transform:scaleX(1)}
+.ai-card:hover,.resource-card:hover{transform:translateY(-6px);border-color:rgba(0,245,255,.55);box-shadow:0 20px 40px -10px rgba(0,200,255,.2)}
+.card-icon-wrap{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;margin-bottom:1rem;flex-shrink:0}
+.card-cat-badge{display:inline-block;font-size:.65rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;padding:3px 10px;border-radius:20px;margin-bottom:.6rem}
+.card-title{font-family:"Syne",sans-serif;font-size:1.1rem;font-weight:700;margin-bottom:.4rem}
+.card-desc{color:var(--muted);font-size:.82rem;line-height:1.5}
+.free-badge{display:inline-block;background:rgba(60,200,100,.15);color:#3cc864;border:1px solid rgba(60,200,100,.3);border-radius:12px;padding:2px 8px;font-size:.65rem;font-weight:700;margin-bottom:.4rem}
+.card-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem}
+.btn-visit{display:inline-flex;align-items:center;gap:7px;background:linear-gradient(95deg,var(--cyan),var(--purple));border:none;padding:8px 16px;border-radius:30px;font-weight:600;color:#030318;font-size:.78rem;cursor:pointer;text-decoration:none;font-family:inherit;transition:.2s}
+.btn-visit:hover{opacity:.85;transform:scale(1.03)}
+
+.keyword-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.keyword-badge{background:rgba(0,245,255,.1);border:1px solid rgba(0,245,255,.25);border-radius:25px;padding:5px 13px;font-size:.72rem;cursor:pointer;transition:.2s;color:var(--cyan)}
+.keyword-badge:hover{background:var(--cyan);color:black;transform:scale(1.04)}
+
+.prompt-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:1.3rem;transition:.3s}
+.prompt-card:hover{border-color:rgba(168,85,247,.5);transform:translateY(-4px)}
+.prompt-tag{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--purple);margin-bottom:.6rem;display:block}
+.prompt-text{font-size:.83rem;color:#c0d0f0;line-height:1.5}
+.copy-prompt-btn{display:inline-flex;align-items:center;gap:6px;background:rgba(168,85,247,.1);border:1px solid rgba(168,85,247,.3);color:var(--purple);border-radius:25px;padding:6px 14px;font-size:.72rem;font-weight:600;cursor:pointer;margin-top:10px;font-family:inherit;transition:.2s}
+.copy-prompt-btn:hover{background:rgba(168,85,247,.25)}
+
+.section-divider{max-width:1420px;margin:1rem auto 0;padding:0 2rem;border-top:1px solid rgba(0,245,255,.07)}
+.hidden{display:none!important}
+
+/* SECTION COLOR CLASSES */
+.s-audio .section-icon-wrap{background:rgba(0,245,255,.1);color:var(--cyan)}
+.s-code .section-icon-wrap{background:rgba(168,85,247,.1);color:var(--purple)}
+.s-design .section-icon-wrap{background:rgba(255,62,157,.1);color:var(--pink)}
+.s-image .section-icon-wrap{background:rgba(255,200,60,.1);color:#ffc83c}
+.s-video .section-icon-wrap{background:rgba(60,200,100,.1);color:#3cc864}
+.s-write .section-icon-wrap{background:rgba(0,245,255,.1);color:var(--cyan)}
+.s-prod .section-icon-wrap{background:rgba(168,85,247,.1);color:var(--purple)}
+.s-research .section-icon-wrap{background:rgba(255,150,50,.1);color:#ff9632}
+.s-canva .section-icon-wrap{background:rgba(0,200,120,.1);color:#00c878}
+.s-prompts .section-icon-wrap{background:rgba(168,85,247,.1);color:var(--purple)}
+.s-free .section-icon-wrap{background:rgba(255,62,157,.1);color:var(--pink)}
+.s-imgres .section-icon-wrap{background:rgba(255,200,60,.1);color:#ffc83c}
+.s-css .section-icon-wrap{background:rgba(0,245,255,.1);color:var(--cyan)}
+.s-ext .section-icon-wrap{background:rgba(255,150,50,.1);color:#ff9632}
+.s-chat .section-icon-wrap{background:rgba(60,200,100,.1);color:#3cc864}
+.s-email .section-icon-wrap{background:rgba(255,62,157,.1);color:var(--pink)}
+.s-social .section-icon-wrap{background:rgba(0,245,255,.1);color:var(--cyan)}
+
+/* CAT BADGES */
+.s-audio .card-cat-badge{background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)}
+.s-code .card-cat-badge{background:rgba(168,85,247,.1);color:var(--purple);border:1px solid rgba(168,85,247,.2)}
+.s-design .card-cat-badge{background:rgba(255,62,157,.1);color:var(--pink);border:1px solid rgba(255,62,157,.2)}
+.s-image .card-cat-badge{background:rgba(255,200,60,.1);color:#ffc83c;border:1px solid rgba(255,200,60,.2)}
+.s-video .card-cat-badge{background:rgba(60,200,100,.1);color:#3cc864;border:1px solid rgba(60,200,100,.2)}
+.s-write .card-cat-badge{background:rgba(0,245,255,.1);color:var(--cyan);border:1px solid rgba(0,245,255,.2)}
+.s-prod .card-cat-badge{background:rgba(168,85,247,.1);color:var(--purple);border:1px solid rgba(168,85,247,.2)}
+.s-research .card-cat-badge{background:rgba(255,150,50,.1);color:#ff9632;border:1px solid rgba(255,150,50,.2)}
+.s-chat .card-cat-badge{background:rgba(60,200,100,.1);color:#3cc864;border:1px solid rgba(60,200,100,.2)}
+
+/* NO RESULTS */
+.no-results-box{grid-column:1/-1;text-align:center;padding:3rem;background:rgba(0,0,0,.2);border-radius:30px;color:var(--muted)}
+.no-results-box i{font-size:2.5rem;margin-bottom:1rem;color:var(--border);display:block}
+
+footer{margin-top:5rem;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);border-top:1px solid rgba(0,245,255,.12);padding:2.5rem 2rem;text-align:center}
+.footer-logo{font-family:"Syne",sans-serif;font-size:1.3rem;font-weight:800;margin-bottom:.8rem}
+.footer-links{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-bottom:1rem}
+.footer-link{color:var(--muted);font-size:.82rem;text-decoration:none;transition:.2s}
+.footer-link:hover{color:var(--cyan)}
+.footer-copy{color:var(--muted);font-size:.78rem}
+
+.search-section{display:block}
+.search-section.filtered-out{display:none}
+
+@media(max-width:700px){
+  .hero h1{font-size:2.2rem}
+  .nav-container{flex-direction:column}
+  .tools-count-badge{display:none}
+}
+</style>
+</head>
+<body>
+<div id="preloader" class="preloader">
+  <div class="neon-loader"></div>
+  <div class="loader-text" id="preloaderText">INITIALIZING DARCK CODE</div>
+</div>
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<div id="appWrapper" style="opacity:0;transition:opacity .5s">
+
+<!-- NAV -->
+<nav class="glass-nav">
+  <div class="nav-container">
+    <a class="logo" href="#"><i class="fas fa-skull logo-icon"></i><span class="logo-text">DARCK<span>CODE</span></span></a>
+    <div class="search-wrapper">
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" id="globalSearch" class="search-input" placeholder="Search AI tools..."/>
     </div>
-    <div class="cursor-glow" id="cursorGlow"></div>
-    <div class="app-wrapper" id="appWrapper" style="opacity: 0">
-      <nav class="glass-nav">
-        <div class="nav-container">
-          <div class="logo">
-            <i class="fas fa-skull logo-icon"></i
-            ><span>DARCK<span class="neon-text">CODE</span></span>
-          </div>
-          <div class="search-wrapper">
-            <i class="fas fa-search search-icon"></i
-            ><input
-              type="text"
-              id="globalSearch"
-              class="search-input"
-              placeholder="Search AI tools..."
-            />
-          </div>
-          <button id="langToggle" class="lang-btn">EG العربية</button>
-        </div>
-      </nav>
-      <section class="hero">
-        <h1 class="glitch-text">
-          <span class="gradient-text" id="heroTitle"
-            >The Ultimate AI Arsenal</span
-          >
-        </h1>
-        <p id="heroSub">Curating frontier intelligence & creative tools</p>
-        <div class="hero-stats">
-          <div class="stat">
-            <span id="totalToolsCount">0</span>
-            <span id="statToolsLabel">+ AI tools</span>
-          </div>
-          <div class="stat">
-            <i class="fas fa-bolt"></i>
-            <span id="statUpdateLabel">real-time updates</span>
-          </div>
-        </div>
-      </section>
-      <div class="control-bar">
-        <div class="filter-group" id="categoryFilters"></div>
-        <div class="results-info" id="resultsInfo">
-          Showing <span id="visibleCount">0</span> tools
-        </div>
-      </div>
-      <main class="container">
-        <div id="toolsGrid" class="tools-grid"></div>
-        <div id="noResultsMsg" class="no-results hidden">
-          <i class="fas fa-robot"></i>
-          <h3 id="noResultTitle">No AI found</h3>
-          <p id="noResultDesc">Adjust your search or category</p>
-        </div>
-      </main>
-
-      <!-- CANVA SECTION -->
-      <section class="resource-section" id="canvaSection">
-        <div class="section-title" id="canvaToggle">
-          <span
-            ><i class="fas fa-palette"></i>
-            <span id="canvaTitle"
-              >🎨 Canva Design Vault – Smart Search</span
-            ></span
-          >
-          <i class="fas fa-chevron-down toggle-icon" id="canvaIcon"></i>
-        </div>
-        <div
-          id="canvaContent"
-          class="resource-grid"
-          style="display: grid"
-        ></div>
-      </section>
-
-      <!-- FREE SERVICES SECTION -->
-      <section class="resource-section" id="freeSection">
-        <div class="section-title" id="freeToggle">
-          <span
-            ><i class="fas fa-gem"></i>
-            <span id="freeTitle">💎 Free Essential Services Toolkit</span></span
-          >
-          <i class="fas fa-chevron-down toggle-icon" id="freeIcon"></i>
-        </div>
-        <div id="freeContent" class="resource-grid" style="display: grid"></div>
-      </section>
-
-      <!-- IMAGE RESOURCES SECTION -->
-      <section class="resource-section" id="imageResSection">
-        <div class="section-title" id="imageResToggle">
-          <span
-            ><i class="fas fa-images"></i>
-            <span id="imageResTitle"
-              >🖼️ High-Quality Image Resources</span
-            ></span
-          >
-          <i class="fas fa-chevron-down toggle-icon" id="imageResIcon"></i>
-        </div>
-        <div
-          id="imageResContent"
-          class="resource-grid"
-          style="display: grid"
-        ></div>
-      </section>
-
-      <footer>
-        <p id="footerText">
-          © 2025 DARCK CODE — Multilingual AI Hub & Creative Companion
-        </p>
-      </footer>
+    <div class="nav-right">
+      <div class="tools-count-badge">🛠 <span id="totalToolsCount">0</span> Tools</div>
+      <button id="langToggle" class="lang-btn">EG العربية</button>
     </div>
+  </div>
+</nav>
 
-    <script>
-      // ======================== TRANSLATIONS ========================
-      const translations = {
-        en: {
-          preloader: "INITIALIZING DARCK CODE",
-          heroTitle: "The Ultimate AI Arsenal",
-          heroSub: "Curating frontier intelligence & creative tools",
-          statTools: "+ AI tools",
-          statUpdate: "real-time updates",
-          allTools: "✨ All Tools",
-          showing: "Showing",
-          toolsLabel: "tools",
-          noResultTitle: "No AI found",
-          noResultDesc: "Adjust your search or category",
-          canvaTitle:
-            "🎨 Canva Design Vault – Billboard, Medical Reports, Invoice & More",
-          freeTitle: "💎 Free Services: Icons, Stock & Design",
-          imageResTitle: "🖼️ High-Quality Image Resources (Free)",
-          footerText:
-            "© 2025 DARCK CODE — Multilingual AI Hub & Creative Companion",
-          visit: "Visit",
-          copy: "Copied!",
-          searchPlaceholder: "Search AI tools...",
-          categories: {
-            Audio: "Audio",
-            Coding: "Coding",
-            Design: "Design",
-            "Image Generation": "Image Gen",
-            Productivity: "Productivity",
-            Research: "Research",
-            "Text & Writing": "Text & Writing",
-            Video: "Video",
-            Writing: "Writing",
-          },
-        },
-        ar: {
-          preloader: "تشغيل دارك كود",
-          heroTitle: "أفضل أسلحة الذكاء الاصطناعي",
-          heroSub: "أحدث أدوات الذكاء والإبداع",
-          statTools: "+ أداة ذكاء",
-          statUpdate: "تحديثات فورية",
-          allTools: "✨ جميع الأدوات",
-          showing: "عرض",
-          toolsLabel: "أداة",
-          noResultTitle: "لم يتم العثور على أدوات",
-          noResultDesc: "عدّل البحث أو التصنيف",
-          canvaTitle: "🎨 قبو كانفا – لوحات إعلانية، تقارير طبية، فواتير",
-          freeTitle: "💎 خدمات مجانية: أيقونات، صور، تصميم",
-          imageResTitle: "🖼️ موارد صور عالية الجودة (مجانية)",
-          footerText: "© 2025 DARCK CODE — مركز متعدد اللغات ورفيق الإبداع",
-          visit: "زيارة",
-          copy: "تم النسخ!",
-          searchPlaceholder: "ابحث في أدوات الذكاء الاصطناعي...",
-          categories: {
-            Audio: "صوت",
-            Coding: "برمجة",
-            Design: "تصميم",
-            "Image Generation": "توليد صور",
-            Productivity: "إنتاجية",
-            Research: "بحث",
-            "Text & Writing": "نصوص وكتابة",
-            Video: "فيديو",
-            Writing: "كتابة",
-          },
-        },
-      };
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge"><i class="fas fa-bolt"></i><span id="heroBadge">AI-Powered Creative Hub</span></div>
+  <h1><span class="gradient-text" id="heroTitle">The Ultimate AI Arsenal</span></h1>
+  <p class="hero-sub" id="heroSub">Curating frontier intelligence & creative tools</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num" id="totalToolsCount2">0</span><span id="statToolsLabel">+ AI tools</span></div>
+    <div class="stat"><i class="fas fa-layer-group" style="color:var(--purple)"></i><span id="statSectionsNum">15</span><span id="statSectionsLabel">sections</span></div>
+    <div class="stat"><i class="fas fa-bolt" style="color:var(--cyan)"></i><span id="statUpdateLabel">Real-time ready</span></div>
+  </div>
+</section>
 
-      let currentLang = localStorage.getItem("aiLang") || "en";
-      let searchTerm = "";
-      let activeCategory = "all";
+<!-- UNIFIED FILTER BAR -->
+<div class="filter-section">
+  <div class="filter-label" id="filterLabel">Filter by category & section</div>
+  <div class="filter-scroll" id="categoryFilters"></div>
+</div>
+<div class="results-bar">
+  <div class="results-info" id="resultsInfo">Showing <span id="visibleCount">0</span> results</div>
+</div>
 
-      // ========== AI TOOLS (FULL LIST - NO DETAILS) ==========
-      const toolsData = [
-        {
-          nameEn: "ElevenLabs",
-          nameAr: "إيفن لابس",
-          descEn: "Ultra-realistic text-to-speech & voice cloning.",
-          descAr: "تحويل النص إلى صوت واقعي واستنساخ الأصوات.",
-          category: "Audio",
-          url: "https://elevenlabs.io",
-          icon: "fas fa-microphone-alt",
-        },
-        {
-          nameEn: "PlayHT",
-          nameAr: "بلاي إتش تي",
-          descEn: "AI voiceover & podcast generation.",
-          descAr: "توليد تعليق صوتي وبودكاست.",
-          category: "Audio",
-          url: "https://play.ht",
-          icon: "fas fa-headphones",
-        },
-        {
-          nameEn: "Otter AI",
-          nameAr: "أوتر إيه آي",
-          descEn: "Meeting transcription & real-time notes.",
-          descAr: " تفريغ الصوت إلى نص، تسجيل الاجتماعات، تلخيص المحاضرات، وتنظيم الملاحظات. ",
-          category: "Audio",
-          url: "https://otter.ai",
-          icon: "fas fa-file-alt",
-        },
-        {
-          nameEn: "ChatGPT",
-          nameAr: "شات جي بي تي",
-          descEn: "AI coding & problem solving.",
-          descAr: " برمجة، حلّ المشكلات، إنشاء صور، وكتابة المحتوى. ",
-          category: "Coding",
-          url: "https://chatgpt.com",
-          icon: "fas fa-code",
-        },
-              {
-          nameEn: " Gemini ",
-          nameAr: "جيميناي ",
-          descEn: "AI coding & problem solving.",
-          descAr: "     كتابة النصوص، البرمجة، البحث، تحليل المعلومات، وحلّ المشكلات.  ",
-          category: "Coding",
-          url: "https://gemini.google.com/",
-          icon: "fas fa-code",
-        },
-        {
-          nameEn: "Claude",
-          nameAr: "كلود",
-          descEn: "Advanced reasoning & code analysis.",
-          descAr: " كتابة المحتوى، البرمجة، تحليل الملفات، وحلّ المشكلات. ",
-          category: "Coding",
-          url: "https://claude.ai",
-          icon: "fas fa-brain",
-        },
-        {
-          nameEn: "DeepSeek",
-          nameAr: "ديب سيك",
-          descEn: "Deep coding assistant & reasoning.",
-          descAr: "مساعد برمجي عميق.",
-          category: "Coding",
-          url: "https://chat.deepseek.com",
-          icon: "fas fa-chart-line",
-        },
-        {
-          nameEn: "Phind",
-          nameAr: "فايند",
-          descEn: "Search engine for developers.",
-          descAr: "  البحث عن المعلومات التقنية، مساعدة المبرمجين، كتابة الأكواد، وحلّ مشاكل البرمجة.   ",
-          category: "Coding",
-          url: "https://www.phind.com",
-          icon: "fas fa-search",
-        },
-        {
-          nameEn: "Blackbox AI",
-          nameAr: "بلاك بوكس إيه آي",
-          descEn: "Code assistant from code snippets.",
-          descAr: " كتابة الأكواد، تصحيح الأخطاء، إكمال البرمجة، واستخراج الأكواد من الصور أو الفيديوهات.",
-          category: "Coding",
-          url: "https://www.blackbox.ai",
-          icon: "fas fa-cube",
-        },
-        {
-          nameEn: "GitHub",
-          nameAr: "غيت هاب",
-          descEn: "Collaboration & AI-powered Copilot.",
-          descAr: " إدارة الأكواد، التعاون في البرمجة، واستضافة المشاريع البرمجية. ",
-          category: "Coding",
-          url: "https://github.com",
-          icon: "fab fa-github",
-        },
-        {
-          nameEn: "Cursor",
-          nameAr: "كرسر",
-          descEn: "AI-first code editor.",
-          descAr:  " مساعد ذكي للبرمجة، كتابة وتصحيح الأكواد، وتسريع تطوير المشاريع. ",
-          category: "Coding",
-          url: "https://cursor.sh",
-          icon: "fas fa-laptop-code",
-        },
-        {
-          nameEn: "Canva",
-          nameAr: "كانفا",
-          descEn: "Graphic design platform with AI.",
-          descAr:  "تصميم الصور، العروض، البوستات، والفيديوهات بسهولة وبشكل احترافي.",
-          category: "Design",
-          url: "https://www.canva.com",
-          icon: "fab fa-canva",
-        },
-        {
-          nameEn: "Framer AI",
-          nameAr: "فريمر إيه آي",
-          descEn: "AI website builder.",
-          descAr:  "   إنشاء مواقع ويب وتصميم صفحات احترافية باستخدام الذكاء الاصطناعي. ",
-          category: "Design",
-          url: "https://www.framer.com",
-          icon: "fas fa-window-maximize",
-        },
-        {
-          nameEn: "Adobe Express",
-          nameAr: "أدوبي إكسبريس",
-          descEn: "Quick design & social content.",
-          descAr: "  تصميم صور وبوستات وفيديوهات بسرعة وبقوالب جاهزة. ",
-          category: "Design",
-          url: "https://www.adobe.com/express",
-          icon: "fas fa-pen-fancy",
-        },
-        {
-          nameEn: "Figma Community",
-          nameAr: "مجتمع فيجما",
-          descEn: "UI/UX design inspiration & resources.",
-          descAr:  " مشاركة وتحميل تصاميم وملفات واجهات المستخدم واستلهام أفكار تصميمية. ",
-          category: "Design",
-          url: "https://www.figma.com/community",
-          icon: "fab fa-figma",
-        },
-        {
-          nameEn: "Looka",
-          nameAr: "لوكا",
-          descEn: "AI logo & brand identity.",
-          descAr:  "تصميم الشعارات والهويات البصرية للشركات تلقائيًا. ",
-          category: "Design",
-          url: "https://looka.com",
-          icon: "fas fa-trademark",
-        },
-        {
-          nameEn: "Midjourney",
-          nameAr: "ميدجورني",
-          descEn: "Cinematic image synthesis.",
-          descAr: "  توليد صور سينمائية.  و إنشاء صور فنية وواقعية باستخدام أوامر نصية. ",
-          category: "Image Generation",
-          url: "https://www.midjourney.com",
-          icon: "fas fa-palette",
-        },
-        {
-          nameEn: "DALL·E",
-          nameAr: "دال إي",
-          descEn: "OpenAI image generation.",
-          descAr: "  إنشاء صور بالذكاء الاصطناعي من خلال وصف نصي. ",
-          category: "Image Generation",
-          url: "https://chat.openai.com",
-          icon: "fas fa-magic",
-        },
-        {
-          nameEn: "Leonardo AI",
-          nameAr: "ليوناردو",
-          descEn: "Game art & concept design.",
-          descAr: " توليد صور وتصاميم عالية الجودة للألعاب والمشاريع الإبداعية. ",
-          category: "Image Generation",
-          url: "https://leonardo.ai",
-          icon: "fas fa-dragon",
-        },
-        {
-          nameEn: "Krea AI",
-          nameAr: "كريا إيه آي",
-          descEn: "Real-time image generation.",
-          descAr: " إنشاء وتعديل الصور بالذكاء الاصطناعي بسرعة وبأسلوب فني. ",
-          category: "Image Generation",
-          url: "https://www.krea.ai",
-          icon: "fas fa-bolt",
-        },
-        {
-          nameEn: "Lexica",
-          nameAr: "ليكسيكا",
-          descEn: "Stable Diffusion search & generator.",
-          descAr:"  البحث عن صور مولدة بالذكاء الاصطناعي وإنشاء صور مشابهة.   ",
-          category: "Image Generation",
-          url: "https://lexica.art",
-          icon: "fas fa-search",
-        },
-        {
-          nameEn: "Stockimg AI",
-          nameAr: "ستوك إيمج",
-          descEn: "AI stock photos & illustrations.",
-          descAr: " إنشاء صور ستوك، شعارات، وتصاميم تسويقية بالذكاء الاصطناعي. ",
-          category: "Image Generation",
-          url: "https://stockimg.ai",
-          icon: "fas fa-archive",
-        },
-        {
-          nameEn: "Notion AI",
-          nameAr: "نوتشن إيه آي",
-          descEn: "Workspace & writing assistant.",
-          descAr: " كتابة وتنظيم الملاحظات، تلخيص المحتوى، وإدارة المهام. ",
-          category: "Productivity",
-          url: "https://www.notion.so",
-          icon: "fas fa-tasks",
-        },
-        {
-          nameEn: "Gamma",
-          nameAr: "جاما",
-          descEn: "AI presentations & docs.",
-          descAr: " إنشاء عروض تقديمية وصفحات عرض بشكل تلقائي من النصوص. ",
-          category: "Productivity",
-          url: "https://gamma.app",
-          icon: "fas fa-chalkboard",
-        },
-        {
-          nameEn: "Durable",
-          nameAr: "ديورابل",
-          descEn: "AI website & business builder.",
-          descAr: "  إنشاء مواقع ويب كاملة في دقائق باستخدام الذكاء الاصطناعي. ",
-          category: "Productivity",
-          url: "https://durable.co",
-          icon: "fas fa-store",
-        },
-        {
-          nameEn: "Fireflies AI",
-          nameAr: "فايرفلايز",
-          descEn: "Meeting transcription & summaries.",
-          descAr:      " تسجيل الاجتماعات، تفريغ الكلام إلى نص، وتلخيص المحادثات.",
-          category: "Productivity",
-          url: "https://fireflies.ai",
-          icon: "fas fa-notes-medical",
-        },
-        {
-          nameEn: "Copy.ai",
-          nameAr: "كوبي إيه آي",
-          descEn: "Marketing copy & content generator.",
-          descAr: "  كتابة الإعلانات، المحتوى التسويقي، ومنشورات السوشيال ميديا. ",
-          category: "Productivity",
-          url: "https://www.copy.ai",
-          icon: "fas fa-copy",
-        },
-        {
-          nameEn: "Kickresume",
-          nameAr: "كيك ريزومي",
-          descEn: "AI resume & cover letter builder.",
-          descAr:  " إنشاء سيرة ذاتية احترافية وخطابات تقديم الوظائف. ",
-          category: "Productivity",
-          url: "https://www.kickresume.com",
-          icon: "fas fa-file-signature",
-        },
-        {
-          nameEn: "Perplexity AI",
-          nameAr: "بيربليكستي",
-          descEn: "Answer engine with citations.",
-          descAr: "    البحث عن المعلومات والإجابة على الأسئلة بشكل دقيق مع مصادر. ",
-          category: "Research",
-          url: "https://www.perplexity.ai",
-          icon: "fas fa-globe",
-        },
-        {
-          nameEn: "NotebookLM",
-          nameAr: "نوت بوك إل إم",
-          descEn: "Personalised research assistant.",
-          descAr:  " تلخيص المصادر، تنظيم الملاحظات، وفهم الملفات والمقالات.  ",
-          category: "Research",
-          url: "https://notebooklm.google",
-          icon: "fab fa-google",
-        },
-        {
-          nameEn: "Grok",
-          nameAr: "جروك",
-          descEn: "X AI assistant for real-time data.",
-          descAr: "  الإجابة على الأسئلة، تحليل المعلومات، والمحادثة الذكية. ",
-          category: "Research",
-          url: "https://grok.com",
-          icon: "fas fa-brain",
-        },
-        {
-          nameEn: "Google Translate",
-          nameAr: "ترجمة جوجل",
-          descEn: "Multilingual translation & research.",
-          descAr: " ترجمة النصوص والكلمات بين اللغات المختلفة.",
-          category: "Research",
-          url: "https://translate.google.com",
-          icon: "fas fa-language",
-        },
-        {
-          nameEn: "Yandex Images",
-          nameAr: "يانداكس صور",
-          descEn: "Reverse image search & visual research.",
-          descAr:  "   البحث عن الصور على الإنترنت والعثور على صور مشابهة. ",
-          category: "Research",
-          url: "https://yandex.com/images",
-          icon: "fas fa-image",
-        },
-        {
-          nameEn: "Jasper AI",
-          nameAr: "جاسبر",
-          descEn: "AI content & copywriting suite.",
-          descAr: "  كتابة المحتوى التسويقي، الإعلانات، والنصوص الإبداعية. ",
-          category: "Text & Writing",
-          url: "https://www.jasper.ai",
-          icon: "fas fa-feather-alt",
-        },
-        {
-          nameEn: "Writesonic",
-          nameAr: "رايتسونيك",
-          descEn: "AI article & ad generator.",
-          descAr:   "   إنشاء مقالات، إعلانات، ومحتوى تسويقي بالذكاء الاصطناعي. ",
-          category: "Text & Writing",
-          url: "https://writesonic.com",
-          icon: "fas fa-newspaper",
-        },
-        {
-          nameEn: "Pika 2.0",
-          nameAr: "بيكا 2.0",
-          descEn: "Text-to-video & animation.",
-          descAr:  "  إنشاء فيديوهات قصيرة بالذكاء الاصطناعي من النصوص.  ",
-          category: "Video",
-          url: "https://pika.art",
-          icon: "fas fa-film",
-        },
-        {
-          nameEn: "Sora",
-          nameAr: "سورا",
-          descEn: "OpenAI realistic video generation.",
-          descAr: "   تحويل النصوص إلى فيديوهات واقعية بالذكاء الاصطناعي.",
-          category: "Video",
-          url: "https://openai.com/sora",
-          icon: "fas fa-video",
-        },
-        {
-          nameEn: "HeyGen",
-          nameAr: "هي جين",
-          descEn: "AI avatar video translator.",
-          descAr:   "  إنشاء فيديوهات باستخدام شخصيات افتراضية تتكلم بالنص. ",
-          category: "Video",
-          url: "https://www.heygen.com",
-          icon: "fas fa-user-tie",
-        },
-        {
-          nameEn: "Synthesia",
-          nameAr: "سينثيسيا",
-          descEn: "AI video generation with avatars.",
-          descAr: "  إنتاج صور و فيديوهات احترافية باستخدام أفاتار متكلم بالذكاء الاصطناعي. ",
-          category: "Video",
-          url: "https://www.synthesia.io",
-          icon: "fas fa-robot",
-        },
-        {
-          nameEn: "Runway ML",
-          nameAr: "رن واي إم إل",
-          descEn: "AI video editing & generation.",
-          descAr:   "  تحرير وإنشاء فيديوهات وصور بالذكاء الاصطناعي.",
-          category: "Video",
-          url: "https://runwayml.com",
-          icon: "fas fa-cut",
-        },
-        {
-          nameEn: "ChatGPT Writer",
-          nameAr: "شات جي بي تي للكتابة",
-          descEn: "Creative & professional writing.",
-          descAr:"  كتابة الرسائل، الإيميلات، والنصوص بسرعة داخل المتصفح. ",
-          category: "Writing",
-          url: "https://chatgpt.com",
-          icon: "fas fa-pen-nib",
-        },
-        {
-          nameEn: "Grammarly AI",
-          nameAr: "جرامرلي",
-          descEn: "Grammar checking & rewriting.",
-          descAr: "  تصحيح الأخطاء اللغوية وتحسين الكتابة بالإنجليزية. ",
-          category: "Writing",
-          url: "https://www.grammarly.com",
-          icon: "fas fa-spell-check",
-        },
-      ];
+<!-- MAIN TOOLS AREA -->
+<main id="mainToolsArea" class="section-wrap" style="margin-top:2rem">
+  <div id="toolsGrid" class="tools-grid"></div>
+  <div id="noResultsMsg" class="hidden" style="text-align:center;padding:3rem;background:rgba(0,0,0,.2);border-radius:30px;color:var(--muted)">
+    <i class="fas fa-robot" style="font-size:2.5rem;display:block;margin-bottom:1rem;color:var(--border)"></i>
+    <h3 id="noResultTitle">No results found</h3>
+    <p id="noResultDesc">Try adjusting your search or category</p>
+  </div>
+</main>
 
-      const categoriesOrder = [
-        "Audio",
-        "Coding",
-        "Design",
-        "Image Generation",
-        "Productivity",
-        "Research",
-        "Text & Writing",
-        "Video",
-        "Writing",
-      ];
-      const categoriesSet = new Set(toolsData.map((t) => t.category));
-      const categoriesList = categoriesOrder.filter((c) =>
-        categoriesSet.has(c),
-      );
+<!-- ===== CANVA ===== -->
+<div class="section-divider"></div>
+<div class="section-wrap s-canva search-section" id="sec-canva" data-section-name="canva">
+  <div class="section-header" onclick="toggleSection('canva-body','canva-icon')">
+    <div class="section-header-left">
+      <div class="section-icon-wrap"><i class="fas fa-palette"></i></div>
+      <div>
+        <div class="section-title-text" id="canvaTitle">🎨 Canva Design Vault</div>
+        <div class="section-subtitle" id="canvaSubtitle">Billboard, Medical, Invoice, Business Card & More</div>
+      </div>
+      <div class="section-badge" id="canvaBadge">Smart Search</div>
+    </div>
+    <div class="toggle-btn"><i class="fas fa-chevron-down" id="canva-icon"></i></div>
+  </div>
+  <div id="canva-body" class="resource-grid"></div>
+</div>
 
-      // Canva categories
-      const canvaCategories = [
-        {
-          nameEn: "Billboards",
-          nameAr: "لوحات إعلانية",
-          keywords: ["Billboard design", "لوحة إعلانية"],
-          baseQuery: "billboard",
-        },
-        {
-          nameEn: "Medical Reports",
-          nameAr: "تقارير طبية",
-          keywords: ["Medical report template", "تقرير طبي"],
-          baseQuery: "medical report",
-        },
-        {
-          nameEn: "Prescription",
-          nameAr: "روشتة",
-          keywords: ["Prescription template", "روشتة"],
-          baseQuery: "prescription",
-        },
-        {
-          nameEn: "Invoice",
-          nameAr: "فاتورة",
-          keywords: ["Invoice template", "فاتورة"],
-          baseQuery: "invoice",
-        },
-        {
-          nameEn: "Business Card",
-          nameAr: "بطاقة أعمال",
-          keywords: ["Business card design", "بطاقة أعمال"],
-          baseQuery: "business card",
-        },
-        {
-          nameEn: "Flyer",
-          nameAr: "فلایر",
-          keywords: ["Flyer template", "فلایر"],
-          baseQuery: "flyer",
-        },
-      ];
+<!-- ===== AI PROMPTS ===== -->
+<div class="section-divider"></div>
+<div class="section-wrap s-prompts search-section" id="sec-prompts" data-section-name="prompts">
+  <div class="section-header" onclick="toggleSection('prompts-body','prompts-icon')">
+    <div class="section-header-left">
+      <div class="section-icon-wrap"><i class="fas fa-magic"></i></div>
+      <div>
+        <div class="section-title-text" id="promptsTitle">⚡ AI Prompt Templates</div>
+        <div class="section-subtitle" id="promptsSubtitle">Ready-to-use prompts for ChatGPT, Claude & more</div>
+      </div>
+      <div class="section-badge" id="promptsBadge">Copy & Use</div>
+    </div>
+    <div class="toggle-btn"><i class="fas fa-chevron-down" id="prompts-icon"></i></div>
+  </div>
+  <div id="prompts-body" class="resource-grid"></div>
+</div>
 
-      // Free services
-      const freeServices = [
-        {
-          name: "Pinterest",
-          url: "https://www.pinterest.com",
-          icon: "fab fa-pinterest",
-          usesEn: "Visual discovery for design & templates.",
-          usesAr: "اكتشاف بصري للقوالب والتصميم.",
-        },
-        {
-          name: "Freepik",
-          url: "https://www.freepik.com",
-          icon: "fas fa-image",
-          usesEn: "Free vectors, photos, and PSD files.",
-          usesAr: "متجهات وصور مجانية.",
-        },
-        {
-          name: "Unsplash",
-          url: "https://unsplash.com",
-          icon: "fas fa-cloud-sun",
-          usesEn: "High-resolution free photos.",
-          usesAr: "صور عالية الدقة مجانية.",
-        },
-        {
-          name: "Pexels",
-          url: "https://www.pexels.com",
-          icon: "fas fa-camera",
-          usesEn: "Free stock videos & images.",
-          usesAr: "فيديو وصور مجانية.",
-        },
-        {
-          name: "Pixabay",
-          url: "https://pixabay.com",
-          icon: "fas fa-tree",
-          usesEn: "Millions of royalty-free media.",
-          usesAr: "ملايين الوسائط بدون حقوق.",
-        },
-        {
-          name: "Remove.bg",
-          url: "https://www.remove.bg",
-          icon: "fas fa-magic",
-          usesEn: "Instant background removal.",
-          usesAr: "إزالة الخلفية فوراً.",
-        },
-        {
-          name: "Icons8",
-          url: "https://icons8.com",
-          icon: "fas fa-icons",
-          usesEn: "Free icons & design resources.",
-          usesAr: "أيقونات وموارد تصميم مجانية.",
-        },
-        {
-          name: "Flaticon",
-          url: "https://www.flaticon.com",
-          icon: "fas fa-shapes",
-          usesEn: "Millions of vector icons.",
-          usesAr: "ملايين الأيقونات المتجهة.",
-        },
-      ];
+<!-- ===== CSS TOOLS ===== -->
+<div class="section-divider"></div>
+<div class="section-wrap s-css search-section" id="sec-css" data-section-name="css">
+  <div class="section-header" onclick="toggleSection('css-body','css-icon')">
+    <div class="section-header-left">
+      <div class="section-icon-wrap"><i class="fas fa-code"></i></div>
+      <div>
+        <div class="section-title-text" id="cssTitle">🎨 CSS & Frontend Tools</div>
+        <div class="section-subtitle" id="cssSubtitle">Generators, validators, and visual helpers</div>
+      </div>
+      <div class="section-badge">Dev Tools</div>
+    </div>
+    <div class="toggle-btn"><i class="fas fa-chevron-down" id="css-icon"></i></div>
+  </div>
+  <div id="css-body" class="resource-grid"></div>
+</div>
 
-      // Image resources
-      const imageResources = [
-        {
-          name: "Pinterest",
-          url: "https://www.pinterest.com",
-          icon: "fab fa-pinterest",
-          usesEn: "Discover high-res mood boards & photography.",
-          usesAr: "لوحات مزاجية وتصوير فوتوغرافي.",
-        },
-        {
-          name: "Unsplash",
-          url: "https://unsplash.com",
-          icon: "fas fa-cloud-sun",
-          usesEn: "Premium free photos.",
-          usesAr: "صور مجانية فاخرة.",
-        },
-        {
-          name: "Pexels",
-          url: "https://www.pexels.com",
-          icon: "fas fa-camera",
-          usesEn: "Free stock photography & video.",
-          usesAr: "صور وفيديو مجاني.",
-        },
-        {
-          name: "Pixabay",
-          url: "https://pixabay.com",
-          icon: "fas fa-tree",
-          usesEn: "Public domain images.",
-          usesAr: "صور المجال العام.",
-        },
-        {
-          name: "Kaboompics",
-          url: "https://kaboompics.com",
-          icon: "fas fa-crop-alt",
-          usesEn: "Curated free stock photos.",
-          usesAr: "صور مخزون منسقة.",
-        },
-        {
-          name: "Shopify Stock Photos",
-          url: "https://www.shopify.com/stock-photos",
-          icon: "fas fa-shopping-cart",
-          usesEn: "Free e-commerce imagery.",
-          usesAr: "صور مجانية للتجارة الإلكترونية.",
-        },
-      ];
+<!-- ===== FREE SERVICES ===== -->
+<div class="section-divider"></div>
+<div class="section-wrap s-free search-section" id="sec-free" data-section-name="free">
+  <div class="section-header" onclick="toggleSection('free-body','free-icon')">
+    <div class="section-header-left">
+      <div class="section-icon-wrap"><i class="fas fa-gem"></i></div>
+      <div>
+        <div class="section-title-text" id="freeTitle">💎 Free Essential Services</div>
+        <div class="section-subtitle" id="freeSubtitle">Icons, stock photos, design tools — all free</div>
+      </div>
+      <div class="section-badge">100% Free</div>
+    </div>
+    <div class="toggle-btn"><i class="fas fa-chevron-down" id="free-icon"></i></div>
+  </div>
+  <div id="free-body" class="resource-grid"></div>
+</div>
 
-      // Render functions (no details button)
-      function renderTools() {
-        const filtered = toolsData.filter((t) => {
-          const nameMatch =
-            currentLang === "en"
-              ? t.nameEn.toLowerCase().includes(searchTerm)
-              : t.nameAr.toLowerCase().includes(searchTerm);
-          const descMatch = (currentLang === "en" ? t.descEn : t.descAr)
-            .toLowerCase()
-            .includes(searchTerm);
-          const catMatch =
-            activeCategory === "all" ? true : t.category === activeCategory;
-          return (nameMatch || descMatch) && catMatch;
-        });
-        document.getElementById("visibleCount").innerText = filtered.length;
-        const grid = document.getElementById("toolsGrid");
-        const noMsg = document.getElementById("noResultsMsg");
-        if (filtered.length === 0) {
-          grid.innerHTML = "";
-          noMsg.classList.remove("hidden");
-          document.getElementById("noResultTitle").innerText =
-            translations[currentLang].noResultTitle;
-          document.getElementById("noResultDesc").innerText =
-            translations[currentLang].noResultDesc;
-        } else {
-          noMsg.classList.add("hidden");
-          grid.innerHTML = filtered
-            .map(
-              (t) =>
-                `<div class="ai-card"><i class="${t.icon} card-icon"></i><div class="card-title">${currentLang === "en" ? t.nameEn : t.nameAr}</div><div class="card-desc">${currentLang === "en" ? t.descEn : t.descAr}</div><div><a href="${t.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${translations[currentLang].visit}</a></div></div>`,
-            )
-            .join("");
-        }
-      }
+<!-- ===== DESIGN PLATFORMS ===== -->
+<div class="section-divider"></div>
+<div class="section-wrap s-design search-section" id="sec-designplatforms" data-section-name="designplatforms">
+  <div class="section-header" onclick="toggleSection('designplatforms-body','designplatforms-icon')">
+    <div class="section-header-left">
+      <div class="section-icon-wrap"><i class="fas fa-pen-ruler"></i></div>
+      <div>
+        <div class="section-title-text" id="designPlatTitle">🖌️ Design Platforms</div>
+        <div class="section-subtitle" id="designPlatSubtitle">Canva, Adobe, Microsoft Designer & more</div>
+      </div>
+      <div class="section-badge">Design</div>
+    </div>
+    <div class="toggle-btn"><i class="fas fa-chevron-down" id="designplatforms-icon"></i></div>
+  </div>
+  <div id="designplatforms-body" class="resource-grid"></div>
+</div>
 
-      function renderCategories() {
-        const container = document.getElementById("categoryFilters");
-        container.innerHTML =
-          `<button class="filter-chip ${activeCategory === "all" ? "active" : ""}" data-cat="all">${translations[currentLang].allTools}</button>` +
-          categoriesList
-            .map(
-              (cat) =>
-                `<button class="filter-chip ${activeCategory === cat ? "active" : ""}" data-cat="${cat}">${translations[currentLang].categories[cat]}</button>`,
-            )
-            .join("");
-        document.querySelectorAll(".filter-chip").forEach((btn) =>
-          btn.addEventListener("click", () => {
-            activeCategory = btn.getAttribute("data-cat");
-            renderCategories();
-            renderTools();
-          }),
-        );
-      }
+<!-- ===== TEMP EMAIL ===== -->
+<div class="section-divider"></div>
+<div class="section-wrap s-email search-section" id="sec-email" data-section-name="email">
+  <div class="section-header" onclick="toggleSection('email-body','email-icon')">
+    <div class="section-header-left">
+      <div class="section-icon-wrap"><i class="fas fa-envelope"></i></div>
+      <div>
+        <div class="section-title-text" id="emailTitle">📧 Temporary Email Services</div>
+        <div class="section-subtitle" id="emailSubtitle">Disposable emails for privacy</div>
+      </div>
+      <div class="section-badge">Privacy</div>
+    </div>
+    <div class="toggle-btn"><i class="fas fa-chevron-down" id="email-icon"></i></div>
+  </div>
+  <div id="email-body" class="resource-grid"></div>
+</div>
 
-      function renderCanva() {
-        const container = document.getElementById("canvaContent");
-        if (!container) return;
-        container.innerHTML = canvaCategories
-          .map((cat) => {
-            const displayName = currentLang === "en" ? cat.nameEn : cat.nameAr;
-            const canvaUrl = `https://www.canva.com/templates/search/${encodeURIComponent(cat.baseQuery)}`;
-            return `<div class="resource-card"><i class="fas fa-search card-icon"></i><div class="card-title">${displayName}</div><div class="keyword-group">${cat.keywords.map((kw) => `<span class="keyword-badge" onclick="searchCanva('${kw.replace(/'/g, "\\'")}')">${kw}</span>`).join("")}</div><div><a href="${canvaUrl}" target="_blank" class="canva-search-btn"><i class="fas fa-external-link-alt"></i> ${translations[currentLang].visit}</a></div></div>`;
-          })
-          .join("");
-      }
+<!-- ===== SOCIAL & COMMUNICATION ===== -->
+<div class="section-divider"></div>
+<div class="section-wrap s-social search-section" id="sec-social" data-section-name="social">
+  <div class="section-header" onclick="toggleSection('social-body','social-icon')">
+    <div class="section-header-left">
+      <div class="section-icon-wrap"><i class="fas fa-share-alt"></i></div>
+      <div>
+        <div class="section-title-text" id="socialTitle">📱 Social & Communication</div>
+        <div class="section-subtitle" id="socialSubtitle">WhatsApp, Facebook, Instagram & more</div>
+      </div>
+      <div class="section-badge">Social</div>
+    </div>
+    <div class="toggle-btn"><i class="fas fa-chevron-down" id="social-icon"></i></div>
+  </div>
+  <div id="social-body" class="resource-grid"></div>
+</div>
 
-      function renderFreeServices() {
-        const container = document.getElementById("freeContent");
-        if (!container) return;
-        container.innerHTML = freeServices
-          .map(
-            (s) =>
-              `<div class="resource-card"><i class="${s.icon} card-icon"></i><div class="card-title">${s.name}</div><div class="card-desc">${currentLang === "en" ? s.usesEn : s.usesAr}</div><div><a href="${s.url}" target="_blank" class="btn-visit">${translations[currentLang].visit}</a></div></div>`,
-          )
-          .join("");
-      }
+<!-- ===== IMAGE RESOURCES ===== -->
+<div class="section-divider"></div>
+<div class="section-wrap s-imgres search-section" id="sec-imgres" data-section-name="imgres">
+  <div class="section-header" onclick="toggleSection('imgres-body','imgres-icon')">
+    <div class="section-header-left">
+      <div class="section-icon-wrap"><i class="fas fa-images"></i></div>
+      <div>
+        <div class="section-title-text" id="imageResTitle">🖼️ High-Quality Image Resources</div>
+        <div class="section-subtitle" id="imageResSubtitle">Royalty-free photos, vectors & visuals</div>
+      </div>
+      <div class="section-badge">Free</div>
+    </div>
+    <div class="toggle-btn"><i class="fas fa-chevron-down" id="imgres-icon"></i></div>
+  </div>
+  <div id="imgres-body" class="resource-grid"></div>
+</div>
 
-      function renderImageResources() {
-        const container = document.getElementById("imageResContent");
-        if (!container) return;
-        container.innerHTML = imageResources
-          .map(
-            (r) =>
-              `<div class="resource-card"><i class="${r.icon} card-icon"></i><div class="card-title">${r.name}</div><div class="card-desc">${currentLang === "en" ? r.usesEn : r.usesAr}</div><div><a href="${r.url}" target="_blank" class="btn-visit">${translations[currentLang].visit}</a></div></div>`,
-          )
-          .join("");
-      }
+<!-- ===== BROWSER EXTENSIONS ===== -->
+<div class="section-divider"></div>
+<div class="section-wrap s-ext search-section" id="sec-ext" data-section-name="ext">
+  <div class="section-header" onclick="toggleSection('ext-body','ext-icon')">
+    <div class="section-header-left">
+      <div class="section-icon-wrap"><i class="fas fa-puzzle-piece"></i></div>
+      <div>
+        <div class="section-title-text" id="extTitle">🧩 Must-Have Browser Extensions</div>
+        <div class="section-subtitle" id="extSubtitle">Supercharge your browser with AI & productivity tools</div>
+      </div>
+      <div class="section-badge">Extensions</div>
+    </div>
+    <div class="toggle-btn"><i class="fas fa-chevron-down" id="ext-icon"></i></div>
+  </div>
+  <div id="ext-body" class="resource-grid"></div>
+</div>
 
-      window.searchCanva = (q) => {
-        window.open(
-          `https://www.canva.com/templates/search/${encodeURIComponent(q)}`,
-          "_blank",
-        );
-      };
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">DARCK<span style="background:linear-gradient(120deg,var(--cyan),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent">CODE</span></div>
+  <div class="footer-links">
+    <a class="footer-link" href="https://www.canva.com" target="_blank">Canva</a>
+    <a class="footer-link" href="https://chatgpt.com" target="_blank">ChatGPT</a>
+    <a class="footer-link" href="https://claude.ai" target="_blank">Claude</a>
+    <a class="footer-link" href="https://www.midjourney.com" target="_blank">Midjourney</a>
+    <a class="footer-link" href="https://github.com" target="_blank">GitHub</a>
+  </div>
+  <div class="footer-copy" id="footerText">© 2025 DARCK CODE — Multilingual AI Hub & Creative Companion</div>
+</footer>
+</div>
 
-      function applyLanguage() {
-        localStorage.setItem("aiLang", currentLang);
-        const t = translations[currentLang];
-        document.getElementById("preloaderText").innerText = t.preloader;
-        document.getElementById("heroTitle").innerText = t.heroTitle;
-        document.getElementById("heroSub").innerText = t.heroSub;
-        document.getElementById("statToolsLabel").innerText = t.statTools;
-        document.getElementById("statUpdateLabel").innerText = t.statUpdate;
-        document.getElementById("canvaTitle").innerHTML =
-          `<i class="fas fa-palette"></i> ${t.canvaTitle}`;
-        document.getElementById("freeTitle").innerHTML =
-          `<i class="fas fa-gem"></i> ${t.freeTitle}`;
-        document.getElementById("imageResTitle").innerHTML =
-          `<i class="fas fa-images"></i> ${t.imageResTitle}`;
-        document.getElementById("footerText").innerText = t.footerText;
-        document.getElementById("globalSearch").placeholder =
-          t.searchPlaceholder;
-        document.getElementById("resultsInfo").innerHTML =
-          `${t.showing} <span id="visibleCount">0</span> ${t.toolsLabel}`;
-        document.getElementById("langToggle").innerText =
-          currentLang === "en" ? "EG العربية" : "🇬🇧 English";
-        renderCategories();
-        renderTools();
-        renderCanva();
-        renderFreeServices();
-        renderImageResources();
-      }
+<script>
+// ===================== DATA =====================
 
-      let canvaExpanded = true,
-        freeExpanded = true,
-        imageExpanded = true;
-      function toggleCanva() {
-        canvaExpanded = !canvaExpanded;
-        document.getElementById("canvaContent").style.display = canvaExpanded
-          ? "grid"
-          : "none";
-        document.getElementById("canvaIcon").style.transform = canvaExpanded
-          ? "rotate(0deg)"
-          : "rotate(-90deg)";
-      }
-      function toggleFree() {
-        freeExpanded = !freeExpanded;
-        document.getElementById("freeContent").style.display = freeExpanded
-          ? "grid"
-          : "none";
-        document.getElementById("freeIcon").style.transform = freeExpanded
-          ? "rotate(0deg)"
-          : "rotate(-90deg)";
-      }
-      function toggleImageRes() {
-        imageExpanded = !imageExpanded;
-        document.getElementById("imageResContent").style.display = imageExpanded
-          ? "grid"
-          : "none";
-        document.getElementById("imageResIcon").style.transform = imageExpanded
-          ? "rotate(0deg)"
-          : "rotate(-90deg)";
-      }
+const toolsData = [
+  {nameEn:"ElevenLabs",nameAr:"إيفن لابس",descEn:"Ultra-realistic text-to-speech & voice cloning.",descAr:"تحويل النص إلى صوت واقعي واستنساخ الأصوات.",category:"Audio",url:"https://elevenlabs.io",icon:"fas fa-microphone-alt"},
+  {nameEn:"PlayHT",nameAr:"بلاي إتش تي",descEn:"AI voiceover & podcast generation.",descAr:"توليد تعليق صوتي وبودكاست.",category:"Audio",url:"https://play.ht",icon:"fas fa-headphones"},
+  {nameEn:"mp3cut",nameAr:"ام بي 3 كات",descEn:"Cut, edit & convert audio files online.",descAr:"قصّ وتعديل وتحويل الملفات الصوتية بسهولة عبر الإنترنت.",category:"Audio",url:"https://mp3cut.net/",icon:"fas fa-cut"},
+  {nameEn:"OpenAI FM",nameAr:"أوبن أي إف إم",descEn:"Realistic text-to-speech by OpenAI.",descAr:"تحويل النصوص إلى أصوات طبيعية وواقعية.",category:"Audio",url:"https://www.openai.fm/",icon:"fas fa-microphone"},
+  {nameEn:"Otter AI",nameAr:"أوتر إيه آي",descEn:"Meeting transcription & real-time notes.",descAr:"تفريغ الصوت إلى نص، تسجيل الاجتماعات، تلخيص المحاضرات.",category:"Audio",url:"https://otter.ai",icon:"fas fa-file-alt"},
+  {nameEn:"ChatGPT",nameAr:"شات جي بي تي",descEn:"AI coding, problem solving & image generation.",descAr:"برمجة، حلّ المشكلات، إنشاء صور، وكتابة المحتوى.",category:"Coding",url:"https://chatgpt.com",icon:"fas fa-code"},
+  {nameEn:"Gemini",nameAr:"جيميناي",descEn:"Google AI: coding, research & analysis.",descAr:"كتابة النصوص، البرمجة، البحث، تحليل المعلومات.",category:"Coding",url:"https://gemini.google.com/",icon:"fas fa-robot"},
+  {nameEn:"Claude",nameAr:"كلود",descEn:"Advanced reasoning, deep file analysis & code.",descAr:"كتابة المحتوى، البرمجة، تحليل الملفات الضخمة بدقة رهيبة.",category:"Coding",url:"https://claude.ai",icon:"fas fa-brain"},
+  {nameEn:"DeepSeek",nameAr:"ديب سيك",descEn:"Deep coding assistant & reasoning AI.",descAr:"مساعد برمجي عميق ومجاني وقوي جداً.",category:"Coding",url:"https://chat.deepseek.com",icon:"fas fa-chart-line"},
+  {nameEn:"Phind",nameAr:"فايند",descEn:"Search engine built for developers.",descAr:"البحث عن المعلومات التقنية، مساعدة المبرمجين.",category:"Coding",url:"https://www.phind.com",icon:"fas fa-search"},
+  {nameEn:"Blackbox AI",nameAr:"بلاك بوكس",descEn:"Code assistant — extract code from images.",descAr:"كتابة الأكواد، تصحيح الأخطاء، استخراج الأكواد من الصور.",category:"Coding",url:"https://www.blackbox.ai",icon:"fas fa-cube"},
+  {nameEn:"GitHub",nameAr:"جيت هاب",descEn:"Collaboration & AI-powered Copilot.",descAr:"إدارة الأكواد، التعاون في البرمجة، واستضافة المشاريع.",category:"Coding",url:"https://github.com",icon:"fab fa-github"},
+  {nameEn:"Cursor",nameAr:"كرسر",descEn:"AI-first code editor.",descAr:"مساعد ذكي للبرمجة، كتابة وتصحيح الأكواد.",category:"Coding",url:"https://cursor.sh",icon:"fas fa-laptop-code"},
+  {nameEn:"Google AI Studio",nameAr:"جوجل AI ستوديو",descEn:"Build and test AI apps with Gemini.",descAr:"منصة لتجربة وتطوير تطبيقات الذكاء الاصطناعي.",category:"Coding",url:"https://aistudio.google.com/apps",icon:"fas fa-flask"},
+  {nameEn:"v0 dev",nameAr:"في زيرو",descEn:"Build UI interfaces just by talking — no code.",descAr:"بناء واجهات UI بالكلام فقط بدون كود.",category:"Coding",url:"https://v0.dev",icon:"fas fa-magic"},
+  {nameEn:"Manus AI",nameAr:"مانوس",descEn:"Autonomous AI agent for complex tasks.",descAr:"وكيل ذكاء اصطناعي مستقل لحل المهام المعقدة.",category:"Coding",url:"https://manus.im/app",icon:"fas fa-robot"},
+  {nameEn:"Canva",nameAr:"كانفا",descEn:"Graphic design platform with AI tools.",descAr:"تصميم الصور، العروض، البوستات، والفيديوهات بسهولة.",category:"Design",url:"https://www.canva.com",icon:"fab fa-canva"},
+  {nameEn:"Framer AI",nameAr:"فريمر",descEn:"AI website builder — no code.",descAr:"إنشاء مواقع ويب وصفحات احترافية بالذكاء الاصطناعي.",category:"Design",url:"https://www.framer.com",icon:"fas fa-window-maximize"},
+  {nameEn:"Adobe Express",nameAr:"أدوبي إكسبريس",descEn:"Quick design & social media content.",descAr:"تصميم صور وبوستات وفيديوهات بقوالب جاهزة.",category:"Design",url:"https://www.adobe.com/express",icon:"fas fa-pen-fancy"},
+  {nameEn:"Figma Community",nameAr:"مجتمع فيجما",descEn:"UI/UX design inspiration & templates.",descAr:"مشاركة وتحميل تصاميم وملفات واجهات المستخدم.",category:"Design",url:"https://www.figma.com/community",icon:"fab fa-figma"},
+  {nameEn:"Looka",nameAr:"لوكا",descEn:"AI logo & brand identity generator.",descAr:"تصميم الشعارات والهويات البصرية للشركات تلقائيًا.",category:"Design",url:"https://looka.com",icon:"fas fa-trademark"},
+  {nameEn:"Freepik",nameAr:"فريبيك",descEn:"Graphics, vectors & AI image resources.",descAr:"صورًا وتصميمات وفكتورات وموارد ذكاء اصطناعي.",category:"Design",url:"https://www.freepik.com/",icon:"fas fa-image"},
+  {nameEn:"Webflow AI",nameAr:"ويب فلو",descEn:"Professional no-code website design.",descAr:"تصميم مواقع بدون كود بمستوى احترافي.",category:"Design",url:"https://webflow.com",icon:"fas fa-globe"},
+  {nameEn:"Brandmark",nameAr:"براند مارك",descEn:"Build a complete visual brand identity.",descAr:"بناء هوية بصرية كاملة للمشروع.",category:"Design",url:"https://brandmark.io",icon:"fas fa-star"},
+  {nameEn:"Namelix",nameAr:"نيم ليكس",descEn:"AI-powered business name suggestions.",descAr:"اقتراح أسماء مشاريع ذكية ومبتكرة.",category:"Design",url:"https://namelix.com",icon:"fas fa-tag"},
+  {nameEn:"Midjourney",nameAr:"ميدجورني",descEn:"Cinematic AI image synthesis — V6.",descAr:"إنشاء صور فنية وواقعية باستخدام أوامر نصية بجودة سينمائية.",category:"Image Generation",url:"https://www.midjourney.com",icon:"fas fa-palette"},
+  {nameEn:"DALL·E",nameAr:"دال إي",descEn:"OpenAI text-to-image generation.",descAr:"إنشاء صور بالذكاء الاصطناعي من خلال وصف نصي.",category:"Image Generation",url:"https://chat.openai.com",icon:"fas fa-magic"},
+  {nameEn:"Leonardo AI",nameAr:"ليوناردو",descEn:"Game art & concept design.",descAr:"توليد صور وتصاميم عالية الجودة للألعاب والمشاريع الإبداعية.",category:"Image Generation",url:"https://leonardo.ai",icon:"fas fa-dragon"},
+  {nameEn:"Krea AI",nameAr:"كريا",descEn:"Real-time AI image enhancement.",descAr:"إنشاء وتحسين الصور بالذكاء الاصطناعي في الوقت الحقيقي.",category:"Image Generation",url:"https://www.krea.ai",icon:"fas fa-bolt"},
+  {nameEn:"Lexica",nameAr:"ليكسيكا",descEn:"Stable Diffusion search & generator.",descAr:"البحث عن صور مولدة بالذكاء الاصطناعي وإنشاء صور مشابهة.",category:"Image Generation",url:"https://lexica.art",icon:"fas fa-search"},
+  {nameEn:"Stockimg AI",nameAr:"ستوك إيمج",descEn:"AI stock photos, logos & marketing.",descAr:"إنشاء صور ستوك، شعارات، وتصاميم تسويقية.",category:"Image Generation",url:"https://stockimg.ai",icon:"fas fa-archive"},
+  {nameEn:"Pollo AI",nameAr:"بولو AI",descEn:"AI image and video generation platform.",descAr:"منصة ذكاء اصطناعي لإنشاء الصور والفيديوهات.",category:"Image Generation",url:"https://pollo.ai/",icon:"fas fa-film"},
+  {nameEn:"Google Whisk",nameAr:"جوجل ويسك",descEn:"Google FX AI image remix & generation.",descAr:"أداة جوجل لإنشاء وتعديل الصور بالذكاء الاصطناعي.",category:"Image Generation",url:"https://labs.google/fx/tools/whisk",icon:"fas fa-wand-magic-sparkles"},
+  {nameEn:"Headshot Master",nameAr:"هيد شوت ماستر",descEn:"AI professional headshot & photo editor.",descAr:"محرر صور AI لإنشاء صور احترافية وصور شخصية.",category:"Image Generation",url:"https://headshotmaster.io/ai-photo-editor",icon:"fas fa-user-circle"},
+  {nameEn:"Notion AI",nameAr:"نوتشن",descEn:"Workspace & writing assistant.",descAr:"كتابة وتنظيم الملاحظات، تلخيص المحتوى، وإدارة المهام.",category:"Productivity",url:"https://www.notion.so",icon:"fas fa-tasks"},
+  {nameEn:"Gamma",nameAr:"جاما",descEn:"AI presentations & docs in seconds.",descAr:"إنشاء عروض تقديمية ذكية وجذابة تلقائيًا من النصوص.",category:"Productivity",url:"https://gamma.app",icon:"fas fa-chalkboard"},
+  {nameEn:"Durable",nameAr:"ديورابل",descEn:"AI website & business builder in seconds.",descAr:"إنشاء موقع كامل خلال ثواني بالذكاء الاصطناعي.",category:"Productivity",url:"https://durable.co",icon:"fas fa-store"},
+  {nameEn:"Fireflies AI",nameAr:"فايرفلايز",descEn:"Meeting transcription & summaries.",descAr:"تسجيل وتلخيص الاجتماعات، وتفريغ الكلام إلى نص.",category:"Productivity",url:"https://fireflies.ai",icon:"fas fa-notes-medical"},
+  {nameEn:"Copy.ai",nameAr:"كوبي إيه آي",descEn:"Marketing copy & content generator.",descAr:"كتابة الإعلانات، المحتوى التسويقي، ومنشورات السوشيال ميديا.",category:"Productivity",url:"https://www.copy.ai",icon:"fas fa-copy"},
+  {nameEn:"Kickresume",nameAr:"كيك ريزومي",descEn:"AI resume & cover letter builder.",descAr:"إنشاء سيرة ذاتية احترافية وخطابات تقديم الوظائف.",category:"Productivity",url:"https://www.kickresume.com",icon:"fas fa-file-signature"},
+  {nameEn:"Teal AI",nameAr:"تيل AI",descEn:"AI job search & career management.",descAr:"إدارة التوظيف والتقديم للوظائف بالذكاء الاصطناعي.",category:"Productivity",url:"https://www.tealhq.com",icon:"fas fa-briefcase"},
+  {nameEn:"QuillBot",nameAr:"كويل بوت",descEn:"AI paraphrasing & text rewriting tool.",descAr:"إعادة صياغة النصوص بشكل احترافي وفعّال.",category:"Productivity",url:"https://quillbot.com",icon:"fas fa-pen"},
+  {nameEn:"Pitch",nameAr:"بيتش",descEn:"Modern collaborative presentation tool.",descAr:"إنشاء عروض تقديمية حديثة وجذابة بسرعة.",category:"Productivity",url:"https://pitch.com",icon:"fas fa-presentation-screen"},
+  {nameEn:"Undetectable AI",nameAr:"أندتيكتبل AI",descEn:"Makes AI text sound human.",descAr:"يجعل النص المكتوب بالذكاء الاصطناعي يبدو بشرياً.",category:"Productivity",url:"https://undetectable.ai",icon:"fas fa-user-secret"},
+  {nameEn:"Anyword",nameAr:"أني وورد",descEn:"AI ad & marketing copy optimizer.",descAr:"تحسين الإعلانات والمحتوى التسويقي بالذكاء الاصطناعي.",category:"Productivity",url:"https://anyword.com",icon:"fas fa-bullhorn"},
+  {nameEn:"Clipchamp",nameAr:"كليب شامب",descEn:"Microsoft AI video editor online.",descAr:"محرر فيديو ذكاء اصطناعي من مايكروسوفت عبر الإنترنت.",category:"Productivity",url:"https://app.clipchamp.com/",icon:"fas fa-video"},
+  {nameEn:"NoteGPT",nameAr:"نوت جي بي تي",descEn:"AI note-taking & chat assistant.",descAr:"مساعد ذكاء اصطناعي لتدوين الملاحظات والمحادثة.",category:"Productivity",url:"https://notegpt.io/ai-chat",icon:"fas fa-sticky-note"},
+  {nameEn:"Roboneo",nameAr:"روبو نيو",descEn:"AI-powered automation platform.",descAr:"منصة أتمتة ذكاء اصطناعي متكاملة.",category:"Productivity",url:"https://www.roboneo.com/",icon:"fas fa-robot"},
+  {nameEn:"Perplexity AI",nameAr:"بيربليكستي",descEn:"Answer engine with cited sources.",descAr:"البحث عن المعلومات والإجابة على الأسئلة مع مصادر.",category:"Research",url:"https://www.perplexity.ai",icon:"fas fa-globe"},
+  {nameEn:"NotebookLM",nameAr:"نوت بوك LM",descEn:"Personalised AI research assistant.",descAr:"تلخيص المصادر، تنظيم الملاحظات، وفهم ملفاتك.",category:"Research",url:"https://notebooklm.google",icon:"fab fa-google"},
+  {nameEn:"Grok",nameAr:"جروك",descEn:"X AI — real-time data & reasoning.",descAr:"معلومات مباشرة من الإنترنت وX، تحليل الأسئلة بذكاء.",category:"Research",url:"https://grok.com",icon:"fas fa-brain"},
+  {nameEn:"Google Translate",nameAr:"ترجمة جوجل",descEn:"Multilingual translation & research.",descAr:"ترجمة النصوص والكلمات بين اللغات المختلفة.",category:"Research",url:"https://translate.google.com",icon:"fas fa-language"},
+  {nameEn:"Yandex Images",nameAr:"يانداكس صور",descEn:"Advanced reverse image search.",descAr:"البحث عن الصور والعثور على صور مشابهة.",category:"Research",url:"https://yandex.com/images",icon:"fas fa-image"},
+  {nameEn:"DeepMind",nameAr:"ديب مايند",descEn:"Google's advanced AI research lab.",descAr:"شركة أبحاث ذكاء اصطناعي متقدمة تابعة لجوجل.",category:"Research",url:"https://deepmind.google/",icon:"fas fa-atom"},
+  {nameEn:"Jasper AI",nameAr:"جاسبر",descEn:"AI content & copywriting suite.",descAr:"كتابة المحتوى التسويقي، الإعلانات، والنصوص الإبداعية.",category:"Writing",url:"https://www.jasper.ai",icon:"fas fa-feather-alt"},
+  {nameEn:"Writesonic",nameAr:"رايتسونيك",descEn:"AI article & ad content generator.",descAr:"إنشاء مقالات، إعلانات، ومحتوى SEO قوي.",category:"Writing",url:"https://writesonic.com",icon:"fas fa-newspaper"},
+  {nameEn:"Grammarly",nameAr:"جرامرلي",descEn:"Grammar checker & AI rewriter.",descAr:"تصحيح الأخطاء اللغوية وتحسين الكتابة بالإنجليزية.",category:"Writing",url:"https://www.grammarly.com",icon:"fas fa-spell-check"},
+  {nameEn:"GenieAI",nameAr:"جيني AI",descEn:"AI writing & productivity assistant.",descAr:"مساعد ذكاء اصطناعي للكتابة والإنتاجية.",category:"Writing",url:"https://genieai.app",icon:"fas fa-hat-wizard"},
+  {nameEn:"Character AI",nameAr:"كاركتر AI",descEn:"Chat with realistic AI characters.",descAr:"محادثة شخصيات افتراضية واقعية ذكية.",category:"Writing",url:"https://character.ai",icon:"fas fa-theater-masks"},
+  {nameEn:"Replika",nameAr:"ريبليكا",descEn:"Smart virtual companion AI.",descAr:"صديق افتراضي ذكي للمحادثة والدعم.",category:"Writing",url:"https://replika.com",icon:"fas fa-heart"},
+  {nameEn:"Pika 2.0",nameAr:"بيكا 2.0",descEn:"Text-to-video & AI animation.",descAr:"إنشاء فيديوهات قصيرة بالذكاء الاصطناعي من النصوص.",category:"Video",url:"https://pika.art",icon:"fas fa-film"},
+  {nameEn:"Sora",nameAr:"سورا",descEn:"OpenAI most powerful text-to-video.",descAr:"أقوى أداة لصناعة فيديوهات من النص.",category:"Video",url:"https://openai.com/sora",icon:"fas fa-video"},
+  {nameEn:"HeyGen",nameAr:"هي جين",descEn:"AI avatar video translator.",descAr:"إنشاء فيديوهات بوجه بشري واقعي.",category:"Video",url:"https://www.heygen.com",icon:"fas fa-user-tie"},
+  {nameEn:"Synthesia",nameAr:"سينثيسيا",descEn:"AI talking avatar videos.",descAr:"إنتاج فيديوهات شركات بدون تصوير، بشخصيات افتراضية.",category:"Video",url:"https://www.synthesia.io",icon:"fas fa-robot"},
+  {nameEn:"Runway ML",nameAr:"رن واي ML",descEn:"AI video editing & generation.",descAr:"تحرير وإنشاء فيديوهات وصور بالذكاء الاصطناعي.",category:"Video",url:"https://runwayml.com",icon:"fas fa-cut"},
+  {nameEn:"Hedra",nameAr:"هيدرا",descEn:"AI character video generation.",descAr:"منصة ذكاء اصطناعي لإنشاء شخصيات وفيديوهات متحركة.",category:"Video",url:"https://www.hedra.com/",icon:"fas fa-user-circle"},
+  {nameEn:"InVideo AI",nameAr:"إن فيديو",descEn:"AI video creation from text.",descAr:"منصة ذكاء اصطناعي لإنشاء الفيديوهات من النصوص.",category:"Video",url:"https://ai.invideo.io/",icon:"fas fa-clapperboard"},
+  {nameEn:"Seedance",nameAr:"سيدانس",descEn:"High-quality realistic AI videos.",descAr:"فيديوهات AI واقعية بجودة عالية.",category:"Video",url:"https://seedance.ai",icon:"fas fa-photo-video"},
+];
 
-      document
-        .getElementById("canvaToggle")
-        .addEventListener("click", toggleCanva);
-      document
-        .getElementById("freeToggle")
-        .addEventListener("click", toggleFree);
-      document
-        .getElementById("imageResToggle")
-        .addEventListener("click", toggleImageRes);
-      document.getElementById("langToggle").addEventListener("click", () => {
-        currentLang = currentLang === "en" ? "ar" : "en";
-        applyLanguage();
-      });
-      document.getElementById("globalSearch").addEventListener("input", (e) => {
-        searchTerm = e.target.value.toLowerCase();
-        renderTools();
-      });
+const categoriesOrder=["Audio","Coding","Design","Image Generation","Productivity","Research","Writing","Video"];
+const categoryIcons={Audio:"fas fa-headphones",Coding:"fas fa-code",Design:"fas fa-pen-ruler","Image Generation":"fas fa-image",Productivity:"fas fa-tasks",Research:"fas fa-microscope",Writing:"fas fa-feather-alt",Video:"fas fa-film"};
+const categoryColors={Audio:"var(--cyan)",Coding:"var(--purple)",Design:"var(--pink)","Image Generation":"#ffc83c",Productivity:"var(--purple)",Research:"#ff9632",Writing:"var(--cyan)",Video:"#3cc864"};
+const categoryClasses={Audio:"s-audio",Coding:"s-code",Design:"s-design","Image Generation":"s-image",Productivity:"s-prod",Research:"s-research",Writing:"s-write",Video:"s-video"};
 
-      const glow = document.getElementById("cursorGlow");
-      document.addEventListener("mousemove", (e) => {
-        glow.style.left = e.clientX + "px";
-        glow.style.top = e.clientY + "px";
-      });
+const canvaCategories=[
+  {nameEn:"Billboards",nameAr:"لوحات إعلانية",keywords:["Billboard design","لوحة إعلانية","Outdoor Banner"],baseQuery:"billboard"},
+  {nameEn:"Medical Reports",nameAr:"تقارير طبية",keywords:["Medical report","تقرير طبي","Doctor report"],baseQuery:"medical report"},
+  {nameEn:"Prescription",nameAr:"روشتة طبية",keywords:["Prescription template","روشتة طبية"],baseQuery:"prescription"},
+  {nameEn:"Invoice",nameAr:"فاتورة",keywords:["Invoice template","فاتورة","Receipt"],baseQuery:"invoice"},
+  {nameEn:"Business Card",nameAr:"بطاقة أعمال",keywords:["Business card","بطاقة أعمال","Visiting card"],baseQuery:"business card"},
+  {nameEn:"Flyer",nameAr:"فلایر إعلاني",keywords:["Flyer template","فلایر","Event flyer"],baseQuery:"flyer"},
+  {nameEn:"Social Media",nameAr:"سوشيال ميديا",keywords:["Instagram post","منشور انستجرام","Facebook cover"],baseQuery:"social media"},
+  {nameEn:"Resume / CV",nameAr:"سيرة ذاتية",keywords:["Resume template","سيرة ذاتية","CV design"],baseQuery:"resume"},
+  {nameEn:"Logo",nameAr:"شعار",keywords:["Logo template","شعار","Brand logo"],baseQuery:"logo"},
+];
 
-      window.addEventListener("load", () => {
-        document.getElementById("totalToolsCount").innerText = toolsData.length;
-        applyLanguage();
-        const preloader = document.getElementById("preloader");
-        preloader.style.opacity = "0";
-        setTimeout(() => {
-          preloader.style.display = "none";
-          document.getElementById("appWrapper").style.opacity = "1";
-        }, 500);
-      });
-    </script>
-  </body>
+const promptsData=[
+  {category:"Content Writing",categoryAr:"كتابة المحتوى",icon:"fas fa-pen",prompt:"Write a compelling [Instagram/LinkedIn/Twitter] post about [topic] that hooks readers in the first line, includes a clear value, and ends with a call to action. Tone: [professional/casual/witty].",promptAr:"اكتب منشورًا جذابًا لـ [انستجرام/لينكدإن] عن [الموضوع] يشد القارئ من السطر الأول ويتضمن قيمة واضحة مع دعوة للتفاعل. الأسلوب: [رسمي/غير رسمي]."},
+  {category:"Image Prompt",categoryAr:"توليد صور",icon:"fas fa-image",prompt:"Cinematic portrait of [subject], golden hour lighting, shallow depth of field, shot on 85mm lens, ultra-detailed, 8K, photorealistic, trending on ArtStation.",promptAr:"صورة سينمائية لـ [الشخص/الموضوع]، إضاءة ذهبية عند الغروب، تركيز ضحل، عدسة 85مم، تفاصيل عالية الدقة، واقعية."},
+  {category:"SEO Article",categoryAr:"مقال SEO",icon:"fas fa-newspaper",prompt:"Write a 1000-word SEO-optimized article on '[keyword]'. Include H2 headings, a meta description, bullet points, and a conclusion with a CTA. Target audience: [describe audience].",promptAr:"اكتب مقالًا بـ 1000 كلمة محسّنًا لمحركات البحث حول '[الكلمة المفتاحية]'. أضف عناوين فرعية، وصف ميتا، نقاط مرتبة وخاتمة."},
+  {category:"Code Helper",categoryAr:"مساعد البرمجة",icon:"fas fa-code",prompt:"You are a senior developer. Review this code for bugs, performance issues, and best practices. Suggest improvements and explain each fix clearly: [paste code here].",promptAr:"أنت مطوّر أول. راجع هذا الكود بحثًا عن الأخطاء ومشاكل الأداء وأفضل الممارسات. اقترح تحسينات واشرح كل إصلاح بوضوح: [الصق الكود هنا]."},
+  {category:"Business Plan",categoryAr:"خطة عمل",icon:"fas fa-briefcase",prompt:"Create a one-page business plan for a [type of business] targeting [audience] in [location]. Include: problem, solution, revenue model, target market, and competitive advantage.",promptAr:"أنشئ خطة عمل لصفحة واحدة لـ [نوع المشروع] يستهدف [الجمهور] في [المكان]. تضمين: المشكلة، الحل، نموذج الإيراد، السوق المستهدف."},
+  {category:"Email Template",categoryAr:"قالب إيميل",icon:"fas fa-envelope",prompt:"Write a professional cold outreach email to [type of person/company] about [offer/product]. Keep it under 150 words, personalized, friendly, and end with a clear CTA.",promptAr:"اكتب بريدًا إلكترونيًا احترافيًا لـ [الشخص/الشركة] عن [العرض/المنتج]. أقل من 150 كلمة، شخصي وودّي مع دعوة واضحة للتصرف."},
+];
+
+const cssTools=[
+  {nameEn:"CSS Glass",nameAr:"سي إس إس جلاس",descEn:"Glassmorphism CSS generator.",descAr:"أداة لإنشاء تأثير الزجاج Glassmorphism باستخدام CSS.",url:"https://css.glass/",icon:"fas fa-square",free:true},
+  {nameEn:"Clippy",nameAr:"كليبي",descEn:"CSS clip-path visual generator.",descAr:"أداة لإنشاء أشكال Clip-path احترافية بـ CSS.",url:"https://bennettfeely.com/clippy/",icon:"fas fa-crop",free:true},
+  {nameEn:"CSS Grid Generator",nameAr:"مولد Grid",descEn:"Visual CSS Grid layout builder.",descAr:"أداة لإنشاء تخطيطات CSS Grid بشكل مرئي.",url:"https://cssgrid-generator.com/",icon:"fas fa-th",free:true},
+  {nameEn:"Google Fonts",nameAr:"جوجل فونتس",descEn:"Free fonts library for websites.",descAr:"مكتبة خطوط مجانية تُستخدم في المواقع.",url:"https://fonts.google.com/",icon:"fas fa-font",free:true},
+  {nameEn:"Font Awesome",nameAr:"فونت اوسم",descEn:"Huge free icon library for web & apps.",descAr:"مكتبة أيقونات احترافية للمواقع والتطبيقات.",url:"https://fontawesome.com/",icon:"fas fa-icons",free:true},
+  {nameEn:"Coolors",nameAr:"كولورز",descEn:"Fast color palette generator.",descAr:"مولد لوحات ألوان سريع ومتطور.",url:"https://coolors.co/",icon:"fas fa-palette",free:true},
+  {nameEn:"Neumorphism",nameAr:"نيومورفيزم",descEn:"Soft UI CSS generator.",descAr:"مولد تأثير الواجهة الناعمة Neumorphism.",url:"https://neumorphism.io/",icon:"fas fa-circle",free:true},
+  {nameEn:"Animate.css",nameAr:"أنيميت CSS",descEn:"Ready-made CSS animations library.",descAr:"مكتبة حركات CSS جاهزة الاستخدام.",url:"https://animate.style/",icon:"fas fa-running",free:true},
+];
+
+const freeServices=[
+  {name:"Pinterest",url:"https://www.pinterest.com",icon:"fab fa-pinterest",usesEn:"Visual discovery for design & templates.",usesAr:"اكتشاف بصري للقوالب والتصميم."},
+  {name:"Freepik",url:"https://www.freepik.com",icon:"fas fa-image",usesEn:"Free vectors, photos & PSD files.",usesAr:"متجهات وصور مجانية."},
+  {name:"Unsplash",url:"https://unsplash.com",icon:"fas fa-cloud-sun",usesEn:"High-resolution free photos.",usesAr:"صور عالية الدقة مجانية."},
+  {name:"Pexels",url:"https://www.pexels.com",icon:"fas fa-camera",usesEn:"Free stock videos & images.",usesAr:"فيديو وصور مجانية."},
+  {name:"Pixabay",url:"https://pixabay.com",icon:"fas fa-tree",usesEn:"Millions of royalty-free media.",usesAr:"ملايين الوسائط بدون حقوق."},
+  {name:"Remove.bg",url:"https://www.remove.bg",icon:"fas fa-magic",usesEn:"Instant background removal.",usesAr:"إزالة الخلفية فوراً."},
+  {name:"Icons8",url:"https://icons8.com",icon:"fas fa-icons",usesEn:"Free icons & design resources.",usesAr:"أيقونات وموارد تصميم مجانية."},
+  {name:"Flaticon",url:"https://www.flaticon.com",icon:"fas fa-shapes",usesEn:"Millions of vector icons.",usesAr:"ملايين الأيقونات المتجهة."},
+  {name:"Canva Templates",url:"https://www.canva.com/templates",icon:"fas fa-palette",usesEn:"Ready-made templates for all designs.",usesAr:"قوالب جاهزة لكل التصاميم."},
+];
+
+const designPlatforms=[
+  {name:"Canva",url:"https://www.canva.com",icon:"fab fa-canva",descEn:"All-in-one graphic design platform with AI.",descAr:"منصة تصميم شاملة مع أدوات الذكاء الاصطناعي."},
+  {name:"Adobe Express",url:"https://www.adobe.com/express",icon:"fas fa-pen-fancy",descEn:"Quick design & social media content.",descAr:"تصميم سريع للسوشيال ميديا والمحتوى."},
+  {name:"Microsoft Designer",url:"https://designer.microsoft.com/",icon:"fab fa-microsoft",descEn:"AI-powered design tool by Microsoft.",descAr:"أداة تصميم مدعومة بالذكاء الاصطناعي من مايكروسوفت."},
+  {name:"Vista Create",url:"https://www.create.vista.com",icon:"fas fa-paint-brush",descEn:"VistaCreate — templates for marketing.",descAr:"قوالب تصميم للتسويق والإعلانات."},
+  {name:"Affinity Studio",url:"https://www.affinity.studio/",icon:"fas fa-bezier-curve",descEn:"Professional creative suite by Affinity.",descAr:"مجموعة أدوات تصميم احترافية من أفينيتي."},
+  {name:"Figma",url:"https://www.figma.com",icon:"fab fa-figma",descEn:"Collaborative UI/UX design tool.",descAr:"أداة تصميم واجهات تعاونية UI/UX."},
+];
+
+const tempEmails=[
+  {name:"Temp Mail",url:"https://temp-mail.org/ar/",icon:"fas fa-envelope",descEn:"Disposable temporary email service.",descAr:"إنشاء بريد إلكتروني مؤقت لاستقبال الرسائل."},
+  {name:"Mohmal",url:"https://www.mohmal.com/",icon:"fas fa-inbox",descEn:"Arabic temporary email service.",descAr:"خدمة بريد إلكتروني مؤقت عربية."},
+  {name:"Guerrilla Mail",url:"https://www.guerrilla.email/",icon:"fas fa-bomb",descEn:"Fast & anonymous disposable email.",descAr:"بريد مؤقت سريع ومجهول الهوية."},
+  {name:"10 Minute Mail",url:"https://10minemail.com/",icon:"fas fa-clock",descEn:"Email that expires in 10 minutes.",descAr:"بريد إلكتروني ينتهي في 10 دقائق."},
+  {name:"Yopmail",url:"https://yopmail.com/",icon:"fas fa-at",descEn:"Free temporary email addresses.",descAr:"عناوين بريد إلكتروني مؤقتة مجانية."},
+  {name:"Tempimail",url:"https://tempimail.org/ar",icon:"fas fa-hourglass",descEn:"Simple temporary email service.",descAr:"خدمة بريد مؤقت بسيطة وسهلة."},
+];
+
+const socialLinks=[
+  {name:"WhatsApp Web",url:"https://web.whatsapp.com/",icon:"fab fa-whatsapp",descEn:"WhatsApp on your browser.",descAr:"واتساب على المتصفح."},
+  {name:"Facebook",url:"https://www.facebook.com/",icon:"fab fa-facebook",descEn:"Social media platform.",descAr:"منصة التواصل الاجتماعي فيسبوك."},
+  {name:"Instagram",url:"https://www.instagram.com/",icon:"fab fa-instagram",descEn:"Photo & video sharing platform.",descAr:"منصة مشاركة الصور والفيديوهات."},
+  {name:"Pinterest",url:"https://www.pinterest.com/",icon:"fab fa-pinterest",descEn:"Visual discovery & idea board.",descAr:"اكتشاف بصري وإلهام تصميمي."},
+];
+
+const imageResources=[
+  {name:"Pinterest",url:"https://www.pinterest.com",icon:"fab fa-pinterest",usesEn:"Discover high-res mood boards & photography.",usesAr:"لوحات مزاجية وتصوير فوتوغرافي."},
+  {name:"Unsplash",url:"https://unsplash.com",icon:"fas fa-cloud-sun",usesEn:"Premium free photos.",usesAr:"صور مجانية فاخرة."},
+  {name:"Pexels",url:"https://www.pexels.com",icon:"fas fa-camera",usesEn:"Free stock photography & video.",usesAr:"صور وفيديو مجاني."},
+  {name:"Pixabay",url:"https://pixabay.com",icon:"fas fa-tree",usesEn:"Public domain images.",usesAr:"صور المجال العام."},
+  {name:"Yandex Images",url:"https://yandex.com/images",icon:"fas fa-search",usesEn:"Reverse image search engine.",usesAr:"محرك بحث عكسي للصور."},
+  {name:"Kaboompics",url:"https://kaboompics.com",icon:"fas fa-crop-alt",usesEn:"Curated free stock photos.",usesAr:"صور مخزون منسقة."},
+  {name:"Freepik",url:"https://www.freepik.com",icon:"fas fa-image",usesEn:"Free vectors, photos & PSD files.",usesAr:"متجهات وصور وملفات PSD مجانية."},
+];
+
+const browserExtensions=[
+  {nameEn:"Grammarly",nameAr:"جرامرلي",descEn:"AI grammar checker in every text field.",descAr:"تصحيح القواعد اللغوية في كل مكان تكتب فيه.",url:"https://www.grammarly.com",icon:"fas fa-spell-check"},
+  {nameEn:"ChatGPT Writer",nameAr:"كاتب GPT",descEn:"Use AI to write emails & messages in any tab.",descAr:"استخدم الذكاء الاصطناعي لكتابة الإيميلات في أي تبويب.",url:"https://chatgptwriter.ai/",icon:"fas fa-pen"},
+  {nameEn:"Merlin AI",nameAr:"ميرلين",descEn:"ChatGPT sidebar on any webpage.",descAr:"شريط جانبي لـ ChatGPT على أي صفحة ويب.",url:"https://www.getmerlin.in/",icon:"fas fa-hat-wizard"},
+  {nameEn:"uBlock Origin",nameAr:"يو بلوك",descEn:"Powerful ad & tracker blocker.",descAr:"حاجب الإعلانات والمتتبعين الأقوى.",url:"https://ublockorigin.com/",icon:"fas fa-shield-alt"},
+  {nameEn:"Planet VPN",nameAr:"بلانيت VPN",descEn:"Fast VPN for secure & open browsing.",descAr:"خدمة VPN لتصفح الإنترنت بشكل آمن وفتح المواقع.",url:"https://planetvpnarab.com/",icon:"fas fa-lock"},
+  {nameEn:"Wappalyzer",nameAr:"واباليزر",descEn:"Identify what tech any website uses.",descAr:"اعرف التقنيات المستخدمة في أي موقع ويب.",url:"https://www.wappalyzer.com/",icon:"fas fa-search-plus"},
+  {nameEn:"ColorZilla",nameAr:"كولور زيلا",descEn:"Pick any color from any webpage.",descAr:"التقط أي لون من أي صفحة ويب بسهولة.",url:"https://www.colorzilla.com/",icon:"fas fa-eye-dropper"},
+  {nameEn:"Dark Reader",nameAr:"دارك ريدر",descEn:"Dark mode for every website.",descAr:"وضع داكن لكل المواقع.",url:"https://darkreader.org/",icon:"fas fa-moon"},
+];
+
+const sectionChips=[
+  {key:"canva",labelEn:"🎨 Canva",labelAr:"🎨 كانفا"},
+  {key:"prompts",labelEn:"⚡ Prompts",labelAr:"⚡ بروبتات"},
+  {key:"css",labelEn:"💻 CSS Tools",labelAr:"💻 CSS"},
+  {key:"free",labelEn:"💎 Free Services",labelAr:"💎 خدمات مجانية"},
+  {key:"designplatforms",labelEn:"🖌️ Design Platforms",labelAr:"🖌️ منصات تصميم"},
+  {key:"email",labelEn:"📧 Temp Email",labelAr:"📧 إيميل مؤقت"},
+  {key:"social",labelEn:"📱 Social",labelAr:"📱 سوشيال"},
+  {key:"imgres",labelEn:"🖼️ Images",labelAr:"🖼️ صور"},
+  {key:"ext",labelEn:"🧩 Extensions",labelAr:"🧩 إضافات"},
+];
+
+const translations={
+  en:{
+    preloader:"INITIALIZING DARCK CODE",heroBadge:"AI-Powered Creative Hub",heroTitle:"The Ultimate AI Arsenal",
+    heroSub:"Curating frontier intelligence & creative tools",statTools:"+ AI tools",statSections:"sections",
+    statUpdate:"Real-time ready",filterLabel:"Filter by category & section",allTools:"✨ All",
+    showing:"Showing",toolsLabel:"results",noResultTitle:"No results found",noResultDesc:"Try adjusting your search or category",
+    canvaTitle:"🎨 Canva Design Vault",canvaSubtitle:"Billboard, Medical, Invoice & More",
+    promptsTitle:"⚡ AI Prompt Templates",promptsSubtitle:"Ready-to-use prompts for ChatGPT, Claude & more",
+    cssTitle:"🎨 CSS & Frontend Tools",cssSubtitle:"Generators, validators, and visual helpers",
+    freeTitle:"💎 Free Essential Services",freeSubtitle:"Icons, stock photos, design tools — all free",
+    designPlatTitle:"🖌️ Design Platforms",designPlatSubtitle:"Canva, Adobe, Microsoft Designer & more",
+    emailTitle:"📧 Temporary Email Services",emailSubtitle:"Disposable emails for privacy",
+    socialTitle:"📱 Social & Communication",socialSubtitle:"WhatsApp, Facebook, Instagram & more",
+    imageResTitle:"🖼️ High-Quality Image Resources",imageResSubtitle:"Royalty-free photos, vectors & visuals",
+    extTitle:"🧩 Must-Have Browser Extensions",extSubtitle:"Supercharge your browser with AI & productivity",
+    visit:"Visit",copy:"Copy",copied:"Copied!",footerText:"© 2025 DARCK CODE — Multilingual AI Hub & Creative Companion",
+    cats:{Audio:"🎵 Audio",Coding:"💻 Coding",Design:"🎨 Design","Image Generation":"🖼 Image Gen",Productivity:"⚡ Productivity",Research:"🔍 Research",Writing:"✍️ Writing",Video:"🎬 Video"},
+  },
+  ar:{
+    preloader:"تشغيل دارك كود",heroBadge:"مركز ذكاء اصطناعي وإبداع",heroTitle:"أقوى ترسانة للذكاء الاصطناعي",
+    heroSub:"أحدث أدوات الذكاء والإبداع في مكان واحد",statTools:"+ أداة ذكاء",statSections:"أقسام",
+    statUpdate:"محدّث فوري",filterLabel:"فلتر حسب التصنيف والقسم",allTools:"✨ الكل",
+    showing:"عرض",toolsLabel:"نتيجة",noResultTitle:"لم يتم العثور على نتائج",noResultDesc:"عدّل البحث أو التصنيف",
+    canvaTitle:"🎨 قبو كانفا للتصميم",canvaSubtitle:"لوحات إعلانية، تقارير طبية، فواتير والمزيد",
+    promptsTitle:"⚡ قوالب بروبت AI",promptsSubtitle:"بروبتات جاهزة للاستخدام مع ChatGPT وكلود وغيرها",
+    cssTitle:"🎨 أدوات CSS والواجهات",cssSubtitle:"مولدات وأدوات مساعدة لتطوير الواجهات",
+    freeTitle:"💎 خدمات أساسية مجانية",freeSubtitle:"أيقونات، صور ستوك، أدوات تصميم — كلها مجانية",
+    designPlatTitle:"🖌️ منصات التصميم",designPlatSubtitle:"كانفا، أدوبي، مايكروسوفت ديزاينر والمزيد",
+    emailTitle:"📧 خدمات البريد المؤقت",emailSubtitle:"إيميلات مؤقتة للخصوصية",
+    socialTitle:"📱 السوشيال والتواصل",socialSubtitle:"واتساب، فيسبوك، انستجرام والمزيد",
+    imageResTitle:"🖼️ موارد صور عالية الجودة",imageResSubtitle:"صور ومتجهات وفيديو بدون حقوق ملكية",
+    extTitle:"🧩 إضافات متصفح لا غنى عنها",extSubtitle:"طوّر تجربتك في التصفح بالذكاء الاصطناعي",
+    visit:"زيارة",copy:"نسخ",copied:"تم النسخ!",footerText:"© 2025 DARCK CODE — مركز متعدد اللغات ورفيق الإبداع",
+    cats:{Audio:"🎵 صوت",Coding:"💻 برمجة",Design:"🎨 تصميم","Image Generation":"🖼 توليد صور",Productivity:"⚡ إنتاجية",Research:"🔍 بحث",Writing:"✍️ كتابة",Video:"🎬 فيديو"},
+  }
+};
+
+let currentLang=localStorage.getItem("aiLang")||"en";
+let searchTerm="";
+let activeFilter="all";
+
+function toggleSection(bodyId,iconId){
+  const body=document.getElementById(bodyId);
+  const icon=document.getElementById(iconId);
+  if(!body)return;
+  const isOpen=body.style.display!=="none"&&body.style.display!=="";
+  body.style.display=isOpen?"none":"grid";
+  if(icon)icon.style.transform=isOpen?"rotate(-90deg)":"rotate(0deg)";
+}
+function openSection(bodyId,iconId){
+  const body=document.getElementById(bodyId);
+  const icon=document.getElementById(iconId);
+  if(!body)return;
+  body.style.display="grid";
+  if(icon)icon.style.transform="rotate(0deg)";
+}
+
+const sectionBodyMap={
+  canva:{body:"canva-body",icon:"canva-icon",sec:"sec-canva"},
+  prompts:{body:"prompts-body",icon:"prompts-icon",sec:"sec-prompts"},
+  css:{body:"css-body",icon:"css-icon",sec:"sec-css"},
+  free:{body:"free-body",icon:"free-icon",sec:"sec-free"},
+  designplatforms:{body:"designplatforms-body",icon:"designplatforms-icon",sec:"sec-designplatforms"},
+  email:{body:"email-body",icon:"email-icon",sec:"sec-email"},
+  social:{body:"social-body",icon:"social-icon",sec:"sec-social"},
+  imgres:{body:"imgres-body",icon:"imgres-icon",sec:"sec-imgres"},
+  ext:{body:"ext-body",icon:"ext-icon",sec:"sec-ext"},
+};
+
+function isSectionFilter(f){return f in sectionBodyMap;}
+
+function renderCategories(){
+  const t=translations[currentLang];
+  const container=document.getElementById("categoryFilters");
+  const cats=categoriesOrder.filter(c=>toolsData.some(tool=>tool.category===c));
+
+  let html=`<button class="filter-chip ${activeFilter==="all"?"active":""}" data-cat="all">${t.allTools}</button>`;
+  cats.forEach(cat=>{
+    html+=`<button class="filter-chip ${activeFilter===cat?"active":""}" data-cat="${cat}">${t.cats[cat]||cat}</button>`;
+  });
+  html+=`<span style="display:inline-flex;align-items:center;padding:0 6px;color:rgba(0,245,255,.3);font-size:.9rem;">|</span>`;
+  sectionChips.forEach(sc=>{
+    const label=currentLang==="en"?sc.labelEn:sc.labelAr;
+    html+=`<button class="filter-chip section-chip ${activeFilter===sc.key?"active":""}" data-cat="${sc.key}">${label}</button>`;
+  });
+
+  container.innerHTML=html;
+  container.querySelectorAll(".filter-chip").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      activeFilter=btn.dataset.cat;
+      renderCategories();
+      handleFilter();
+    });
+  });
+}
+
+function handleFilter(){
+  if(isSectionFilter(activeFilter)){
+    document.getElementById("mainToolsArea").classList.add("hidden");
+    document.getElementById("noResultsMsg").classList.add("hidden");
+    document.querySelectorAll(".search-section").forEach(s=>{
+      s.classList.add("filtered-out");
+    });
+    const target=sectionBodyMap[activeFilter];
+    const sec=document.getElementById(target.sec);
+    if(sec){
+      sec.classList.remove("filtered-out");
+      openSection(target.body,target.icon);
+    }
+    updateCount(0,true);
+  } else {
+    document.getElementById("mainToolsArea").classList.remove("hidden");
+    document.querySelectorAll(".search-section").forEach(s=>{
+      s.classList.remove("filtered-out");
+    });
+    renderTools();
+  }
+}
+
+function updateCount(n,isSec){
+  const t=translations[currentLang];
+  document.getElementById("visibleCount").textContent=isSec?"—":n;
+}
+
+function renderTools(){
+  const t=translations[currentLang];
+  const filtered=toolsData.filter(tool=>{
+    const name=(currentLang==="en"?tool.nameEn:tool.nameAr).toLowerCase();
+    const desc=(currentLang==="en"?tool.descEn:tool.descAr).toLowerCase();
+    const matchSearch=!searchTerm||(name.includes(searchTerm)||desc.includes(searchTerm));
+    const matchCat=activeFilter==="all"||tool.category===activeFilter;
+    return matchSearch&&matchCat;
+  });
+  document.getElementById("visibleCount").textContent=filtered.length;
+  const grid=document.getElementById("toolsGrid");
+  const noMsg=document.getElementById("noResultsMsg");
+
+  if(filtered.length===0){
+    grid.innerHTML="";
+    noMsg.classList.remove("hidden");
+    document.getElementById("noResultTitle").textContent=t.noResultTitle;
+    document.getElementById("noResultDesc").textContent=t.noResultDesc;
+    return;
+  }
+  noMsg.classList.add("hidden");
+
+  if((activeFilter==="all"||isSectionFilter(activeFilter))&&!searchTerm){
+    let html="";
+    const grouped={};
+    categoriesOrder.forEach(cat=>{grouped[cat]=[]});
+    filtered.forEach(tool=>{if(grouped[tool.category])grouped[tool.category].push(tool)});
+    categoriesOrder.forEach(cat=>{
+      if(!grouped[cat]||grouped[cat].length===0)return;
+      const cls=categoryClasses[cat]||"";
+      const color=categoryColors[cat]||"var(--cyan)";
+      html+=`<div class="section-header" style="grid-column:1/-1;cursor:default;margin-top:1rem;padding:.8rem 0;border-color:rgba(255,255,255,.06)">
+        <div class="section-header-left">
+          <div class="section-icon-wrap ${cls}" style="background:${color}22;color:${color}"><i class="${categoryIcons[cat]||"fas fa-tag"}"></i></div>
+          <div class="section-title-text" style="font-size:1rem">${t.cats[cat]||cat}</div>
+        </div>
+      </div>`;
+      grouped[cat].forEach(tool=>{html+=buildCard(tool);});
+    });
+    grid.innerHTML=html;
+  } else {
+    grid.innerHTML=filtered.map(tool=>buildCard(tool)).join("");
+  }
+}
+
+function buildCard(tool){
+  const t=translations[currentLang];
+  const name=currentLang==="en"?tool.nameEn:tool.nameAr;
+  const desc=currentLang==="en"?tool.descEn:tool.descAr;
+  const cls=categoryClasses[tool.category]||"";
+  const color=categoryColors[tool.category]||"var(--cyan)";
+  const cat=t.cats[tool.category]||tool.category;
+  return `<div class="ai-card ${cls}">
+    <div class="card-icon-wrap" style="background:${color}18;color:${color}"><i class="${tool.icon}"></i></div>
+    <span class="card-cat-badge">${cat}</span>
+    <div class="card-title">${name}</div>
+    <div class="card-desc">${desc}</div>
+    <div class="card-actions">
+      <a href="${tool.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a>
+    </div>
+  </div>`;
+}
+
+function performGlobalSearch(){
+  if(!searchTerm){
+    handleFilter();
+    return;
+  }
+  document.getElementById("mainToolsArea").classList.remove("hidden");
+  document.querySelectorAll(".search-section").forEach(s=>s.classList.remove("filtered-out"));
+  renderTools();
+  searchStaticSections();
+}
+
+function searchStaticSections(){
+  const q=searchTerm;
+  const allCards=document.querySelectorAll("#canva-body .resource-card, #css-body .resource-card, #free-body .resource-card, #designplatforms-body .resource-card, #email-body .resource-card, #social-body .resource-card, #imgres-body .resource-card, #ext-body .resource-card, #prompts-body .prompt-card");
+  allCards.forEach(card=>{
+    card.style.display=card.textContent.toLowerCase().includes(q)?"":"none";
+  });
+  Object.values(sectionBodyMap).forEach(s=>openSection(s.body,s.icon));
+}
+
+function resetStaticSections(){
+  document.querySelectorAll(".resource-card,.prompt-card").forEach(c=>c.style.display="");
+}
+
+function renderCanva(){
+  const t=translations[currentLang];
+  const container=document.getElementById("canva-body");
+  if(!container)return;
+  container.innerHTML=canvaCategories.map(cat=>{
+    const name=currentLang==="en"?cat.nameEn:cat.nameAr;
+    const url=`https://www.canva.com/templates/search/${encodeURIComponent(cat.baseQuery)}`;
+    return `<div class="resource-card">
+      <div class="card-icon-wrap" style="background:rgba(0,200,120,.12);color:#00c878"><i class="fas fa-search"></i></div>
+      <div class="card-title">${name}</div>
+      <div class="keyword-group">${cat.keywords.map(kw=>`<span class="keyword-badge" onclick="window.open('https://www.canva.com/templates/search/${encodeURIComponent(kw)}','_blank')">${kw}</span>`).join("")}</div>
+      <div class="card-actions" style="margin-top:12px">
+        <a href="${url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function renderPrompts(){
+  const t=translations[currentLang];
+  const container=document.getElementById("prompts-body");
+  if(!container)return;
+  container.innerHTML=promptsData.map(p=>{
+    const cat=currentLang==="en"?p.category:p.categoryAr;
+    const prompt=currentLang==="en"?p.prompt:p.promptAr;
+    return `<div class="prompt-card">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:.8rem">
+        <div style="width:38px;height:38px;border-radius:10px;background:rgba(168,85,247,.12);color:var(--purple);display:flex;align-items:center;justify-content:center"><i class="${p.icon}"></i></div>
+        <span class="prompt-tag">${cat}</span>
+      </div>
+      <div class="prompt-text">${prompt}</div>
+      <button class="copy-prompt-btn" onclick="copyPrompt(this,'${encodeURIComponent(prompt)}')">
+        <i class="fas fa-copy"></i> ${t.copy}
+      </button>
+    </div>`;
+  }).join("");
+}
+
+window.copyPrompt=function(btn,encodedText){
+  const t=translations[currentLang];
+  navigator.clipboard.writeText(decodeURIComponent(encodedText)).then(()=>{
+    btn.innerHTML=`<i class="fas fa-check"></i> ${t.copied}`;
+    btn.style.color="var(--cyan)";
+    setTimeout(()=>{btn.innerHTML=`<i class="fas fa-copy"></i> ${t.copy}`;btn.style.color="";},2000);
+  });
+};
+
+function renderCssTools(){
+  const t=translations[currentLang];
+  const container=document.getElementById("css-body");
+  if(!container)return;
+  container.innerHTML=cssTools.map(tool=>{
+    const name=currentLang==="en"?tool.nameEn:tool.nameAr;
+    const desc=currentLang==="en"?tool.descEn:tool.descAr;
+    return `<div class="resource-card">
+      <div class="card-icon-wrap" style="background:rgba(0,245,255,.1);color:var(--cyan)"><i class="${tool.icon}"></i></div>
+      ${tool.free?'<span class="free-badge">FREE</span>':''}
+      <div class="card-title">${name}</div>
+      <div class="card-desc">${desc}</div>
+      <div class="card-actions"><a href="${tool.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+    </div>`;
+  }).join("");
+}
+
+function renderFreeServices(){
+  const t=translations[currentLang];
+  const container=document.getElementById("free-body");
+  if(!container)return;
+  container.innerHTML=freeServices.map(s=>`<div class="resource-card">
+    <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${s.icon}"></i></div>
+    <span class="free-badge">FREE</span>
+    <div class="card-title">${s.name}</div>
+    <div class="card-desc">${currentLang==="en"?s.usesEn:s.usesAr}</div>
+    <div class="card-actions"><a href="${s.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+  </div>`).join("");
+}
+
+function renderDesignPlatforms(){
+  const t=translations[currentLang];
+  const container=document.getElementById("designplatforms-body");
+  if(!container)return;
+  container.innerHTML=designPlatforms.map(p=>`<div class="resource-card">
+    <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${p.icon}"></i></div>
+    <div class="card-title">${p.name}</div>
+    <div class="card-desc">${currentLang==="en"?p.descEn:p.descAr}</div>
+    <div class="card-actions"><a href="${p.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+  </div>`).join("");
+}
+
+function renderTempEmail(){
+  const t=translations[currentLang];
+  const container=document.getElementById("email-body");
+  if(!container)return;
+  container.innerHTML=tempEmails.map(e=>`<div class="resource-card">
+    <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${e.icon}"></i></div>
+    <span class="free-badge">FREE</span>
+    <div class="card-title">${e.name}</div>
+    <div class="card-desc">${currentLang==="en"?e.descEn:e.descAr}</div>
+    <div class="card-actions"><a href="${e.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+  </div>`).join("");
+}
+
+function renderSocial(){
+  const t=translations[currentLang];
+  const container=document.getElementById("social-body");
+  if(!container)return;
+  container.innerHTML=socialLinks.map(s=>`<div class="resource-card">
+    <div class="card-icon-wrap" style="background:rgba(0,245,255,.1);color:var(--cyan)"><i class="${s.icon}"></i></div>
+    <div class="card-title">${s.name}</div>
+    <div class="card-desc">${currentLang==="en"?s.descEn:s.descAr}</div>
+    <div class="card-actions"><a href="${s.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+  </div>`).join("");
+}
+
+function renderImageResources(){
+  const t=translations[currentLang];
+  const container=document.getElementById("imgres-body");
+  if(!container)return;
+  container.innerHTML=imageResources.map(r=>`<div class="resource-card">
+    <div class="card-icon-wrap" style="background:rgba(255,200,60,.1);color:#ffc83c"><i class="${r.icon}"></i></div>
+    <div class="card-title">${r.name}</div>
+    <div class="card-desc">${currentLang==="en"?r.usesEn:r.usesAr}</div>
+    <div class="card-actions"><a href="${r.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+  </div>`).join("");
+}
+
+function renderExtensions(){
+  const t=translations[currentLang];
+  const container=document.getElementById("ext-body");
+  if(!container)return;
+  container.innerHTML=browserExtensions.map(e=>{
+    const name=currentLang==="en"?e.nameEn:e.nameAr;
+    const desc=currentLang==="en"?e.descEn:e.descAr;
+    return `<div class="resource-card">
+      <div class="card-icon-wrap" style="background:rgba(255,150,50,.1);color:#ff9632"><i class="${e.icon}"></i></div>
+      <div class="card-title">${name}</div>
+      <div class="card-desc">${desc}</div>
+      <div class="card-actions"><a href="${e.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+    </div>`;
+  }).join("");
+}
+
+function applyLanguage(){
+  localStorage.setItem("aiLang",currentLang);
+  const t=translations[currentLang];
+  document.documentElement.dir=currentLang==="ar"?"rtl":"ltr";
+  document.getElementById("preloaderText").textContent=t.preloader;
+  document.getElementById("heroBadge").textContent=t.heroBadge;
+  document.getElementById("heroTitle").textContent=t.heroTitle;
+  document.getElementById("heroSub").textContent=t.heroSub;
+  document.getElementById("statToolsLabel").textContent=t.statTools;
+  document.getElementById("statSectionsLabel").textContent=t.statSections;
+  document.getElementById("statUpdateLabel").textContent=t.statUpdate;
+  document.getElementById("filterLabel").textContent=t.filterLabel;
+  document.getElementById("canvaTitle").textContent=t.canvaTitle;
+  document.getElementById("canvaSubtitle").textContent=t.canvaSubtitle;
+  document.getElementById("promptsTitle").textContent=t.promptsTitle;
+  document.getElementById("promptsSubtitle").textContent=t.promptsSubtitle;
+  document.getElementById("cssTitle").textContent=t.cssTitle;
+  document.getElementById("cssSubtitle").textContent=t.cssSubtitle;
+  document.getElementById("freeTitle").textContent=t.freeTitle;
+  document.getElementById("freeSubtitle").textContent=t.freeSubtitle;
+  document.getElementById("designPlatTitle").textContent=t.designPlatTitle;
+  document.getElementById("designPlatSubtitle").textContent=t.designPlatSubtitle;
+  document.getElementById("emailTitle").textContent=t.emailTitle;
+  document.getElementById("emailSubtitle").textContent=t.emailSubtitle;
+  document.getElementById("socialTitle").textContent=t.socialTitle;
+  document.getElementById("socialSubtitle").textContent=t.socialSubtitle;
+  document.getElementById("imageResTitle").textContent=t.imageResTitle;
+  document.getElementById("imageResSubtitle").textContent=t.imageResSubtitle;
+  document.getElementById("extTitle").textContent=t.extTitle;
+  document.getElementById("extSubtitle").textContent=t.extSubtitle;
+  document.getElementById("footerText").textContent=t.footerText;
+  document.getElementById("globalSearch").placeholder=currentLang==="en"?"Search all tools & sections...":"ابحث في كل الأدوات والأقسام...";
+  document.getElementById("langToggle").textContent=currentLang==="en"?"EG العربية":"🇬🇧 English";
+  document.getElementById("resultsInfo").innerHTML=`${t.showing} <span id="visibleCount">0</span> ${t.toolsLabel}`;
+
+  renderCategories();
+  handleFilter();
+  renderCanva();
+  renderPrompts();
+  renderCssTools();
+  renderFreeServices();
+  renderDesignPlatforms();
+  renderTempEmail();
+  renderSocial();
+  renderImageResources();
+  renderExtensions();
+}
+
+function enableDragScroll(){
+  const container=document.getElementById("categoryFilters");
+  if(!container)return;
+  let isDown=false;
+  let startX;
+  let scrollLeft;
+  container.addEventListener("mousedown",(e)=>{
+    if(e.target.closest(".filter-chip")) return; // allow chip click
+    isDown=true;
+    container.style.cursor="grabbing";
+    startX=e.pageX-container.offsetLeft;
+    scrollLeft=container.scrollLeft;
+    e.preventDefault();
+  });
+  document.addEventListener("mouseup",()=>{
+    isDown=false;
+    container.style.cursor="grab";
+  });
+  document.addEventListener("mousemove",(e)=>{
+    if(!isDown) return;
+    e.preventDefault();
+    const x=e.pageX-container.offsetLeft;
+    const walk=(x-startX)*1.5;
+    container.scrollLeft=scrollLeft-walk;
+  });
+  container.style.cursor="grab";
+}
+
+document.getElementById("langToggle").addEventListener("click",()=>{
+  currentLang=currentLang==="en"?"ar":"en";
+  applyLanguage();
+});
+
+document.getElementById("globalSearch").addEventListener("input",(e)=>{
+  searchTerm=e.target.value.toLowerCase().trim();
+  if(!searchTerm){
+    resetStaticSections();
+    activeFilter="all";
+    renderCategories();
+    handleFilter();
+  } else {
+    activeFilter="all";
+    renderCategories();
+    document.getElementById("mainToolsArea").classList.remove("hidden");
+    document.querySelectorAll(".search-section").forEach(s=>s.classList.remove("filtered-out"));
+    performGlobalSearch();
+  }
+});
+
+const glow=document.getElementById("cursorGlow");
+document.addEventListener("mousemove",(e)=>{
+  glow.style.left=e.clientX+"px";
+  glow.style.top=e.clientY+"px";
+});
+
+window.addEventListener("load",()=>{
+  document.getElementById("totalToolsCount").textContent=toolsData.length;
+  document.getElementById("totalToolsCount2").textContent=toolsData.length;
+  applyLanguage();
+  enableDragScroll();
+  const preloader=document.getElementById("preloader");
+  setTimeout(()=>{
+    preloader.style.opacity="0";
+    setTimeout(()=>{
+      preloader.style.display="none";
+      document.getElementById("appWrapper").style.opacity="1";
+    },400);
+  },800);
+});
+</script>
+</body>
 </html>
