@@ -6,31 +6,35 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <title>DARCK CODE | AI Tools & Creative Hub</title>
-    <!-- AI Head Icon -->
+    <title>DARCK CODE | Ultimate AI Tools Hub 2026</title>
     <link
       rel="icon"
       type="image/svg+xml"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%2300f5ff'/%3E%3Cstop offset='100%25' stop-color='%237b2cff'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='128' height='128' rx='28' fill='%230b1020'/%3E%3Cpath d='M64 22c-18 0-32 14-32 32v20c0 18 14 32 32 32s32-14 32-32V54c0-18-14-32-32-32zm0 12c11 0 20 9 20 20v20c0 11-9 20-20 20s-20-9-20-20V54c0-11 9-20 20-20z' fill='url(%23g)'/%3E%3Ccircle cx='64' cy='64' r='10' fill='%23ffffff'/%3E%3Cpath d='M64 6v14M64 108v14M6 64h14M108 64h14M20 20l10 10M98 98l10 10M20 108l10-10M98 30l10-10' stroke='url(%23g)' stroke-width='6' stroke-linecap='round'/%3E%3C/svg%3E"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
     <style>
       :root {
         --cyan: #00f5ff;
         --purple: #a855f7;
         --pink: #ff3e9d;
+        --orange: #ff9632;
+        --green: #3cc864;
+        --yellow: #ffc83c;
         --bg: #05050f;
         --card-bg: rgba(15, 15, 35, 0.6);
+        --card-bg-hover: rgba(20, 20, 45, 0.8);
         --border: rgba(0, 245, 255, 0.18);
         --text: #e8f0ff;
         --muted: #8899cc;
+        --glass: rgba(5, 5, 20, 0.8);
       }
       * {
         margin: 0;
@@ -39,9 +43,10 @@
       }
       body {
         background: var(--bg);
-        font-family: "Space Grotesk", sans-serif;
+        font-family: "Space Grotesk", "Noto Sans Arabic", sans-serif;
         color: var(--text);
         overflow-x: hidden;
+        min-height: 100vh;
       }
       body::before {
         content: "";
@@ -76,26 +81,45 @@
         pointer-events: none;
       }
 
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #0a0a1a;
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, var(--cyan), var(--purple));
+        border-radius: 10px;
+        border: 2px solid #0a0a1a;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, #00d4e6, #7c3aed);
+      }
+
+      /* Cursor Glow */
       .cursor-glow {
         position: fixed;
-        width: 340px;
-        height: 340px;
+        width: 300px;
+        height: 300px;
         background: radial-gradient(
           circle,
-          rgba(0, 245, 255, 0.18),
+          rgba(0, 245, 255, 0.15),
           rgba(128, 0, 255, 0) 70%
         );
         border-radius: 50%;
         pointer-events: none;
         transform: translate(-50%, -50%);
         transition:
-          left 0.08s linear,
-          top 0.08s linear;
+          left 0.1s,
+          top 0.1s;
         z-index: 9999;
         mix-blend-mode: screen;
-        opacity: 0.5;
+        opacity: 0.4;
       }
 
+      /* Preloader */
       .preloader {
         position: fixed;
         inset: 0;
@@ -105,18 +129,18 @@
         align-items: center;
         justify-content: center;
         flex-direction: column;
-        gap: 18px;
+        gap: 20px;
         transition: opacity 0.6s ease;
       }
       .neon-loader {
-        width: 65px;
-        height: 65px;
+        width: 70px;
+        height: 70px;
         border: 3px solid rgba(0, 245, 255, 0.15);
         border-top: 3px solid var(--cyan);
         border-right: 3px solid var(--purple);
         border-radius: 50%;
         animation: spin 1s ease-in-out infinite;
-        box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
+        box-shadow: 0 0 25px rgba(0, 245, 255, 0.3);
       }
       @keyframes spin {
         to {
@@ -125,23 +149,25 @@
       }
       .loader-text {
         font-family: "Syne", sans-serif;
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         letter-spacing: 0.3em;
         color: var(--cyan);
+        text-shadow: 0 0 10px rgba(0, 245, 255, 0.5);
       }
 
+      /* Navigation */
       .glass-nav {
-        background: rgba(5, 5, 20, 0.8);
-        backdrop-filter: blur(18px);
+        background: var(--glass);
+        backdrop-filter: blur(20px);
         border-bottom: 1px solid var(--border);
         position: sticky;
         top: 0;
         z-index: 100;
       }
       .nav-container {
-        max-width: 1420px;
+        max-width: 1500px;
         margin: 0 auto;
-        padding: 0.9rem 2rem;
+        padding: 1rem 2rem;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -156,12 +182,12 @@
       }
       .logo-icon {
         color: var(--cyan);
-        font-size: 1.6rem;
-        filter: drop-shadow(0 0 6px var(--cyan));
+        font-size: 1.8rem;
+        filter: drop-shadow(0 0 8px var(--cyan));
       }
       .logo-text {
         font-family: "Syne", sans-serif;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-weight: 800;
       }
       .logo-text span {
@@ -172,7 +198,7 @@
       }
       .search-wrapper {
         flex: 1;
-        max-width: 420px;
+        max-width: 450px;
         position: relative;
       }
       .search-input {
@@ -180,16 +206,16 @@
         background: rgba(15, 15, 40, 0.8);
         border: 1px solid rgba(0, 245, 255, 0.35);
         border-radius: 50px;
-        padding: 11px 20px 11px 44px;
+        padding: 12px 20px 12px 44px;
         color: var(--text);
         font-family: inherit;
         font-size: 0.9rem;
-        transition: 0.2s;
+        transition: 0.3s;
       }
       .search-input:focus {
         outline: none;
         border-color: var(--cyan);
-        box-shadow: 0 0 14px rgba(0, 245, 255, 0.3);
+        box-shadow: 0 0 20px rgba(0, 245, 255, 0.3);
       }
       .search-icon {
         position: absolute;
@@ -197,7 +223,7 @@
         top: 50%;
         transform: translateY(-50%);
         color: var(--cyan);
-        font-size: 0.85rem;
+        font-size: 0.9rem;
       }
       .nav-right {
         display: flex;
@@ -208,18 +234,18 @@
         background: rgba(0, 245, 255, 0.08);
         border: 1px solid rgba(0, 245, 255, 0.5);
         border-radius: 40px;
-        padding: 8px 18px;
+        padding: 9px 20px;
         font-weight: 600;
         cursor: pointer;
         color: var(--cyan);
         font-family: inherit;
         font-size: 0.85rem;
-        transition: 0.2s;
+        transition: 0.3s;
       }
       .lang-btn:hover {
         background: var(--cyan);
         color: #030318;
-        box-shadow: 0 0 14px var(--cyan);
+        box-shadow: 0 0 18px var(--cyan);
       }
       .tools-count-badge {
         background: linear-gradient(
@@ -229,16 +255,18 @@
         );
         border: 1px solid rgba(168, 85, 247, 0.4);
         border-radius: 40px;
-        padding: 7px 15px;
-        font-size: 0.8rem;
+        padding: 8px 16px;
+        font-size: 0.82rem;
         font-weight: 600;
         color: var(--purple);
         white-space: nowrap;
       }
 
+      /* Hero */
       .hero {
         text-align: center;
-        padding: 4.5rem 2rem 2.5rem;
+        padding: 5rem 2rem 3rem;
+        position: relative;
       }
       .hero-badge {
         display: inline-flex;
@@ -247,17 +275,16 @@
         background: rgba(168, 85, 247, 0.12);
         border: 1px solid rgba(168, 85, 247, 0.3);
         border-radius: 30px;
-        padding: 6px 18px;
-        font-size: 0.8rem;
+        padding: 7px 20px;
+        font-size: 0.82rem;
         color: var(--purple);
         margin-bottom: 1.5rem;
         letter-spacing: 0.05em;
       }
-
       .hero h1 {
         font-family: "Syne", sans-serif;
-        font-size: 3.5rem;
-        line-height: 1.1;
+        font-size: 4rem;
+        line-height: 1.05;
         margin-bottom: 1rem;
       }
       .gradient-text {
@@ -273,8 +300,8 @@
       }
       .hero-sub {
         color: var(--muted);
-        font-size: 1.05rem;
-        max-width: 500px;
+        font-size: 1.1rem;
+        max-width: 550px;
         margin: 0 auto 2rem;
       }
       .hero-stats {
@@ -286,7 +313,7 @@
       .stat {
         background: rgba(0, 245, 255, 0.07);
         border: 1px solid var(--border);
-        padding: 0.5rem 1.4rem;
+        padding: 0.6rem 1.5rem;
         border-radius: 40px;
         font-size: 0.85rem;
         font-weight: 500;
@@ -297,12 +324,20 @@
       .stat-num {
         color: var(--cyan);
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 1.1rem;
       }
 
-      /* UNIFIED FILTER BAR */
+      /* Section Divider with Glow */
+      .section-divider {
+        max-width: 1500px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        border-top: 1px solid rgba(0, 245, 255, 0.07);
+      }
+
+      /* Filter Section */
       .filter-section {
-        max-width: 1420px;
+        max-width: 1500px;
         margin: 2rem auto 0;
         padding: 0 2rem;
       }
@@ -315,7 +350,7 @@
       }
       .filter-scroll {
         display: flex;
-        gap: 8px;
+        gap: 10px;
         overflow-x: auto;
         padding-bottom: 12px;
         scrollbar-width: thin;
@@ -341,15 +376,15 @@
       .filter-chip {
         background: rgba(15, 15, 35, 0.7);
         border: 1px solid rgba(0, 245, 255, 0.2);
-        padding: 7px 16px;
+        padding: 8px 18px;
         border-radius: 40px;
         font-weight: 500;
         cursor: pointer;
-        transition: 0.2s;
+        transition: 0.25s;
         color: #b0c4f0;
         white-space: nowrap;
         font-family: inherit;
-        font-size: 0.8rem;
+        font-size: 0.82rem;
         flex-shrink: 0;
       }
       .filter-chip.active,
@@ -357,7 +392,7 @@
         background: var(--cyan);
         color: #030318;
         border-color: var(--cyan);
-        box-shadow: 0 0 12px rgba(0, 245, 255, 0.4);
+        box-shadow: 0 0 15px rgba(0, 245, 255, 0.4);
       }
       .filter-chip.section-chip {
         border-color: rgba(168, 85, 247, 0.3);
@@ -368,11 +403,11 @@
         background: var(--purple);
         color: #fff;
         border-color: var(--purple);
-        box-shadow: 0 0 12px rgba(168, 85, 247, 0.4);
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
       }
 
       .results-bar {
-        max-width: 1420px;
+        max-width: 1500px;
         margin: 0.8rem auto 0;
         padding: 0 2rem;
         display: flex;
@@ -388,27 +423,29 @@
         font-weight: 600;
       }
 
+      /* Section Wrapper */
       .section-wrap {
-        max-width: 1420px;
+        max-width: 1500px;
         margin: 0 auto;
         padding: 0 2rem 2rem;
       }
       .tools-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+        gap: 22px;
       }
       .resource-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 22px;
       }
 
+      /* Section Header */
       .section-header {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 1.5rem 0 1.2rem;
+        padding: 1.8rem 0 1.2rem;
         cursor: pointer;
         user-select: none;
         border-bottom: 1px solid rgba(0, 245, 255, 0.1);
@@ -420,37 +457,38 @@
         gap: 14px;
       }
       .section-icon-wrap {
-        width: 40px;
-        height: 40px;
-        border-radius: 12px;
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.1rem;
+        font-size: 1.2rem;
         flex-shrink: 0;
       }
       .section-title-text {
         font-family: "Syne", sans-serif;
-        font-size: 1.25rem;
+        font-size: 1.35rem;
         font-weight: 700;
       }
       .section-subtitle {
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         color: var(--muted);
-        margin-top: 2px;
+        margin-top: 3px;
       }
       .section-badge {
         background: rgba(0, 245, 255, 0.1);
         border: 1px solid rgba(0, 245, 255, 0.3);
         border-radius: 20px;
-        padding: 3px 12px;
+        padding: 4px 14px;
         font-size: 0.72rem;
         color: var(--cyan);
         font-weight: 600;
+        margin-left: 10px;
       }
       .toggle-btn {
-        width: 32px;
-        height: 32px;
+        width: 36px;
+        height: 36px;
         border-radius: 50%;
         background: rgba(0, 245, 255, 0.08);
         border: 1px solid var(--border);
@@ -460,20 +498,22 @@
         color: var(--muted);
         transition: 0.3s;
         flex-shrink: 0;
+        cursor: pointer;
       }
       .section-header:hover .toggle-btn {
         background: rgba(0, 245, 255, 0.15);
         color: var(--cyan);
       }
 
+      /* AI Cards */
       .ai-card,
       .resource-card {
         background: var(--card-bg);
-        backdrop-filter: blur(14px);
+        backdrop-filter: blur(16px);
         border-radius: 24px;
-        padding: 1.5rem;
+        padding: 1.6rem;
         border: 1px solid var(--border);
-        transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         position: relative;
         overflow: hidden;
       }
@@ -501,41 +541,42 @@
       }
       .ai-card:hover,
       .resource-card:hover {
-        transform: translateY(-6px);
+        transform: translateY(-8px);
         border-color: rgba(0, 245, 255, 0.55);
-        box-shadow: 0 20px 40px -10px rgba(0, 200, 255, 0.2);
+        box-shadow: 0 25px 50px -12px rgba(0, 200, 255, 0.2);
+        background: var(--card-bg-hover);
       }
       .card-icon-wrap {
-        width: 48px;
-        height: 48px;
-        border-radius: 14px;
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         margin-bottom: 1rem;
         flex-shrink: 0;
       }
       .card-cat-badge {
         display: inline-block;
-        font-size: 0.65rem;
+        font-size: 0.68rem;
         font-weight: 600;
         letter-spacing: 0.07em;
         text-transform: uppercase;
-        padding: 3px 10px;
+        padding: 4px 12px;
         border-radius: 20px;
         margin-bottom: 0.6rem;
       }
       .card-title {
         font-family: "Syne", sans-serif;
-        font-size: 1.1rem;
+        font-size: 1.15rem;
         font-weight: 700;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.5rem;
       }
       .card-desc {
         color: var(--muted);
-        font-size: 0.82rem;
-        line-height: 1.5;
+        font-size: 0.84rem;
+        line-height: 1.55;
       }
       .free-badge {
         display: inline-block;
@@ -543,16 +584,16 @@
         color: #3cc864;
         border: 1px solid rgba(60, 200, 100, 0.3);
         border-radius: 12px;
-        padding: 2px 8px;
-        font-size: 0.65rem;
+        padding: 3px 10px;
+        font-size: 0.68rem;
         font-weight: 700;
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.5rem;
       }
       .card-actions {
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
-        margin-top: 1rem;
+        margin-top: 1.1rem;
       }
       .btn-visit {
         display: inline-flex;
@@ -560,110 +601,21 @@
         gap: 7px;
         background: linear-gradient(95deg, var(--cyan), var(--purple));
         border: none;
-        padding: 8px 16px;
+        padding: 9px 18px;
         border-radius: 30px;
         font-weight: 600;
         color: #030318;
-        font-size: 0.78rem;
+        font-size: 0.8rem;
         cursor: pointer;
         text-decoration: none;
         font-family: inherit;
-        transition: 0.2s;
+        transition: 0.25s;
       }
       .btn-visit:hover {
         opacity: 0.85;
-        transform: scale(1.03);
-      }
-
-      .keyword-group {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        margin-top: 12px;
-      }
-      .keyword-badge {
-        background: rgba(0, 245, 255, 0.1);
-        border: 1px solid rgba(0, 245, 255, 0.25);
-        border-radius: 25px;
-        padding: 5px 13px;
-        font-size: 0.72rem;
-        cursor: pointer;
-        transition: 0.2s;
-        color: var(--cyan);
-      }
-      .keyword-badge:hover {
-        background: var(--cyan);
-        color: black;
         transform: scale(1.04);
       }
-
-      .prompt-card {
-        background: var(--card-bg);
-        border: 1px solid var(--border);
-        border-radius: 20px;
-        padding: 1.3rem;
-        transition: 0.3s;
-      }
-      .prompt-card:hover {
-        border-color: rgba(168, 85, 247, 0.5);
-        transform: translateY(-4px);
-      }
-      .prompt-tag {
-        font-size: 0.65rem;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.1em;
-        color: var(--purple);
-        margin-bottom: 0.6rem;
-        display: block;
-      }
-      .prompt-text {
-        font-size: 0.83rem;
-        color: #c0d0f0;
-        line-height: 1.5;
-      }
-
-      /* 🎯 ده شكل شريط التمرير (scrollbar) العام للصفحة */
-      ::-webkit-scrollbar {
-        width: 12px; /* العرض بتاع شريط التمرير */
-      }
-
-      /* 🧱 ده المسار اللي بيتحرك عليه المقبض */
-      ::-webkit-scrollbar-track {
-        background: #e0e6ed; /* اللون الخلفي للمسار */
-        border-radius: 10px; /* الأطراف تبقى ناعمة شوي */
-      }
-
-      /* 🎨 ده الجزء اللي بتمسكه (المقبض) */
-      ::-webkit-scrollbar-thumb {
-        background: linear-gradient(
-          180deg,
-          #5dade2,
-          #3498db
-        ); /* لون متدرج أزرق جميل */
-        border-radius: 10px; /* الأطراف مدوّرة */
-        border: 2px solid #e0e6ed; /* فاصل خفيف يخلي الشكل أنضف */
-      }
-
-      /* 💡 ده بيظهر لما تقف بالماوس على السكروول */
-      ::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(
-          180deg,
-          #2e86c1,
-          #2874a6
-        ); /* لون أغمق لما تمر عليه */
-      }
-
-      /* 📦 لو حبيت تطبقه على ديف معين بس مش الصفحة كلها */
-      /* حط الكود ده جوه الكلاس بتاعه مثلاً: */
-      .my-box::-webkit-scrollbar {
-        width: 10px;
-      }
-      .my-box::-webkit-scrollbar-thumb {
-        background: #3498db;
-      }
-
-      .copy-prompt-btn {
+      .btn-copy {
         display: inline-flex;
         align-items: center;
         gap: 6px;
@@ -671,29 +623,137 @@
         border: 1px solid rgba(168, 85, 247, 0.3);
         color: var(--purple);
         border-radius: 25px;
-        padding: 6px 14px;
-        font-size: 0.72rem;
+        padding: 7px 14px;
+        font-size: 0.75rem;
         font-weight: 600;
         cursor: pointer;
-        margin-top: 10px;
         font-family: inherit;
-        transition: 0.2s;
+        transition: 0.25s;
       }
-      .copy-prompt-btn:hover {
+      .btn-copy:hover {
         background: rgba(168, 85, 247, 0.25);
       }
-
-      .section-divider {
-        max-width: 1420px;
-        margin: 1rem auto 0;
-        padding: 0 2rem;
-        border-top: 1px solid rgba(0, 245, 255, 0.07);
+      .btn-copy.copied {
+        background: rgba(60, 200, 100, 0.2);
+        color: #3cc864;
+        border-color: rgba(60, 200, 100, 0.4);
       }
+
+      /* Keyword Group */
+      .keyword-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      .keyword-badge {
+        background: rgba(0, 245, 255, 0.1);
+        border: 1px solid rgba(0, 245, 255, 0.25);
+        border-radius: 25px;
+        padding: 6px 14px;
+        font-size: 0.73rem;
+        cursor: pointer;
+        transition: 0.25s;
+        color: var(--cyan);
+      }
+      .keyword-badge:hover {
+        background: var(--cyan);
+        color: black;
+        transform: scale(1.05);
+      }
+
+      /* Prompt Cards */
+      .prompt-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 1.5rem;
+        transition: 0.35s;
+        position: relative;
+        overflow: hidden;
+      }
+      .prompt-card:hover {
+        border-color: rgba(168, 85, 247, 0.5);
+        transform: translateY(-6px);
+        box-shadow: 0 20px 40px -10px rgba(168, 85, 247, 0.15);
+      }
+      .prompt-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--purple), var(--pink));
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s;
+      }
+      .prompt-card:hover::before {
+        transform: scaleX(1);
+      }
+      .prompt-tag {
+        font-size: 0.68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--purple);
+        margin-bottom: 0.7rem;
+        display: block;
+      }
+      .prompt-text {
+        font-size: 0.85rem;
+        color: #c0d0f0;
+        line-height: 1.6;
+      }
+
+      /* Section Explanation Box */
+      .section-explanation {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 245, 255, 0.05),
+          rgba(168, 85, 247, 0.05)
+        );
+        border: 1px solid rgba(0, 245, 255, 0.1);
+        border-radius: 16px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        font-size: 0.85rem;
+        color: var(--muted);
+        line-height: 1.6;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+      }
+      .section-explanation i {
+        color: var(--cyan);
+        font-size: 1.1rem;
+        margin-top: 3px;
+        flex-shrink: 0;
+      }
+
+      /* No Results */
+      .no-results-box {
+        grid-column: 1/-1;
+        text-align: center;
+        padding: 4rem;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 30px;
+        color: var(--muted);
+      }
+      .no-results-box i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: var(--border);
+        display: block;
+      }
+
+      /* Hidden */
       .hidden {
         display: none !important;
       }
 
-      /* SECTION COLOR CLASSES */
+      /* Section Colors */
       .s-audio .section-icon-wrap {
         background: rgba(0, 245, 255, 0.1);
         color: var(--cyan);
@@ -708,11 +768,11 @@
       }
       .s-image .section-icon-wrap {
         background: rgba(255, 200, 60, 0.1);
-        color: #ffc83c;
+        color: var(--yellow);
       }
       .s-video .section-icon-wrap {
         background: rgba(60, 200, 100, 0.1);
-        color: #3cc864;
+        color: var(--green);
       }
       .s-write .section-icon-wrap {
         background: rgba(0, 245, 255, 0.1);
@@ -724,7 +784,11 @@
       }
       .s-research .section-icon-wrap {
         background: rgba(255, 150, 50, 0.1);
-        color: #ff9632;
+        color: var(--orange);
+      }
+      .s-chat .section-icon-wrap {
+        background: rgba(60, 200, 100, 0.1);
+        color: var(--green);
       }
       .s-canva .section-icon-wrap {
         background: rgba(0, 200, 120, 0.1);
@@ -740,7 +804,7 @@
       }
       .s-imgres .section-icon-wrap {
         background: rgba(255, 200, 60, 0.1);
-        color: #ffc83c;
+        color: var(--yellow);
       }
       .s-css .section-icon-wrap {
         background: rgba(0, 245, 255, 0.1);
@@ -748,11 +812,7 @@
       }
       .s-ext .section-icon-wrap {
         background: rgba(255, 150, 50, 0.1);
-        color: #ff9632;
-      }
-      .s-chat .section-icon-wrap {
-        background: rgba(60, 200, 100, 0.1);
-        color: #3cc864;
+        color: var(--orange);
       }
       .s-email .section-icon-wrap {
         background: rgba(255, 62, 157, 0.1);
@@ -762,8 +822,20 @@
         background: rgba(0, 245, 255, 0.1);
         color: var(--cyan);
       }
+      .s-automation .section-icon-wrap {
+        background: rgba(168, 85, 247, 0.1);
+        color: var(--purple);
+      }
+      .s-seo .section-icon-wrap {
+        background: rgba(255, 200, 60, 0.1);
+        color: var(--yellow);
+      }
+      .s-security .section-icon-wrap {
+        background: rgba(255, 62, 157, 0.1);
+        color: var(--pink);
+      }
 
-      /* CAT BADGES */
+      /* Cat Badges */
       .s-audio .card-cat-badge {
         background: rgba(0, 245, 255, 0.1);
         color: var(--cyan);
@@ -781,12 +853,12 @@
       }
       .s-image .card-cat-badge {
         background: rgba(255, 200, 60, 0.1);
-        color: #ffc83c;
+        color: var(--yellow);
         border: 1px solid rgba(255, 200, 60, 0.2);
       }
       .s-video .card-cat-badge {
         background: rgba(60, 200, 100, 0.1);
-        color: #3cc864;
+        color: var(--green);
         border: 1px solid rgba(60, 200, 100, 0.2);
       }
       .s-write .card-cat-badge {
@@ -801,44 +873,44 @@
       }
       .s-research .card-cat-badge {
         background: rgba(255, 150, 50, 0.1);
-        color: #ff9632;
+        color: var(--orange);
         border: 1px solid rgba(255, 150, 50, 0.2);
       }
       .s-chat .card-cat-badge {
         background: rgba(60, 200, 100, 0.1);
-        color: #3cc864;
+        color: var(--green);
         border: 1px solid rgba(60, 200, 100, 0.2);
       }
-
-      /* NO RESULTS */
-      .no-results-box {
-        grid-column: 1/-1;
-        text-align: center;
-        padding: 3rem;
-        background: rgba(0, 0, 0, 0.2);
-        border-radius: 30px;
-        color: var(--muted);
+      .s-automation .card-cat-badge {
+        background: rgba(168, 85, 247, 0.1);
+        color: var(--purple);
+        border: 1px solid rgba(168, 85, 247, 0.2);
       }
-      .no-results-box i {
-        font-size: 2.5rem;
-        margin-bottom: 1rem;
-        color: var(--border);
-        display: block;
+      .s-seo .card-cat-badge {
+        background: rgba(255, 200, 60, 0.1);
+        color: var(--yellow);
+        border: 1px solid rgba(255, 200, 60, 0.2);
+      }
+      .s-security .card-cat-badge {
+        background: rgba(255, 62, 157, 0.1);
+        color: var(--pink);
+        border: 1px solid rgba(255, 62, 157, 0.2);
       }
 
+      /* Footer */
       footer {
         margin-top: 5rem;
         background: rgba(0, 0, 0, 0.5);
         backdrop-filter: blur(10px);
         border-top: 1px solid rgba(0, 245, 255, 0.12);
-        padding: 2.5rem 2rem;
+        padding: 3rem 2rem;
         text-align: center;
       }
       .footer-logo {
         font-family: "Syne", sans-serif;
-        font-size: 1.3rem;
+        font-size: 1.4rem;
         font-weight: 800;
-        margin-bottom: 0.8rem;
+        margin-bottom: 1rem;
       }
       .footer-links {
         display: flex;
@@ -849,7 +921,7 @@
       }
       .footer-link {
         color: var(--muted);
-        font-size: 0.82rem;
+        font-size: 0.84rem;
         text-decoration: none;
         transition: 0.2s;
       }
@@ -858,7 +930,7 @@
       }
       .footer-copy {
         color: var(--muted);
-        font-size: 0.78rem;
+        font-size: 0.8rem;
       }
 
       .search-section {
@@ -868,18 +940,76 @@
         display: none;
       }
 
-      @media (max-width: 700px) {
+      /* Back to Top */
+      .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 48px;
+        height: 48px;
+        background: linear-gradient(135deg, var(--cyan), var(--purple));
+        border: none;
+        border-radius: 50%;
+        color: #030318;
+        font-size: 1.2rem;
+        cursor: pointer;
+        opacity: 0;
+        transition: 0.3s;
+        z-index: 99;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 20px rgba(0, 245, 255, 0.3);
+      }
+      .back-to-top.visible {
+        opacity: 1;
+      }
+      .back-to-top:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 25px rgba(0, 245, 255, 0.5);
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .fade-in {
+        animation: fadeInUp 0.5s ease forwards;
+      }
+
+      @media (max-width: 768px) {
         .hero h1 {
-          font-size: 2.2rem;
+          font-size: 2.4rem;
         }
         .nav-container {
           flex-direction: column;
+          padding: 0.8rem 1rem;
         }
         .tools-count-badge {
           display: none;
         }
+        .section-wrap {
+          padding: 0 1rem 2rem;
+        }
+        .filter-section {
+          padding: 0 1rem;
+        }
+        .results-bar {
+          padding: 0 1rem;
+        }
+        .hero {
+          padding: 3rem 1rem 2rem;
+        }
       }
     </style>
+    <base target="_blank" />
   </head>
   <body>
     <div id="preloader" class="preloader">
@@ -926,7 +1056,7 @@
           >
         </h1>
         <p class="hero-sub" id="heroSub">
-          Curating frontier intelligence & creative tools
+          Curating frontier intelligence & creative tools for 2026
         </p>
         <div class="hero-stats">
           <div class="stat">
@@ -935,7 +1065,7 @@
           </div>
           <div class="stat">
             <i class="fas fa-layer-group" style="color: var(--purple)"></i
-            ><span id="statSectionsNum">15</span
+            ><span id="statSectionsNum">21</span
             ><span id="statSectionsLabel">sections</span>
           </div>
           <div class="stat">
@@ -945,7 +1075,7 @@
         </div>
       </section>
 
-      <!-- UNIFIED FILTER BAR -->
+      <!-- FILTER BAR -->
       <div class="filter-section">
         <div class="filter-label" id="filterLabel">
           Filter by category & section
@@ -986,36 +1116,6 @@
         </div>
       </main>
 
-      <!-- ===== CANVA ===== -->
-      <div class="section-divider"></div>
-      <div
-        class="section-wrap s-canva search-section"
-        id="sec-canva"
-        data-section-name="canva"
-      >
-        <div
-          class="section-header"
-          onclick="toggleSection('canva-body', 'canva-icon')"
-        >
-          <div class="section-header-left">
-            <div class="section-icon-wrap"><i class="fas fa-palette"></i></div>
-            <div>
-              <div class="section-title-text" id="canvaTitle">
-                🎨 Canva Design Vault
-              </div>
-              <div class="section-subtitle" id="canvaSubtitle">
-                Billboard, Medical, Invoice, Business Card & More
-              </div>
-            </div>
-            <div class="section-badge" id="canvaBadge">Smart Search</div>
-          </div>
-          <div class="toggle-btn">
-            <i class="fas fa-chevron-down" id="canva-icon"></i>
-          </div>
-        </div>
-        <div id="canva-body" class="resource-grid"></div>
-      </div>
-
       <!-- ===== AI PROMPTS ===== -->
       <div class="section-divider"></div>
       <div
@@ -1043,7 +1143,57 @@
             <i class="fas fa-chevron-down" id="prompts-icon"></i>
           </div>
         </div>
+        <div class="section-explanation" id="promptsExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="promptsExplainText"
+            >This section contains professional prompt templates that you can
+            copy and use directly with AI models like ChatGPT, Claude, and
+            Gemini. Each prompt is optimized for specific tasks and includes
+            placeholders [like this] that you should replace with your own
+            content.</span
+          >
+        </div>
         <div id="prompts-body" class="resource-grid"></div>
+      </div>
+
+      <!-- ===== CANVA ===== -->
+      <div class="section-divider"></div>
+      <div
+        class="section-wrap s-canva search-section"
+        id="sec-canva"
+        data-section-name="canva"
+      >
+        <div
+          class="section-header"
+          onclick="toggleSection('canva-body', 'canva-icon')"
+        >
+          <div class="section-header-left">
+            <div class="section-icon-wrap"><i class="fas fa-palette"></i></div>
+            <div>
+              <div class="section-title-text" id="canvaTitle">
+                🎨 Canva Design Vault
+              </div>
+              <div class="section-subtitle" id="canvaSubtitle">
+                Billboard, Medical, Invoice, Business Card & More
+              </div>
+            </div>
+            <div class="section-badge" id="canvaBadge">Smart Search</div>
+          </div>
+          <div class="toggle-btn">
+            <i class="fas fa-chevron-down" id="canva-icon"></i>
+          </div>
+        </div>
+        <div class="section-explanation" id="canvaExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="canvaExplainText"
+            >Quick links to Canva templates for professional designs. Click any
+            category to browse ready-made templates, or click keywords for
+            specific searches. Perfect for creating marketing materials,
+            business documents, and social media content without design
+            skills.</span
+          >
+        </div>
+        <div id="canva-body" class="resource-grid"></div>
       </div>
 
       <!-- ===== CSS TOOLS ===== -->
@@ -1061,7 +1211,7 @@
             <div class="section-icon-wrap"><i class="fas fa-code"></i></div>
             <div>
               <div class="section-title-text" id="cssTitle">
-                🎨 CSS & Frontend Tools
+                💻 CSS & Frontend Tools
               </div>
               <div class="section-subtitle" id="cssSubtitle">
                 Generators, validators, and visual helpers
@@ -1072,6 +1222,15 @@
           <div class="toggle-btn">
             <i class="fas fa-chevron-down" id="css-icon"></i>
           </div>
+        </div>
+        <div class="section-explanation" id="cssExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="cssExplainText"
+            >Essential tools for web developers and designers. Generate CSS
+            effects like glassmorphism and neumorphism, create color palettes,
+            find fonts and icons, and build grid layouts visually — all without
+            writing code from scratch.</span
+          >
         </div>
         <div id="css-body" class="resource-grid"></div>
       </div>
@@ -1102,6 +1261,15 @@
           <div class="toggle-btn">
             <i class="fas fa-chevron-down" id="free-icon"></i>
           </div>
+        </div>
+        <div class="section-explanation" id="freeExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="freeExplainText"
+            >A curated collection of completely free resources for creators.
+            High-resolution stock photos, vector icons, background removal
+            tools, and design assets that you can use for personal and
+            commercial projects without any cost.</span
+          >
         </div>
         <div id="free-body" class="resource-grid"></div>
       </div>
@@ -1137,6 +1305,15 @@
             <i class="fas fa-chevron-down" id="designplatforms-icon"></i>
           </div>
         </div>
+        <div class="section-explanation" id="designPlatExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="designPlatExplainText"
+            >Professional design platforms for creating everything from social
+            media posts to complete brand identities. Includes AI-powered tools
+            that can generate designs from text descriptions and collaborative
+            platforms for team projects.</span
+          >
+        </div>
         <div id="designplatforms-body" class="resource-grid"></div>
       </div>
 
@@ -1166,6 +1343,15 @@
           <div class="toggle-btn">
             <i class="fas fa-chevron-down" id="email-icon"></i>
           </div>
+        </div>
+        <div class="section-explanation" id="emailExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="emailExplainText"
+            >Protect your privacy when signing up for websites or testing
+            services. These temporary email services provide disposable
+            addresses that self-destruct after a set time, keeping your real
+            inbox spam-free and your identity secure.</span
+          >
         </div>
         <div id="email-body" class="resource-grid"></div>
       </div>
@@ -1199,6 +1385,15 @@
             <i class="fas fa-chevron-down" id="social-icon"></i>
           </div>
         </div>
+        <div class="section-explanation" id="socialExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="socialExplainText"
+            >Quick access to major social media and communication platforms. Use
+            these links to manage your social presence, communicate with
+            clients, or discover visual inspiration for your creative
+            projects.</span
+          >
+        </div>
         <div id="social-body" class="resource-grid"></div>
       </div>
 
@@ -1228,6 +1423,15 @@
           <div class="toggle-btn">
             <i class="fas fa-chevron-down" id="imgres-icon"></i>
           </div>
+        </div>
+        <div class="section-explanation" id="imgresExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="imgresExplainText"
+            >Find stunning, royalty-free images for any project. These platforms
+            offer high-resolution photography, illustrations, and vectors that
+            you can use commercially without attribution. Includes reverse image
+            search to find similar images.</span
+          >
         </div>
         <div id="imgres-body" class="resource-grid"></div>
       </div>
@@ -1261,7 +1465,137 @@
             <i class="fas fa-chevron-down" id="ext-icon"></i>
           </div>
         </div>
+        <div class="section-explanation" id="extExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="extExplainText"
+            >Browser extensions that add AI capabilities directly to your
+            workflow. From grammar checking and AI writing assistants to ad
+            blockers, VPNs, and color pickers — these tools make browsing
+            smarter and more productive.</span
+          >
+        </div>
         <div id="ext-body" class="resource-grid"></div>
+      </div>
+
+      <!-- ===== AUTOMATION TOOLS ===== -->
+      <div class="section-divider"></div>
+      <div
+        class="section-wrap s-automation search-section"
+        id="sec-automation"
+        data-section-name="automation"
+      >
+        <div
+          class="section-header"
+          onclick="toggleSection('automation-body', 'automation-icon')"
+        >
+          <div class="section-header-left">
+            <div class="section-icon-wrap"><i class="fas fa-robot"></i></div>
+            <div>
+              <div class="section-title-text" id="automationTitle">
+                🤖 AI Automation & Workflow
+              </div>
+              <div class="section-subtitle" id="automationSubtitle">
+                Zapier, Make, n8n & no-code automation
+              </div>
+            </div>
+            <div class="section-badge">Automation</div>
+          </div>
+          <div class="toggle-btn">
+            <i class="fas fa-chevron-down" id="automation-icon"></i>
+          </div>
+        </div>
+        <div class="section-explanation" id="automationExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="automationExplainText"
+            >Connect apps and automate repetitive tasks without coding. These
+            tools let you create workflows that trigger actions across multiple
+            platforms — like automatically posting to social media when you
+            publish a blog, or syncing data between your CRM and email.</span
+          >
+        </div>
+        <div id="automation-body" class="resource-grid"></div>
+      </div>
+
+      <!-- ===== SEO & MARKETING ===== -->
+      <div class="section-divider"></div>
+      <div
+        class="section-wrap s-seo search-section"
+        id="sec-seo"
+        data-section-name="seo"
+      >
+        <div
+          class="section-header"
+          onclick="toggleSection('seo-body', 'seo-icon')"
+        >
+          <div class="section-header-left">
+            <div class="section-icon-wrap">
+              <i class="fas fa-chart-line"></i>
+            </div>
+            <div>
+              <div class="section-title-text" id="seoTitle">
+                📈 SEO & Marketing Tools
+              </div>
+              <div class="section-subtitle" id="seoSubtitle">
+                Analytics, keywords, and growth hacking
+              </div>
+            </div>
+            <div class="section-badge">Marketing</div>
+          </div>
+          <div class="toggle-btn">
+            <i class="fas fa-chevron-down" id="seo-icon"></i>
+          </div>
+        </div>
+        <div class="section-explanation" id="seoExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="seoExplainText"
+            >Tools to grow your online presence and track performance. Includes
+            keyword research, competitor analysis, backlink checkers, and
+            analytics platforms that help you understand your audience and
+            optimize your content for search engines.</span
+          >
+        </div>
+        <div id="seo-body" class="resource-grid"></div>
+      </div>
+
+      <!-- ===== SECURITY & PRIVACY ===== -->
+      <div class="section-divider"></div>
+      <div
+        class="section-wrap s-security search-section"
+        id="sec-security"
+        data-section-name="security"
+      >
+        <div
+          class="section-header"
+          onclick="toggleSection('security-body', 'security-icon')"
+        >
+          <div class="section-header-left">
+            <div class="section-icon-wrap">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <div>
+              <div class="section-title-text" id="securityTitle">
+                🔒 Security & Privacy Tools
+              </div>
+              <div class="section-subtitle" id="securitySubtitle">
+                VPNs, password managers & safety
+              </div>
+            </div>
+            <div class="section-badge">Security</div>
+          </div>
+          <div class="toggle-btn">
+            <i class="fas fa-chevron-down" id="security-icon"></i>
+          </div>
+        </div>
+        <div class="section-explanation" id="securityExplain">
+          <i class="fas fa-info-circle"></i>
+          <span id="securityExplainText"
+            >Protect your digital life with these security essentials. Password
+            managers, VPN services, malware scanners, and privacy tools that
+            keep your data safe from hackers, trackers, and surveillance while
+            you work online.</span
+          >
+        </div>
+        <div id="security-body" class="resource-grid"></div>
       </div>
 
       <!-- FOOTER -->
@@ -1296,22 +1630,39 @@
           <a class="footer-link" href="https://github.com" target="_blank"
             >GitHub</a
           >
+          <a
+            class="footer-link"
+            href="https://gemini.google.com"
+            target="_blank"
+            >Gemini</a
+          >
         </div>
         <div class="footer-copy" id="footerText">
-          © 2025 DARCK CODE — Multilingual AI Hub & Creative Companion
+          © 2026 DARCK CODE — Multilingual AI Hub & Creative Companion
         </div>
       </footer>
     </div>
 
+    <button
+      class="back-to-top"
+      id="backToTop"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
     <script>
-      // ===================== DATA =====================
+      // ===================== COMPREHENSIVE DATA 2026 =====================
 
       const toolsData = [
+        // ===== AUDIO (12 tools) =====
         {
           nameEn: "ElevenLabs",
           nameAr: "إيفن لابس",
-          descEn: "Ultra-realistic text-to-speech & voice cloning.",
-          descAr: "تحويل النص إلى صوت واقعي واستنساخ الأصوات.",
+          descEn:
+            "Ultra-realistic text-to-speech & voice cloning with emotional control.",
+          descAr:
+            "تحويل النص إلى صوت واقعي واستنساخ الأصوات مع التحكم في المشاعر.",
           category: "Audio",
           url: "https://elevenlabs.io",
           icon: "fas fa-microphone-alt",
@@ -1319,8 +1670,8 @@
         {
           nameEn: "PlayHT",
           nameAr: "بلاي إتش تي",
-          descEn: "AI voiceover & podcast generation.",
-          descAr: "توليد تعليق صوتي وبودكاست.",
+          descEn: "AI voiceover & podcast generation with 900+ voices.",
+          descAr: "توليد تعليق صوتي وبودكاست مع 900+ صوت.",
           category: "Audio",
           url: "https://play.ht",
           icon: "fas fa-headphones",
@@ -1328,8 +1679,8 @@
         {
           nameEn: "mp3cut",
           nameAr: "ام بي 3 كات",
-          descEn: "Cut, edit & convert audio files online.",
-          descAr: "قصّ وتعديل وتحويل الملفات الصوتية بسهولة عبر الإنترنت.",
+          descEn: "Cut, edit & convert audio files online with ease.",
+          descAr: "قصّ وتعديل وتحويل الملفات الصوتية بسهولة.",
           category: "Audio",
           url: "https://mp3cut.net/",
           icon: "fas fa-cut",
@@ -1337,8 +1688,8 @@
         {
           nameEn: "OpenAI FM",
           nameAr: "أوبن أي إف إم",
-          descEn: "Realistic text-to-speech by OpenAI.",
-          descAr: "تحويل النصوص إلى أصوات طبيعية وواقعية.",
+          descEn: "Realistic text-to-speech by OpenAI with natural prosody.",
+          descAr: "تحويل النصوص إلى أصوات طبيعية بواسطة OpenAI.",
           category: "Audio",
           url: "https://www.openai.fm/",
           icon: "fas fa-microphone",
@@ -1346,17 +1697,83 @@
         {
           nameEn: "Otter AI",
           nameAr: "أوتر إيه آي",
-          descEn: "Meeting transcription & real-time notes.",
-          descAr: "تفريغ الصوت إلى نص، تسجيل الاجتماعات، تلخيص المحاضرات.",
+          descEn: "Meeting transcription & real-time notes with speaker ID.",
+          descAr: "تفريغ الصوت إلى نص مع تحديد المتحدثين.",
           category: "Audio",
           url: "https://otter.ai",
           icon: "fas fa-file-alt",
         },
         {
+          nameEn: "Descript",
+          nameAr: "ديسكريبت",
+          descEn: "Edit audio & video by editing text. Overdub voice cloning.",
+          descAr: "تعديل الصوت والفيديو عن طريق تعديل النص. استنساخ الصوت.",
+          category: "Audio",
+          url: "https://www.descript.com",
+          icon: "fas fa-wave-square",
+        },
+        {
+          nameEn: "Murf AI",
+          nameAr: "مورف إيه آي",
+          descEn: "Studio-quality AI voiceovers for videos & presentations.",
+          descAr: "تعليق صوتي احترافي للفيديوهات والعروض.",
+          category: "Audio",
+          url: "https://murf.ai",
+          icon: "fas fa-volume-up",
+        },
+        {
+          nameEn: "Resemble AI",
+          nameAr: "ريسيمبل إيه آي",
+          descEn: "Custom AI voice cloning with real-time generation API.",
+          descAr: "استنساخ صوت مخصص مع واجهة برمجة للتوليد الفوري.",
+          category: "Audio",
+          url: "https://www.resemble.ai",
+          icon: "fas fa-user-voice",
+        },
+        {
+          nameEn: "Soundraw",
+          nameAr: "ساوند راو",
+          descEn: "AI music generator for videos, podcasts & games.",
+          descAr: "مولد موسيقى ذكاء اصطناعي للفيديوهات والألعاب.",
+          category: "Audio",
+          url: "https://soundraw.io",
+          icon: "fas fa-music",
+        },
+        {
+          nameEn: "AIVA",
+          nameAr: "أيفا",
+          descEn: "AI composer for original soundtracks & emotional music.",
+          descAr: "ملحن ذكاء اصطناعي لموسيقى تصويرية أصلية.",
+          category: "Audio",
+          url: "https://www.aiva.ai",
+          icon: "fas fa-guitar",
+        },
+        {
+          nameEn: "LALAL.AI",
+          nameAr: "لالال دوت أي آي",
+          descEn:
+            "Stem separation — extract vocals, drums, bass from any song.",
+          descAr: "فصل المكونات الصوتية من أي أغنية.",
+          category: "Audio",
+          url: "https://www.lalal.ai",
+          icon: "fas fa-sliders-h",
+        },
+        {
+          nameEn: "Adobe Podcast",
+          nameAr: "أدوبي بودكاست",
+          descEn: "AI-powered audio enhancement & voice recording studio.",
+          descAr: "تحسين الصوت وتسجيل البودكاست بالذكاء الاصطناعي.",
+          category: "Audio",
+          url: "https://podcast.adobe.com",
+          icon: "fas fa-podcast",
+        },
+
+        // ===== CODING (18 tools) =====
+        {
           nameEn: "ChatGPT",
           nameAr: "شات جي بي تي",
-          descEn: "AI coding, problem solving & image generation.",
-          descAr: "برمجة، حلّ المشكلات، إنشاء صور، وكتابة المحتوى.",
+          descEn: "AI coding, problem solving, image generation & reasoning.",
+          descAr: "برمجة، حلّ المشكلات، إنشاء صور، والتفكير المنطقي.",
           category: "Coding",
           url: "https://chatgpt.com",
           icon: "fas fa-code",
@@ -1364,8 +1781,8 @@
         {
           nameEn: "Gemini",
           nameAr: "جيميناي",
-          descEn: "Google AI: coding, research & analysis.",
-          descAr: "كتابة النصوص، البرمجة، البحث، تحليل المعلومات.",
+          descEn: "Google AI: coding, research, analysis & 2M token context.",
+          descAr: "كتابة النصوص، البرمجة، البحث، وتحليل المعلومات.",
           category: "Coding",
           url: "https://gemini.google.com/",
           icon: "fas fa-robot",
@@ -1373,8 +1790,9 @@
         {
           nameEn: "Claude",
           nameAr: "كلود",
-          descEn: "Advanced reasoning, deep file analysis & code.",
-          descAr: "كتابة المحتوى، البرمجة، تحليل الملفات الضخمة بدقة رهيبة.",
+          descEn:
+            "Advanced reasoning, deep file analysis & 200K token context.",
+          descAr: "كتابة المحتوى، البرمجة، تحليل الملفات الضخمة بدقة.",
           category: "Coding",
           url: "https://claude.ai",
           icon: "fas fa-brain",
@@ -1382,7 +1800,7 @@
         {
           nameEn: "DeepSeek",
           nameAr: "ديب سيك",
-          descEn: "Deep coding assistant & reasoning AI.",
+          descEn: "Deep coding assistant & reasoning AI — free & powerful.",
           descAr: "مساعد برمجي عميق ومجاني وقوي جداً.",
           category: "Coding",
           url: "https://chat.deepseek.com",
@@ -1391,8 +1809,8 @@
         {
           nameEn: "Phind",
           nameAr: "فايند",
-          descEn: "Search engine built for developers.",
-          descAr: "البحث عن المعلومات التقنية، مساعدة المبرمجين.",
+          descEn: "Search engine built for developers with AI answers.",
+          descAr: "البحث عن المعلومات التقنية ومساعدة المبرمجين.",
           category: "Coding",
           url: "https://www.phind.com",
           icon: "fas fa-search",
@@ -1400,17 +1818,26 @@
         {
           nameEn: "Blackbox AI",
           nameAr: "بلاك بوكس",
-          descEn: "Code assistant — extract code from images.",
-          descAr: "كتابة الأكواد، تصحيح الأخطاء، استخراج الأكواد من الصور.",
+          descEn: "Code assistant — extract code from images & screenshots.",
+          descAr: "كتابة الأكواد واستخراجها من الصور.",
           category: "Coding",
           url: "https://www.blackbox.ai",
           icon: "fas fa-cube",
         },
         {
-          nameEn: "GitHub",
-          nameAr: "جيت هاب",
-          descEn: "Collaboration & AI-powered Copilot.",
-          descAr: "إدارة الأكواد، التعاون في البرمجة، واستضافة المشاريع.",
+          nameEn: "GitHub Copilot",
+          nameAr: "جيت هاب كوبايلوت",
+          descEn: "AI pair programmer inside VS Code, JetBrains & Vim.",
+          descAr: "مبرمج AI داخل محرر الأكواد.",
+          category: "Coding",
+          url: "https://github.com/features/copilot",
+          icon: "fab fa-github",
+        },
+        {
+          nameEn: "GitHub ",
+          nameAr: "جيت هاب ",
+          descEn: "AI pair programmer inside VS Code, JetBrains & Vim.",
+          descAr: "مبرمج AI داخل محرر الأكواد.",
           category: "Coding",
           url: "https://github.com",
           icon: "fab fa-github",
@@ -1418,25 +1845,34 @@
         {
           nameEn: "Cursor",
           nameAr: "كرسر",
-          descEn: "AI-first code editor.",
-          descAr: "مساعد ذكي للبرمجة، كتابة وتصحيح الأكواد.",
+          descEn: "AI-first code editor with GPT-4 & Claude integration.",
+          descAr: "محرر أكواد ذكي مع GPT-4 وكلود.",
           category: "Coding",
           url: "https://cursor.sh",
           icon: "fas fa-laptop-code",
         },
         {
-          nameEn: "Google AI Studio",
-          nameAr: "جوجل AI ستوديو",
-          descEn: "Build and test AI apps with Gemini.",
-          descAr: "منصة لتجربة وتطوير تطبيقات الذكاء الاصطناعي.",
+          nameEn: "fontawesome",
+          nameAr: "  فون اوسم ",
+          descEn: "font  CSS ",
+          descAr: " خطوت CSS",
           category: "Coding",
-          url: "https://aistudio.google.com/apps",
-          icon: "fas fa-flask",
+          url: "https://fontawesome.com",
+          icon: "fas fa-laptop-code",
+        },
+        {
+          nameEn: "Windsurf",
+          nameAr: "ويند سيرف",
+          descEn: "AI-native IDE with multi-file editing & agent mode.",
+          descAr: "بيئة تطوير ذكاء اصطناعي مع تعديل ملفات متعددة.",
+          category: "Coding",
+          url: "https://codeium.com/windsurf",
+          icon: "fas fa-wind",
         },
         {
           nameEn: "v0 dev",
           nameAr: "في زيرو",
-          descEn: "Build UI interfaces just by talking — no code.",
+          descEn: "Build UI interfaces by talking — no code required.",
           descAr: "بناء واجهات UI بالكلام فقط بدون كود.",
           category: "Coding",
           url: "https://v0.dev",
@@ -1445,17 +1881,94 @@
         {
           nameEn: "Manus AI",
           nameAr: "مانوس",
-          descEn: "Autonomous AI agent for complex tasks.",
+          descEn: "Autonomous AI agent for complex multi-step tasks.",
           descAr: "وكيل ذكاء اصطناعي مستقل لحل المهام المعقدة.",
           category: "Coding",
           url: "https://manus.im/app",
           icon: "fas fa-robot",
         },
         {
+          nameEn: "Google AI Studio",
+          nameAr: "جوجل AI ستوديو",
+          descEn: "Build and test AI apps with Gemini models.",
+          descAr: "منصة لتجربة وتطوير تطبيقات الذكاء الاصطناعي.",
+          category: "Coding",
+          url: "https://aistudio.google.com/apps",
+          icon: "fas fa-flask",
+        },
+        {
+          nameEn: "Tabnine",
+          nameAr: "تاب ناين",
+          descEn: "AI code completion with privacy-first & on-prem options.",
+          descAr: "إكمال الأكواد بالذكاء الاصطناعي مع خيارات الخصوصية.",
+          category: "Coding",
+          url: "https://www.tabnine.com",
+          icon: "fas fa-terminal",
+        },
+        {
+          nameEn: "Amazon Q",
+          nameAr: "أمازون كيو",
+          descEn: "AWS-integrated AI coding assistant for cloud dev.",
+          descAr: "مساعد برمجي متكامل مع AWS.",
+          category: "Coding",
+          url: "https://aws.amazon.com/q/developer/",
+          icon: "fab fa-aws",
+        },
+        {
+          nameEn: "Replit",
+          nameAr: "ريبليت",
+          descEn: "Browser-based IDE with AI coding & instant deployment.",
+          descAr: "بيئة تطوير على المتصفح مع برمجة AI.",
+          category: "Coding",
+          url: "https://replit.com",
+          icon: "fas fa-code-branch",
+        },
+        {
+          nameEn: "Bolt",
+          nameAr: "بولت",
+          descEn: "AI-powered full-stack app builder in the browser.",
+          descAr: "بناء تطبيقات كاملة بالذكاء الاصطناعي على المتصفح.",
+          category: "Coding",
+          url: "https://bolt.new",
+          icon: "fas fa-bolt",
+        },
+        {
+          nameEn: "Lovable",
+          nameAr: "لافابل",
+          descEn: "AI app builder — describe your app, get production code.",
+          descAr: "بناء تطبيقات بوصفها بالكلام.",
+          category: "Coding",
+          url: "https://lovable.dev",
+          icon: "fas fa-heart",
+        },
+        {
+          nameEn: "Devin",
+          nameAr: "ديفين",
+          descEn:
+            "AI software engineer that writes & deploys code autonomously.",
+          descAr: "مهندس برمجيات AI يكتب وينشر الكود تلقائياً.",
+          category: "Coding",
+          url: "https://www.cognition.ai",
+          icon: "fas fa-user-astronaut",
+        },
+        {
+          nameEn: "Kimi Coder",
+          nameAr: "كيمي مبرمج",
+          descEn:
+            "AI coding assistant with deep reasoning, debugging & full project understanding.",
+          descAr:
+            "مساعد برمجة AI بالتفكير العميق وتصحيح الأخطاء وفهم المشاريع الكاملة.",
+          category: "Coding",
+          url: "https://kimi.moonshot.cn",
+          icon: "fas fa-laptop-code",
+        },
+
+        // ===== DESIGN (14 tools) =====
+        {
           nameEn: "Canva",
           nameAr: "كانفا",
-          descEn: "Graphic design platform with AI tools.",
-          descAr: "تصميم الصور، العروض، البوستات، والفيديوهات بسهولة.",
+          descEn: "Graphic design platform with AI tools & 100M+ templates.",
+          descAr: "تصميم الصور والفيديوهات بسهولة مع 100 مليون قالب.",
           category: "Design",
           url: "https://www.canva.com",
           icon: "fab fa-canva",
@@ -1463,7 +1976,7 @@
         {
           nameEn: "Framer AI",
           nameAr: "فريمر",
-          descEn: "AI website builder — no code.",
+          descEn: "AI website builder — publish responsive sites in minutes.",
           descAr: "إنشاء مواقع ويب وصفحات احترافية بالذكاء الاصطناعي.",
           category: "Design",
           url: "https://www.framer.com",
@@ -1472,26 +1985,26 @@
         {
           nameEn: "Adobe Express",
           nameAr: "أدوبي إكسبريس",
-          descEn: "Quick design & social media content.",
+          descEn: "Quick design & social media content with AI features.",
           descAr: "تصميم صور وبوستات وفيديوهات بقوالب جاهزة.",
           category: "Design",
           url: "https://www.adobe.com/express",
           icon: "fas fa-pen-fancy",
         },
         {
-          nameEn: "Figma Community",
-          nameAr: "مجتمع فيجما",
-          descEn: "UI/UX design inspiration & templates.",
-          descAr: "مشاركة وتحميل تصاميم وملفات واجهات المستخدم.",
+          nameEn: "Figma",
+          nameAr: "فيجما",
+          descEn: "Collaborative UI/UX design with AI plugins & prototyping.",
+          descAr: "تصميم واجهات تعاوني مع إضافات AI.",
           category: "Design",
-          url: "https://www.figma.com/community",
+          url: "https://www.figma.com",
           icon: "fab fa-figma",
         },
         {
           nameEn: "Looka",
           nameAr: "لوكا",
-          descEn: "AI logo & brand identity generator.",
-          descAr: "تصميم الشعارات والهويات البصرية للشركات تلقائيًا.",
+          descEn: "AI logo & brand identity generator with full brand kits.",
+          descAr: "تصميم الشعارات والهويات البصرية تلقائيًا.",
           category: "Design",
           url: "https://looka.com",
           icon: "fas fa-trademark",
@@ -1499,16 +2012,16 @@
         {
           nameEn: "Freepik",
           nameAr: "فريبيك",
-          descEn: "Graphics, vectors & AI image resources.",
-          descAr: "صورًا وتصميمات وفكتورات وموارد ذكاء اصطناعي.",
+          descEn: "Graphics, vectors, AI images & design resources.",
+          descAr: "صور وتصميمات وفكتورات وموارد ذكاء اصطناعي.",
           category: "Design",
           url: "https://www.freepik.com/",
           icon: "fas fa-image",
         },
         {
-          nameEn: "Webflow AI",
+          nameEn: "Webflow",
           nameAr: "ويب فلو",
-          descEn: "Professional no-code website design.",
+          descEn: "Professional no-code website design with CMS.",
           descAr: "تصميم مواقع بدون كود بمستوى احترافي.",
           category: "Design",
           url: "https://webflow.com",
@@ -1517,7 +2030,7 @@
         {
           nameEn: "Brandmark",
           nameAr: "براند مارك",
-          descEn: "Build a complete visual brand identity.",
+          descEn: "Build complete visual brand identity in minutes.",
           descAr: "بناء هوية بصرية كاملة للمشروع.",
           category: "Design",
           url: "https://brandmark.io",
@@ -1526,26 +2039,73 @@
         {
           nameEn: "Namelix",
           nameAr: "نيم ليكس",
-          descEn: "AI-powered business name suggestions.",
-          descAr: "اقتراح أسماء مشاريع ذكية ومبتكرة.",
+          descEn: "AI-powered business name & logo suggestions.",
+          descAr: "اقتراح أسماء مشاريع وشعارات ذكية.",
           category: "Design",
           url: "https://namelix.com",
           icon: "fas fa-tag",
         },
         {
+          nameEn: "Spline",
+          nameAr: "سبلاين",
+          descEn: "3D design tool for web — create interactive 3D experiences.",
+          descAr: "أداة تصميم 3D تفاعلي للويب.",
+          category: "Design",
+          url: "https://spline.design",
+          icon: "fas fa-cube",
+        },
+        {
+          nameEn: "Uizard",
+          nameAr: "وييزارد",
+          descEn: "AI-powered UI design from sketches & wireframes.",
+          descAr: "تصميم واجهات من الرسومات والأسلاك.",
+          category: "Design",
+          url: "https://uizard.io",
+          icon: "fas fa-pencil-ruler",
+        },
+        {
+          nameEn: "Khroma",
+          nameAr: "كروما",
+          descEn: "AI color palette generator trained on human preferences.",
+          descAr: "مولد لوحات ألوان بالذكاء الاصطناعي.",
+          category: "Design",
+          url: "https://khroma.co",
+          icon: "fas fa-palette",
+        },
+        {
+          nameEn: "Remove.bg",
+          nameAr: "ريموف دوت بي جي",
+          descEn: "Remove image backgrounds automatically with AI.",
+          descAr: "إزالة خلفية الصور تلقائياً بالذكاء الاصطناعي.",
+          category: "Design",
+          url: "https://www.remove.bg",
+          icon: "fas fa-magic",
+        },
+        {
+          nameEn: "Dribbble",
+          nameAr: "دريبل",
+          descEn: "Design inspiration community & portfolio platform.",
+          descAr: "مجتمع إلهام تصميمي ومنصة محفظة أعمال.",
+          category: "Design",
+          url: "https://dribbble.com",
+          icon: "fab fa-dribbble",
+        },
+
+        // ===== IMAGE GENERATION (16 tools) =====
+        {
           nameEn: "Midjourney",
           nameAr: "ميدجورني",
-          descEn: "Cinematic AI image synthesis — V6.",
-          descAr: "إنشاء صور فنية وواقعية باستخدام أوامر نصية بجودة سينمائية.",
+          descEn: "Cinematic AI image synthesis — V6 with web interface.",
+          descAr: "إنشاء صور فنية بجودة سينمائية باستخدام أوامر نصية.",
           category: "Image Generation",
           url: "https://www.midjourney.com",
           icon: "fas fa-palette",
         },
         {
-          nameEn: "DALL·E",
-          nameAr: "دال إي",
-          descEn: "OpenAI text-to-image generation.",
-          descAr: "إنشاء صور بالذكاء الاصطناعي من خلال وصف نصي.",
+          nameEn: "DALL·E 3",
+          nameAr: "دال إي 3",
+          descEn: "OpenAI text-to-image with excellent text rendering.",
+          descAr: "إنشاء صور بالذكاء الاصطناعي مع كتابة نصوص واضحة.",
           category: "Image Generation",
           url: "https://chat.openai.com",
           icon: "fas fa-magic",
@@ -1553,8 +2113,8 @@
         {
           nameEn: "Leonardo AI",
           nameAr: "ليوناردو",
-          descEn: "Game art & concept design.",
-          descAr: "توليد صور وتصاميم عالية الجودة للألعاب والمشاريع الإبداعية.",
+          descEn: "Game art, concept design & image enhancement.",
+          descAr: "توليد صور وتصاميم عالية الجودة للألعاب.",
           category: "Image Generation",
           url: "https://leonardo.ai",
           icon: "fas fa-dragon",
@@ -1562,7 +2122,7 @@
         {
           nameEn: "Krea AI",
           nameAr: "كريا",
-          descEn: "Real-time AI image enhancement.",
+          descEn: "Real-time AI image generation & enhancement.",
           descAr: "إنشاء وتحسين الصور بالذكاء الاصطناعي في الوقت الحقيقي.",
           category: "Image Generation",
           url: "https://www.krea.ai",
@@ -1571,8 +2131,8 @@
         {
           nameEn: "Lexica",
           nameAr: "ليكسيكا",
-          descEn: "Stable Diffusion search & generator.",
-          descAr: "البحث عن صور مولدة بالذكاء الاصطناعي وإنشاء صور مشابهة.",
+          descEn: "Stable Diffusion search engine & art generator.",
+          descAr: "البحث عن صور مولدة بالذكاء الاصطناعي.",
           category: "Image Generation",
           url: "https://lexica.art",
           icon: "fas fa-search",
@@ -1580,8 +2140,8 @@
         {
           nameEn: "Stockimg AI",
           nameAr: "ستوك إيمج",
-          descEn: "AI stock photos, logos & marketing.",
-          descAr: "إنشاء صور ستوك، شعارات، وتصاميم تسويقية.",
+          descEn: "AI stock photos, logos & marketing visuals.",
+          descAr: "إنشاء صور ستوك وشعارات وتصاميم تسويقية.",
           category: "Image Generation",
           url: "https://stockimg.ai",
           icon: "fas fa-archive",
@@ -1598,7 +2158,7 @@
         {
           nameEn: "Google Whisk",
           nameAr: "جوجل ويسك",
-          descEn: "Google FX AI image remix & generation.",
+          descEn: "Google FX AI image remix & generation tool.",
           descAr: "أداة جوجل لإنشاء وتعديل الصور بالذكاء الاصطناعي.",
           category: "Image Generation",
           url: "https://labs.google/fx/tools/whisk",
@@ -1608,16 +2168,99 @@
           nameEn: "Headshot Master",
           nameAr: "هيد شوت ماستر",
           descEn: "AI professional headshot & photo editor.",
-          descAr: "محرر صور AI لإنشاء صور احترافية وصور شخصية.",
+          descAr: "محرر صور AI لإنشاء صور احترافية وشخصية.",
           category: "Image Generation",
           url: "https://headshotmaster.io/ai-photo-editor",
           icon: "fas fa-user-circle",
         },
         {
+          nameEn: "Gemini Image",
+          nameAr: "جيميناي إيمج",
+          descEn: "Google's Nano Banana 2 model for cinematic realism.",
+          descAr: "نموذج جوجل لإنشاء صور واقعية سينمائية.",
+          category: "Image Generation",
+          url: "https://gemini.google.com",
+          icon: "fas fa-image",
+        },
+        {
+          nameEn: "Manus AI Image",
+          nameAr: "مانوس إيمج",
+          descEn: "AI image generation with 8K upscaling & canvas editing.",
+          descAr: "توليد صور مع تحسين 8K وتعديل على اللوحة.",
+          category: "Image Generation",
+          url: "https://manus.im",
+          icon: "fas fa-paint-brush",
+        },
+        {
+          nameEn: "Reve AI",
+          nameAr: "ريف إيه آي",
+          descEn: "AI image generator with background removal & editing.",
+          descAr: "توليد صور مع إزالة الخلفية والتعديل.",
+          category: "Image Generation",
+          url: "https://reveai.com",
+          icon: "fas fa-crop",
+        },
+        {
+          nameEn: "Meta AI Imagine",
+          nameAr: "ميتا AI إيماجين",
+          descEn: "Free unlimited AI image generation by Meta.",
+          descAr: "توليد صور AI مجاني وغير محدود من Meta.",
+          category: "Image Generation",
+          url: "https://www.meta.ai",
+          icon: "fab fa-meta",
+        },
+        {
+          nameEn: "Qwen AI",
+          nameAr: "كوين إيه آي",
+          descEn: "Alibaba's AI image generator with animation feature.",
+          descAr: "مولد صور من علي بابا مع ميزة التحريك.",
+          category: "Image Generation",
+          url: "https://qwenlm.ai",
+          icon: "fas fa-dragon",
+        },
+        {
+          nameEn: "Ideogram",
+          nameAr: "إيديوجرام",
+          descEn: "AI image generator specialized in text & typography.",
+          descAr: "مولد صور متخصص في النصوص والطباعة.",
+          category: "Image Generation",
+          url: "https://ideogram.ai",
+          icon: "fas fa-font",
+        },
+        {
+          nameEn: "Recraft",
+          nameAr: "ريكرافت",
+          descEn: "AI vector art & illustration generator for designers.",
+          descAr: "مولد رسومات متجهة للمصممين.",
+          category: "Image Generation",
+          url: "https://www.recraft.ai",
+          icon: "fas fa-vector-square",
+        },
+        {
+          nameEn: "GeminiGen AI",
+          nameAr: "جيميني جين",
+          descEn: "Create cartoon scenes and animated visuals with AI.",
+          descAr: "إنشاء مشاهد كرتونية ومرئيات متحركة بالذكاء الاصطناعي.",
+          category: "Image Generation",
+          url: "https://geminigen.ai/",
+          icon: "fas fa-paint-brush",
+        },
+        {
+          nameEn: "Subnp",
+          nameAr: "سابنب",
+          descEn: "Free AI image generator for creating visuals without cost.",
+          descAr: "مولد صور AI مجاني لإنشاء مرئيات بدون تكلفة.",
+          category: "Image Generation",
+          url: "https://subnp.com/create",
+          icon: "fas fa-image",
+        },
+
+        // ===== PRODUCTIVITY (18 tools) =====
+        {
           nameEn: "Notion AI",
           nameAr: "نوتشن",
-          descEn: "Workspace & writing assistant.",
-          descAr: "كتابة وتنظيم الملاحظات، تلخيص المحتوى، وإدارة المهام.",
+          descEn: "Workspace & writing assistant with AI automation.",
+          descAr: "كتابة وتنظيم الملاحظات وإدارة المهام بالذكاء الاصطناعي.",
           category: "Productivity",
           url: "https://www.notion.so",
           icon: "fas fa-tasks",
@@ -1625,8 +2268,8 @@
         {
           nameEn: "Gamma",
           nameAr: "جاما",
-          descEn: "AI presentations & docs in seconds.",
-          descAr: "إنشاء عروض تقديمية ذكية وجذابة تلقائيًا من النصوص.",
+          descEn: "AI presentations & docs in seconds from text.",
+          descAr: "إنشاء عروض تقديمية ذكية من النصوص.",
           category: "Productivity",
           url: "https://gamma.app",
           icon: "fas fa-chalkboard",
@@ -1643,8 +2286,8 @@
         {
           nameEn: "Fireflies AI",
           nameAr: "فايرفلايز",
-          descEn: "Meeting transcription & summaries.",
-          descAr: "تسجيل وتلخيص الاجتماعات، وتفريغ الكلام إلى نص.",
+          descEn: "Meeting transcription, summaries & action items.",
+          descAr: "تسجيل وتلخيص الاجتماعات واستخراج المهام.",
           category: "Productivity",
           url: "https://fireflies.ai",
           icon: "fas fa-notes-medical",
@@ -1652,8 +2295,8 @@
         {
           nameEn: "Copy.ai",
           nameAr: "كوبي إيه آي",
-          descEn: "Marketing copy & content generator.",
-          descAr: "كتابة الإعلانات، المحتوى التسويقي، ومنشورات السوشيال ميديا.",
+          descEn: "Marketing copy & content generator for teams.",
+          descAr: "كتابة الإعلانات والمحتوى التسويقي.",
           category: "Productivity",
           url: "https://www.copy.ai",
           icon: "fas fa-copy",
@@ -1661,8 +2304,8 @@
         {
           nameEn: "Kickresume",
           nameAr: "كيك ريزومي",
-          descEn: "AI resume & cover letter builder.",
-          descAr: "إنشاء سيرة ذاتية احترافية وخطابات تقديم الوظائف.",
+          descEn: "AI resume & cover letter builder with templates.",
+          descAr: "إنشاء سيرة ذاتية احترافية وخطابات تقديم.",
           category: "Productivity",
           url: "https://www.kickresume.com",
           icon: "fas fa-file-signature",
@@ -1670,7 +2313,7 @@
         {
           nameEn: "Teal AI",
           nameAr: "تيل AI",
-          descEn: "AI job search & career management.",
+          descEn: "AI job search & career management platform.",
           descAr: "إدارة التوظيف والتقديم للوظائف بالذكاء الاصطناعي.",
           category: "Productivity",
           url: "https://www.tealhq.com",
@@ -1679,8 +2322,8 @@
         {
           nameEn: "QuillBot",
           nameAr: "كويل بوت",
-          descEn: "AI paraphrasing & text rewriting tool.",
-          descAr: "إعادة صياغة النصوص بشكل احترافي وفعّال.",
+          descEn: "AI paraphrasing, grammar & text rewriting tool.",
+          descAr: "إعادة صياغة النصوص وتصحيح القواعد.",
           category: "Productivity",
           url: "https://quillbot.com",
           icon: "fas fa-pen",
@@ -1688,8 +2331,8 @@
         {
           nameEn: "Pitch",
           nameAr: "بيتش",
-          descEn: "Modern collaborative presentation tool.",
-          descAr: "إنشاء عروض تقديمية حديثة وجذابة بسرعة.",
+          descEn: "Modern collaborative presentation tool with AI.",
+          descAr: "إنشاء عروض تقديمية حديثة وجذابة.",
           category: "Productivity",
           url: "https://pitch.com",
           icon: "fas fa-presentation-screen",
@@ -1697,7 +2340,7 @@
         {
           nameEn: "Undetectable AI",
           nameAr: "أندتيكتبل AI",
-          descEn: "Makes AI text sound human.",
+          descEn: "Makes AI text sound human & bypass detection.",
           descAr: "يجعل النص المكتوب بالذكاء الاصطناعي يبدو بشرياً.",
           category: "Productivity",
           url: "https://undetectable.ai",
@@ -1706,8 +2349,8 @@
         {
           nameEn: "Anyword",
           nameAr: "أني وورد",
-          descEn: "AI ad & marketing copy optimizer.",
-          descAr: "تحسين الإعلانات والمحتوى التسويقي بالذكاء الاصطناعي.",
+          descEn: "AI ad & marketing copy optimizer with analytics.",
+          descAr: "تحسين الإعلانات والمحتوى التسويقي.",
           category: "Productivity",
           url: "https://anyword.com",
           icon: "fas fa-bullhorn",
@@ -1715,8 +2358,8 @@
         {
           nameEn: "Clipchamp",
           nameAr: "كليب شامب",
-          descEn: "Microsoft AI video editor online.",
-          descAr: "محرر فيديو ذكاء اصطناعي من مايكروسوفت عبر الإنترنت.",
+          descEn: "Microsoft AI video editor with auto-captions.",
+          descAr: "محرر فيديو ذكاء اصطناعي من مايكروسوفت.",
           category: "Productivity",
           url: "https://app.clipchamp.com/",
           icon: "fas fa-video",
@@ -1724,8 +2367,8 @@
         {
           nameEn: "NoteGPT",
           nameAr: "نوت جي بي تي",
-          descEn: "AI note-taking & chat assistant.",
-          descAr: "مساعد ذكاء اصطناعي لتدوين الملاحظات والمحادثة.",
+          descEn: "AI note-taking, summarization & chat assistant.",
+          descAr: "مساعد ذكاء اصطناعي لتدوين الملاحظات.",
           category: "Productivity",
           url: "https://notegpt.io/ai-chat",
           icon: "fas fa-sticky-note",
@@ -1733,17 +2376,55 @@
         {
           nameEn: "Roboneo",
           nameAr: "روبو نيو",
-          descEn: "AI-powered automation platform.",
+          descEn: "AI-powered automation platform for workflows.",
           descAr: "منصة أتمتة ذكاء اصطناعي متكاملة.",
           category: "Productivity",
           url: "https://www.roboneo.com/",
           icon: "fas fa-robot",
         },
         {
+          nameEn: "Motion",
+          nameAr: "موشن",
+          descEn: "AI calendar & task manager that auto-schedules.",
+          descAr: "تقويم ومدير مهام يجدول تلقائياً.",
+          category: "Productivity",
+          url: "https://www.usemotion.com",
+          icon: "fas fa-calendar-alt",
+        },
+        {
+          nameEn: "Clockwise",
+          nameAr: "كلوك وايز",
+          descEn: "AI calendar optimizer that protects focus time.",
+          descAr: "مُحسّن التقويم لحماية وقت التركيز.",
+          category: "Productivity",
+          url: "https://www.getclockwise.com",
+          icon: "fas fa-clock",
+        },
+        {
+          nameEn: "Zapier AI",
+          nameAr: "زابير AI",
+          descEn: "Automate workflows across 6000+ apps with AI.",
+          descAr: "أتمتة سير العمل عبر 6000+ تطبيق.",
+          category: "Productivity",
+          url: "https://zapier.com/ai",
+          icon: "fas fa-bolt",
+        },
+        {
+          nameEn: "Descript",
+          nameAr: "ديسكريبت",
+          descEn: "All-in-one video & podcast editor with AI features.",
+          descAr: "محرر فيديو وبودكاست شامل بالذكاء الاصطناعي.",
+          category: "Productivity",
+          url: "https://www.descript.com",
+          icon: "fas fa-microphone-alt",
+        },
+
+        // ===== RESEARCH (14 tools) =====
+        {
           nameEn: "Perplexity AI",
           nameAr: "بيربليكستي",
-          descEn: "Answer engine with cited sources.",
-          descAr: "البحث عن المعلومات والإجابة على الأسئلة مع مصادر.",
+          descEn: "Answer engine with cited sources & real-time search.",
+          descAr: "البحث عن المعلومات مع مصادر موثوقة.",
           category: "Research",
           url: "https://www.perplexity.ai",
           icon: "fas fa-globe",
@@ -1751,8 +2432,8 @@
         {
           nameEn: "NotebookLM",
           nameAr: "نوت بوك LM",
-          descEn: "Personalised AI research assistant.",
-          descAr: "تلخيص المصادر، تنظيم الملاحظات، وفهم ملفاتك.",
+          descEn: "Personalized AI research assistant by Google.",
+          descAr: "تلخيص المصادر وتنظيم الملاحظات وفهم ملفاتك.",
           category: "Research",
           url: "https://notebooklm.google",
           icon: "fab fa-google",
@@ -1760,8 +2441,8 @@
         {
           nameEn: "Grok",
           nameAr: "جروك",
-          descEn: "X AI — real-time data & reasoning.",
-          descAr: "معلومات مباشرة من الإنترنت وX، تحليل الأسئلة بذكاء.",
+          descEn: "X AI — real-time data, reasoning & web search.",
+          descAr: "معلومات مباشرة من الإنترنت وتحليل ذكي.",
           category: "Research",
           url: "https://grok.com",
           icon: "fas fa-brain",
@@ -1769,8 +2450,8 @@
         {
           nameEn: "Google Translate",
           nameAr: "ترجمة جوجل",
-          descEn: "Multilingual translation & research.",
-          descAr: "ترجمة النصوص والكلمات بين اللغات المختلفة.",
+          descEn: "Multilingual translation with AI context awareness.",
+          descAr: "ترجمة النصوص بين اللغات المختلفة.",
           category: "Research",
           url: "https://translate.google.com",
           icon: "fas fa-language",
@@ -1778,7 +2459,7 @@
         {
           nameEn: "Yandex Images",
           nameAr: "يانداكس صور",
-          descEn: "Advanced reverse image search.",
+          descEn: "Advanced reverse image search engine.",
           descAr: "البحث عن الصور والعثور على صور مشابهة.",
           category: "Research",
           url: "https://yandex.com/images",
@@ -1787,17 +2468,112 @@
         {
           nameEn: "DeepMind",
           nameAr: "ديب مايند",
-          descEn: "Google's advanced AI research lab.",
-          descAr: "شركة أبحاث ذكاء اصطناعي متقدمة تابعة لجوجل.",
+          descEn: "Google's advanced AI research lab & discoveries.",
+          descAr: "شركة أبحاث ذكاء اصطناعي متقدمة.",
           category: "Research",
           url: "https://deepmind.google/",
           icon: "fas fa-atom",
         },
         {
+          nameEn: "Consensus",
+          nameAr: "كونسنسس",
+          descEn: "AI academic search with 220M+ peer-reviewed papers.",
+          descAr: "بحث أكاديمي AI مع 220 مليون ورقة علمية.",
+          category: "Research",
+          url: "https://consensus.app",
+          icon: "fas fa-university",
+        },
+        {
+          nameEn: "Elicit",
+          nameAr: "إيليسيت",
+          descEn: "AI research assistant for systematic literature review.",
+          descAr: "مساعد بحث AI لمراجعة الأدبيات.",
+          category: "Research",
+          url: "https://elicit.org",
+          icon: "fas fa-book",
+        },
+        {
+          nameEn: "Semantic Scholar",
+          nameAr: "سيمانتك سكولر",
+          descEn: "AI-powered academic search with 200M+ papers.",
+          descAr: "بحث أكاديمي مدعوم بالذكاء الاصطناعي.",
+          category: "Research",
+          url: "https://www.semanticscholar.org",
+          icon: "fas fa-graduation-cap",
+        },
+        {
+          nameEn: "Connected Papers",
+          nameAr: "كونيكتد بيبرز",
+          descEn: "Visualize connections between research papers.",
+          descAr: "تصور الروابط بين الأوراق البحثية.",
+          category: "Research",
+          url: "https://www.connectedpapers.com",
+          icon: "fas fa-project-diagram",
+        },
+        {
+          nameEn: "ResearchRabbit",
+          nameAr: "ريتشيرش رابت",
+          descEn: "Spotify-style paper discovery & citation tracking.",
+          descAr: "اكتشاف أوراق علمية وتتبع الاستشهادات.",
+          category: "Research",
+          url: "https://www.researchrabbit.ai",
+          icon: "fas fa-rabbit",
+        },
+        {
+          nameEn: "Julius AI",
+          nameAr: "جوليوس إيه آي",
+          descEn: "Natural language data analysis & visualization.",
+          descAr: "تحليل البيانات وتصورها باللغة الطبيعية.",
+          category: "Research",
+          url: "https://julius.ai",
+          icon: "fas fa-chart-pie",
+        },
+        {
+          nameEn: "Wolfram Alpha",
+          nameAr: "ولفرام ألفا",
+          descEn: "Computational intelligence for math, science & data.",
+          descAr: "ذكاء حسابي للرياضيات والعلوم والبيانات.",
+          category: "Research",
+          url: "https://www.wolframalpha.com",
+          icon: "fas fa-calculator",
+        },
+        {
+          nameEn: "Kimi AI",
+          nameAr: "كيمي إيه آي",
+          descEn: "Long-context AI assistant for document analysis.",
+          descAr: "مساعد AI بسياق طويل لتحليل المستندات.",
+          category: "Research",
+          url: "https://kimi.moonshot.cn",
+          icon: "fas fa-file-alt",
+        },
+        {
+          nameEn: "Kimi Research",
+          nameAr: "كيمي بحث",
+          descEn:
+            "AI research assistant with 2M token context for deep document analysis & web search.",
+          descAr:
+            "مساعد بحث AI بسياق 2 مليون توكن لتحليل المستندات والبحث في الويب.",
+          category: "Research",
+          url: "https://kimi.moonshot.cn",
+          icon: "fas fa-microscope",
+        },
+        {
+          nameEn: "BioDigital Human",
+          nameAr: "بايو ديجيتال هيومن",
+          descEn:
+            "3D human anatomy visualization for medical education & research.",
+          descAr: "تشريح جسم الإنسان ثلاثي الأبعاد للتعليم الطبي والبحث.",
+          category: "Research",
+          url: "https://human.biodigital.com/",
+          icon: "fas fa-heartbeat",
+        },
+
+        // ===== WRITING (14 tools) =====
+        {
           nameEn: "Jasper AI",
           nameAr: "جاسبر",
-          descEn: "AI content & copywriting suite.",
-          descAr: "كتابة المحتوى التسويقي، الإعلانات، والنصوص الإبداعية.",
+          descEn: "AI content & copywriting suite for marketing teams.",
+          descAr: "كتابة المحتوى التسويقي والإعلانات.",
           category: "Writing",
           url: "https://www.jasper.ai",
           icon: "fas fa-feather-alt",
@@ -1805,8 +2581,8 @@
         {
           nameEn: "Writesonic",
           nameAr: "رايتسونيك",
-          descEn: "AI article & ad content generator.",
-          descAr: "إنشاء مقالات، إعلانات، ومحتوى SEO قوي.",
+          descEn: "AI articles, ads & SEO content generator.",
+          descAr: "إنشاء مقالات وإعلانات ومحتوى SEO.",
           category: "Writing",
           url: "https://writesonic.com",
           icon: "fas fa-newspaper",
@@ -1814,8 +2590,8 @@
         {
           nameEn: "Grammarly",
           nameAr: "جرامرلي",
-          descEn: "Grammar checker & AI rewriter.",
-          descAr: "تصحيح الأخطاء اللغوية وتحسين الكتابة بالإنجليزية.",
+          descEn: "Grammar checker, AI rewriter & tone adjuster.",
+          descAr: "تصحيح الأخطاء اللغوية وتحسين الكتابة.",
           category: "Writing",
           url: "https://www.grammarly.com",
           icon: "fas fa-spell-check",
@@ -1823,7 +2599,7 @@
         {
           nameEn: "GenieAI",
           nameAr: "جيني AI",
-          descEn: "AI writing & productivity assistant.",
+          descEn: "AI writing & productivity assistant for all tasks.",
           descAr: "مساعد ذكاء اصطناعي للكتابة والإنتاجية.",
           category: "Writing",
           url: "https://genieai.app",
@@ -1832,8 +2608,8 @@
         {
           nameEn: "Character AI",
           nameAr: "كاركتر AI",
-          descEn: "Chat with realistic AI characters.",
-          descAr: "محادثة شخصيات افتراضية واقعية ذكية.",
+          descEn: "Chat with realistic AI characters & personalities.",
+          descAr: "محادثة شخصيات افتراضية واقعية.",
           category: "Writing",
           url: "https://character.ai",
           icon: "fas fa-theater-masks",
@@ -1841,17 +2617,101 @@
         {
           nameEn: "Replika",
           nameAr: "ريبليكا",
-          descEn: "Smart virtual companion AI.",
+          descEn: "Smart virtual companion AI for conversation.",
           descAr: "صديق افتراضي ذكي للمحادثة والدعم.",
           category: "Writing",
           url: "https://replika.com",
           icon: "fas fa-heart",
         },
         {
+          nameEn: "Sudowrite",
+          nameAr: "سودو رايت",
+          descEn: "AI creative writing assistant for fiction & stories.",
+          descAr: "مساعد كتابة إبداعية للروايات والقصص.",
+          category: "Writing",
+          url: "https://www.sudowrite.com",
+          icon: "fas fa-pen-nib",
+        },
+        {
+          nameEn: "Rytr",
+          nameAr: "رايتر",
+          descEn: "AI writing tool for emails, blogs & social posts.",
+          descAr: "أداة كتابة AI للإيميلات والمدونات.",
+          category: "Writing",
+          url: "https://rytr.me",
+          icon: "fas fa-pen",
+        },
+        {
+          nameEn: "Wordtune",
+          nameAr: "ورد تيون",
+          descEn: "AI rewriting & summarization tool.",
+          descAr: "أداة إعادة الصياغة والتلخيص بالذكاء الاصطناعي.",
+          category: "Writing",
+          url: "https://www.wordtune.com",
+          icon: "fas fa-sync-alt",
+        },
+        {
+          nameEn: "HyperWrite",
+          nameAr: "هايبر رايت",
+          descEn: "AI writing assistant with autocomplete & research.",
+          descAr: "مساعد كتابة مع الإكمال التلقائي والبحث.",
+          category: "Writing",
+          url: "https://www.hyperwriteai.com",
+          icon: "fas fa-keyboard",
+        },
+        {
+          nameEn: "ProWritingAid",
+          nameAr: "برو رايتينج إيد",
+          descEn: "Advanced grammar, style & readability checker.",
+          descAr: "مدقق متقدم للقواعد والأسلوب.",
+          category: "Writing",
+          url: "https://prowritingaid.com",
+          icon: "fas fa-check-double",
+        },
+        {
+          nameEn: "Copy.ai",
+          nameAr: "كوبي إيه آي",
+          descEn: "AI copywriting for marketing & sales teams.",
+          descAr: "كتابة إعلانية AI للتسويق والمبيعات.",
+          category: "Writing",
+          url: "https://www.copy.ai",
+          icon: "fas fa-bullhorn",
+        },
+        {
+          nameEn: "Notion AI",
+          nameAr: "نوتشن AI",
+          descEn: "AI writing inside your workspace & notes.",
+          descAr: "كتابة AI داخل مساحة العمل والملاحظات.",
+          category: "Writing",
+          url: "https://www.notion.so/product/ai",
+          icon: "fas fa-sticky-note",
+        },
+        {
+          nameEn: "Moonshot AI",
+          nameAr: "مون شوت إيه آي",
+          descEn: "Long-context AI for document writing & analysis.",
+          descAr: "AI بسياق طويل لكتابة وتحليل المستندات.",
+          category: "Writing",
+          url: "https://kimi.moonshot.cn",
+          icon: "fas fa-moon",
+        },
+        {
+          nameEn: "Kimi AI Writer",
+          nameAr: "كيمي كاتب",
+          descEn:
+            "AI writing assistant with long document analysis & creative content generation.",
+          descAr: "مساعد كتابة AI بتحليل مستندات طويلة وتوليد محتوى إبداعي.",
+          category: "Writing",
+          url: "https://kimi.moonshot.cn",
+          icon: "fas fa-pen-fancy",
+        },
+
+        // ===== VIDEO (16 tools) =====
+        {
           nameEn: "Pika 2.0",
           nameAr: "بيكا 2.0",
-          descEn: "Text-to-video & AI animation.",
-          descAr: "إنشاء فيديوهات قصيرة بالذكاء الاصطناعي من النصوص.",
+          descEn: "Text-to-video & AI animation with style control.",
+          descAr: "إنشاء فيديوهات بالذكاء الاصطناعي من النصوص.",
           category: "Video",
           url: "https://pika.art",
           icon: "fas fa-film",
@@ -1859,7 +2719,7 @@
         {
           nameEn: "Sora",
           nameAr: "سورا",
-          descEn: "OpenAI most powerful text-to-video.",
+          descEn: "OpenAI most powerful text-to-video with 60s clips.",
           descAr: "أقوى أداة لصناعة فيديوهات من النص.",
           category: "Video",
           url: "https://openai.com/sora",
@@ -1868,7 +2728,7 @@
         {
           nameEn: "HeyGen",
           nameAr: "هي جين",
-          descEn: "AI avatar video translator.",
+          descEn: "AI avatar video translator & spokesperson creator.",
           descAr: "إنشاء فيديوهات بوجه بشري واقعي.",
           category: "Video",
           url: "https://www.heygen.com",
@@ -1877,8 +2737,8 @@
         {
           nameEn: "Synthesia",
           nameAr: "سينثيسيا",
-          descEn: "AI talking avatar videos.",
-          descAr: "إنتاج فيديوهات شركات بدون تصوير، بشخصيات افتراضية.",
+          descEn: "AI talking avatar videos for training & marketing.",
+          descAr: "فيديوهات شركات بشخصيات افتراضية.",
           category: "Video",
           url: "https://www.synthesia.io",
           icon: "fas fa-robot",
@@ -1886,8 +2746,8 @@
         {
           nameEn: "Runway ML",
           nameAr: "رن واي ML",
-          descEn: "AI video editing & generation.",
-          descAr: "تحرير وإنشاء فيديوهات وصور بالذكاء الاصطناعي.",
+          descEn: "AI video editing, generation & motion graphics.",
+          descAr: "تحرير وإنشاء فيديوهات ورسوم متحركة.",
           category: "Video",
           url: "https://runwayml.com",
           icon: "fas fa-cut",
@@ -1895,8 +2755,8 @@
         {
           nameEn: "Hedra",
           nameAr: "هيدرا",
-          descEn: "AI character video generation.",
-          descAr: "منصة ذكاء اصطناعي لإنشاء شخصيات وفيديوهات متحركة.",
+          descEn: "AI character video generation with lip-sync.",
+          descAr: "إنشاء شخصيات وفيديوهات متحركة.",
           category: "Video",
           url: "https://www.hedra.com/",
           icon: "fas fa-user-circle",
@@ -1904,8 +2764,8 @@
         {
           nameEn: "InVideo AI",
           nameAr: "إن فيديو",
-          descEn: "AI video creation from text.",
-          descAr: "منصة ذكاء اصطناعي لإنشاء الفيديوهات من النصوص.",
+          descEn: "AI video creation from text with stock footage.",
+          descAr: "إنشاء فيديوهات من النصوص بمقاطع ستوك.",
           category: "Video",
           url: "https://ai.invideo.io/",
           icon: "fas fa-clapperboard",
@@ -1913,11 +2773,528 @@
         {
           nameEn: "Seedance",
           nameAr: "سيدانس",
-          descEn: "High-quality realistic AI videos.",
+          descEn: "High-quality realistic AI videos for creators.",
           descAr: "فيديوهات AI واقعية بجودة عالية.",
           category: "Video",
           url: "https://seedance.ai",
           icon: "fas fa-photo-video",
+        },
+        {
+          nameEn: "Veo 2",
+          nameAr: "فيو 2",
+          descEn: "Google's AI video generator with cinematic quality.",
+          descAr: "مولد فيديو من جوجل بجودة سينمائية.",
+          category: "Video",
+          url: "https://deepmind.google/technologies/veo/veo-2/",
+          icon: "fab fa-google",
+        },
+        {
+          nameEn: "Kling AI",
+          nameAr: "كلينج إيه آي",
+          descEn: "Chinese AI video generator with high motion fidelity.",
+          descAr: "مولد فيديو صيني بجودة حركة عالية.",
+          category: "Video",
+          url: "https://klingai.com",
+          icon: "fas fa-dragon",
+        },
+        {
+          nameEn: "Luma Dream Machine",
+          nameAr: "لوما دريم ماشين",
+          descEn: "Fast AI video generation from images & text.",
+          descAr: "توليد فيديو سريع من الصور والنصوص.",
+          category: "Video",
+          url: "https://lumalabs.ai/dream-machine",
+          icon: "fas fa-magic",
+        },
+        {
+          nameEn: "Descript",
+          nameAr: "ديسكريبت",
+          descEn: "Edit video by editing text — AI transcription.",
+          descAr: "تعديل الفيديو عن طريق تعديل النص.",
+          category: "Video",
+          url: "https://www.descript.com",
+          icon: "fas fa-closed-captioning",
+        },
+        {
+          nameEn: "CapCut",
+          nameAr: "كاب كات",
+          descEn: "AI-powered video editor with auto-captions & effects.",
+          descAr: "محرر فيديو ذكي مع ترجمة تلقائية.",
+          category: "Video",
+          url: "https://www.capcut.com",
+          icon: "fas fa-scissors",
+        },
+        {
+          nameEn: "OpusClip",
+          nameAr: "أوبس كليب",
+          descEn: "AI repurposes long videos into viral short clips.",
+          descAr: "تحويل الفيديوهات الطويلة إلى مقاطع قصيرة.",
+          category: "Video",
+          url: "https://www.opus.pro",
+          icon: "fas fa-bolt",
+        },
+        {
+          nameEn: "D-ID",
+          nameAr: "دي أي دي",
+          descEn: "Create talking head videos from photos with AI.",
+          descAr: "إنشاء فيديوهات متحدثة من الصور.",
+          category: "Video",
+          url: "https://www.d-id.com",
+          icon: "fas fa-portrait",
+        },
+        {
+          nameEn: "Fliki",
+          nameAr: "فليكي",
+          descEn: "Text-to-video with AI voices & stock media.",
+          descAr: "تحويل النص إلى فيديو بأصوات AI.",
+          category: "Video",
+          url: "https://fliki.ai",
+          icon: "fas fa-play-circle",
+        },
+        {
+          nameEn: "Creati Studio",
+          nameAr: "كرياتي ستوديو",
+          descEn:
+            "Transform photos & videos into AI-generated videos with style transfer.",
+          descAr: "تحويل الصور والفيديوهات إلى فيديوهات AI مع نقل الأسلوب.",
+          category: "Video",
+          url: "https://www.creati.studio/",
+          icon: "fas fa-film",
+        },
+        {
+          nameEn: "VideoInu",
+          nameAr: "فيديو إينو",
+          descEn: "AI text-to-video generator for quick video creation.",
+          descAr: "مولد فيديو من النصوص لإنشاء فيديوهات سريع.",
+          category: "Video",
+          url: "https://videoinu.com/app/home",
+          icon: "fas fa-video",
+        },
+        {
+          nameEn: "Viggle AI",
+          nameAr: "فيغل إيه آي",
+          descEn:
+            "Turn photos into animated cartoon videos with character motion.",
+          descAr: "تحويل الصور إلى فيديوهات كرتونية متحركة.",
+          category: "Video",
+          url: "https://viggle.ai/app/mix",
+          icon: "fas fa-magic",
+        },
+        {
+          nameEn: "WAN Video",
+          nameAr: "وان فيديو",
+          descEn: "AI video generation platform with high-quality output.",
+          descAr: "منصة توليد فيديو AI بجودة عالية.",
+          category: "Video",
+          url: "https://create.wan.video/generate",
+          icon: "fas fa-photo-video",
+        },
+        {
+          nameEn: "Vivideo AI",
+          nameAr: "فيفيديو إيه آي",
+          descEn: "AI-powered video creation and editing platform.",
+          descAr: "منصة إنشاء وتحرير فيديو AI.",
+          category: "Video",
+          url: "https://www.vivideo.ai/",
+          icon: "fas fa-clapperboard",
+        },
+        {
+          nameEn: "MindVideo AI",
+          nameAr: "مايند فيديو",
+          descEn: "Access Veo 3 & Sora 2 for next-gen AI video generation.",
+          descAr: "الوصول إلى Veo 3 و Sora 2 لتوليد فيديو الجيل القادم.",
+          category: "Video",
+          url: "https://www.mindvideo.ai/text-to-video/",
+          icon: "fas fa-rocket",
+        },
+        {
+          nameEn: "InVideo Studio",
+          nameAr: "إن فيديو ستوديو",
+          descEn: "Storyteller templates for AI-powered video narratives.",
+          descAr: "قوالب سرد القصص لفيديوهات AI.",
+          category: "Video",
+          url: "https://studio.invideo.io/workflow/storyteller-templates",
+          icon: "fas fa-book-open",
+        },
+
+        // ===== CHAT & ASSISTANTS (12 tools) =====
+        {
+          nameEn: "ChatGPT",
+          nameAr: "شات جي بي تي",
+          descEn: "General-purpose AI assistant for any task.",
+          descAr: "مساعد AI متعدد الاستخدامات لأي مهمة.",
+          category: "Chat",
+          url: "https://chatgpt.com",
+          icon: "fas fa-robot",
+        },
+        {
+          nameEn: "Claude",
+          nameAr: "كلود",
+          descEn: "Thoughtful AI assistant with long context window.",
+          descAr: "مساعد AI متأنٍ بسياق طويل.",
+          category: "Chat",
+          url: "https://claude.ai",
+          icon: "fas fa-brain",
+        },
+        {
+          nameEn: "Gemini",
+          nameAr: "جيميناي",
+          descEn: "Google AI with real-time web search & multimodal.",
+          descAr: "ذكاء جوجل مع بحث ويب فوري ومتعدد الوسائط.",
+          category: "Chat",
+          url: "https://gemini.google.com",
+          icon: "fab fa-google",
+        },
+        {
+          nameEn: "Perplexity",
+          nameAr: "بيربليكستي",
+          descEn: "AI search assistant with cited sources.",
+          descAr: "مساعد بحث AI مع مصادر موثقة.",
+          category: "Chat",
+          url: "https://www.perplexity.ai",
+          icon: "fas fa-search",
+        },
+        {
+          nameEn: "Grok",
+          nameAr: "جروك",
+          descEn: "X AI with real-time Twitter data & humor.",
+          descAr: "ذكاء X مع بيانات تويتر الفورية.",
+          category: "Chat",
+          url: "https://grok.com",
+          icon: "fab fa-x-twitter",
+        },
+        {
+          nameEn: "Pi",
+          nameAr: "باي",
+          descEn: "Personal AI assistant focused on conversation & empathy.",
+          descAr: "مساعد AI شخصي يركز على المحادثة.",
+          category: "Chat",
+          url: "https://pi.ai",
+          icon: "fas fa-comment-dots",
+        },
+        {
+          nameEn: "YouChat",
+          nameAr: "يو شات",
+          descEn: "AI search assistant with web browsing.",
+          descAr: "مساعد بحث AI مع تصفح الويب.",
+          category: "Chat",
+          url: "https://you.com",
+          icon: "fas fa-globe",
+        },
+        {
+          nameEn: "Poe",
+          nameAr: "بو",
+          descEn: "Platform for chatting with multiple AI models.",
+          descAr: "منصة للمحادثة مع نماذج AI متعددة.",
+          category: "Chat",
+          url: "https://poe.com",
+          icon: "fas fa-comments",
+        },
+        {
+          nameEn: "HuggingChat",
+          nameAr: "هاجينج شات",
+          descEn: "Open-source AI chat with Llama, Mistral & more.",
+          descAr: "محادثة AI مفتوحة المصدر.",
+          category: "Chat",
+          url: "https://huggingface.co/chat",
+          icon: "fas fa-code-branch",
+        },
+        {
+          nameEn: "Kimi AI",
+          nameAr: "كيمي إيه آي",
+          descEn: "Long-context AI assistant for documents.",
+          descAr: "مساعد AI بسياق طويل للمستندات.",
+          category: "Chat",
+          url: "https://kimi.moonshot.cn",
+          icon: "fas fa-file-alt",
+        },
+        {
+          nameEn: "DeepSeek",
+          nameAr: "ديب سيك",
+          descEn: "Open-source reasoning AI with deep thinking.",
+          descAr: "ذكاء اصطناعي مفتوح المصدر بالتفكير العميق.",
+          category: "Chat",
+          url: "https://chat.deepseek.com",
+          icon: "fas fa-lightbulb",
+        },
+        {
+          nameEn: "Mistral AI",
+          nameAr: "ميسترال إيه آي",
+          descEn: "European AI with strong reasoning & coding.",
+          descAr: "ذكاء أوروبي بالتفكير والبرمجة.",
+          category: "Chat",
+          url: "https://chat.mistral.ai",
+          icon: "fas fa-wind",
+        },
+        {
+          nameEn: "Kimi AI",
+          nameAr: "كيمي إيه آي",
+          descEn:
+            "Long-context AI assistant for documents & conversations — developed by Moonshot AI.",
+          descAr:
+            "مساعد AI بسياق طويل للمستندات والمحادثات — من تطوير Moonshot AI.",
+          category: "Chat",
+          url: "https://kimi.moonshot.cn",
+          icon: "fas fa-moon",
+        },
+        {
+          nameEn: "Kimi K2.6",
+          nameAr: "كيمي كيه 2.6",
+          descEn:
+            "Advanced reasoning AI with 2M token context, multimodal understanding & autonomous agent capabilities.",
+          descAr:
+            "ذكاء اصطناعي متقدم بسياق 2 مليون توكن، فهم متعدد الوسائط وقدرات وكيل مستقل.",
+          category: "Chat",
+          url: "https://kimi.moonshot.cn",
+          icon: "fas fa-rocket",
+        },
+
+        // Additional trending AI tools for 2026
+        {
+          nameEn: "Suno AI",
+          nameAr: "سونو إيه آي",
+          descEn:
+            "AI music generator that creates full songs with vocals & instruments.",
+          descAr: "مولد موسيقى AI ينشئ أغاني كاملة بالأصوات والآلات.",
+          category: "Audio",
+          url: "https://suno.ai",
+          icon: "fas fa-music",
+        },
+        {
+          nameEn: "Udio",
+          nameAr: "يوديو",
+          descEn:
+            "AI music creation with genre-specific generation & remixing.",
+          descAr: "إنشاء موسيقى AI بأنواع محددة وإعادة الميكس.",
+          category: "Audio",
+          url: "https://www.udio.com",
+          icon: "fas fa-headphones-alt",
+        },
+        {
+          nameEn: "Stable Audio",
+          nameAr: "ستيبل أوديو",
+          descEn:
+            "Stability AI's text-to-audio generation for sound effects & music.",
+          descAr: "توليد صوت من النصوص من Stability AI للمؤثرات الصوتية.",
+          category: "Audio",
+          url: "https://www.stableaudio.com",
+          icon: "fas fa-wave-square",
+        },
+        {
+          nameEn: "Codeium",
+          nameAr: "كوديوم",
+          descEn: "Free AI code completion & chat for 70+ languages & IDEs.",
+          descAr: "إكمال كود AI مجاني لـ 70+ لغة ومحرر.",
+          category: "Coding",
+          url: "https://codeium.com",
+          icon: "fas fa-code",
+        },
+        {
+          nameEn: "Sourcegraph Cody",
+          nameAr: "كودي",
+          descEn: "AI coding assistant that understands entire codebases.",
+          descAr: "مساعد برمجة AI يفهم قواعد البيانات البرمجية بالكامل.",
+          category: "Coding",
+          url: "https://sourcegraph.com/cody",
+          icon: "fas fa-search",
+        },
+        {
+          nameEn: "Continue.dev",
+          nameAr: "كونتينيو",
+          descEn: "Open-source AI coding autopilot for VS Code.",
+          descAr: "مساعد برمجة AI مفتوح المصدر لـ VS Code.",
+          category: "Coding",
+          url: "https://www.continue.dev",
+          icon: "fas fa-plane",
+        },
+        {
+          nameEn: "Krea Video",
+          nameAr: "كريا فيديو",
+          descEn: "Real-time AI video generation with keyframe control.",
+          descAr: "توليد فيديو AI في الوقت الفعلي مع تحكم بالإطارات.",
+          category: "Video",
+          url: "https://www.krea.ai/video",
+          icon: "fas fa-film",
+        },
+        {
+          nameEn: "Pika 2.1",
+          nameAr: "بيكا 2.1",
+          descEn: "Next-gen text-to-video with enhanced motion & lip-sync.",
+          descAr: "توليد فيديو من النص الجيل القادم مع حركة محسّنة.",
+          category: "Video",
+          url: "https://pika.art",
+          icon: "fas fa-video",
+        },
+        {
+          nameEn: "Haiper AI",
+          nameAr: "هايبر إيه آي",
+          descEn: "AI video generation with 3D-aware motion & physics.",
+          descAr: "توليد فيديو AI مع حركة ثلاثية الأبعاد وفيزياء.",
+          category: "Video",
+          url: "https://haiper.ai",
+          icon: "fas fa-cube",
+        },
+        {
+          nameEn: "Kling 2.0",
+          nameAr: "كلينج 2.0",
+          descEn: "Advanced Chinese AI video with cinematic camera movements.",
+          descAr: "فيديو AI صيني متقدم بحركات كاميرا سينمائية.",
+          category: "Video",
+          url: "https://klingai.com",
+          icon: "fas fa-dragon",
+        },
+        {
+          nameEn: "Adobe Firefly",
+          nameAr: "أدوبي فايرفلاي",
+          descEn: "Adobe's AI image & video generator with commercial safety.",
+          descAr: "مولد صور وفيديو من Adobe مع أمان تجاري.",
+          category: "Image Generation",
+          url: "https://firefly.adobe.com",
+          icon: "fas fa-fire",
+        },
+        {
+          nameEn: "Playground AI",
+          nameAr: "بلاي جراوند",
+          descEn: "Free AI image generation with mixed image editing.",
+          descAr: "توليد صور AI مجاني مع تحرير الصور المختلط.",
+          category: "Image Generation",
+          url: "https://playgroundai.com",
+          icon: "fas fa-palette",
+        },
+        {
+          nameEn: "BlueWillow",
+          nameAr: "بلو ويلو",
+          descEn: "Free Discord-based AI image generator.",
+          descAr: "مولد صور AI مجاني عبر Discord.",
+          category: "Image Generation",
+          url: "https://www.bluewillow.ai",
+          icon: "fas fa-image",
+        },
+        {
+          nameEn: "Craiyon",
+          nameAr: "كرايون",
+          descEn: "Free AI image generator formerly known as DALL-E mini.",
+          descAr: "مولد صور AI مجاني (سابقاً DALL-E mini).",
+          category: "Image Generation",
+          url: "https://www.craiyon.com",
+          icon: "fas fa-paint-brush",
+        },
+        {
+          nameEn: "Tome AI",
+          nameAr: "توم إيه آي",
+          descEn: "AI-powered storytelling & presentation creation.",
+          descAr: "سرد القصص وإنشاء العروض بالذكاء الاصطناعي.",
+          category: "Productivity",
+          url: "https://tome.app",
+          icon: "fas fa-book",
+        },
+        {
+          nameEn: "Beautiful.ai",
+          nameAr: "بيوتيفول دوت أي آي",
+          descEn: "AI presentation maker that designs slides automatically.",
+          descAr: "صانع عروض AI يصمم الشرائح تلقائياً.",
+          category: "Productivity",
+          url: "https://www.beautiful.ai",
+          icon: "fas fa-presentation-screen",
+        },
+        {
+          nameEn: "Mem AI",
+          nameAr: "ميم إيه آي",
+          descEn: "AI-powered notes that organize themselves with context.",
+          descAr: "ملاحظات AI تنظم نفسها بالسياق.",
+          category: "Productivity",
+          url: "https://mem.ai",
+          icon: "fas fa-brain",
+        },
+        {
+          nameEn: "Reflect AI",
+          nameAr: "ريفليكت",
+          descEn: "AI note-taking with backlinks & networked thought.",
+          descAr: "تدوين ملاحظات AI مع روابط خلفية.",
+          category: "Productivity",
+          url: "https://reflect.app",
+          icon: "fas fa-link",
+        },
+        {
+          nameEn: "SciSpace",
+          nameAr: "ساي سبيس",
+          descEn: "AI research assistant for understanding scientific papers.",
+          descAr: "مساعد بحث AI لفهم الأوراق العلمية.",
+          category: "Research",
+          url: "https://typeset.io",
+          icon: "fas fa-flask",
+        },
+        {
+          nameEn: "ChatPDF",
+          nameAr: "شات بي دي إف",
+          descEn: "Chat with any PDF document using AI.",
+          descAr: "الدردشة مع أي ملف PDF باستخدام AI.",
+          category: "Research",
+          url: "https://www.chatpdf.com",
+          icon: "fas fa-file-pdf",
+        },
+        {
+          nameEn: "ExplainPaper",
+          nameAr: "إكسبلين بيبر",
+          descEn: "AI that explains complex research papers simply.",
+          descAr: "AI يشرح الأوراق البحثية المعقدة ببساطة.",
+          category: "Research",
+          url: "https://www.explainpaper.com",
+          icon: "fas fa-book-open",
+        },
+        {
+          nameEn: "Jenni AI",
+          nameAr: "جيني إيه آي",
+          descEn: "AI writing assistant for academic papers & essays.",
+          descAr: "مساعد كتابة AI للأوراق الأكاديمية والمقالات.",
+          category: "Writing",
+          url: "https://jenni.ai",
+          icon: "fas fa-graduation-cap",
+        },
+        {
+          nameEn: "Smodin",
+          nameAr: "سمودين",
+          descEn: "AI writing, rewriting & plagiarism detection tool.",
+          descAr: "أداة كتابة AI وإعادة الصياغة وكشف الانتحال.",
+          category: "Writing",
+          url: "https://smodin.io",
+          icon: "fas fa-check-circle",
+        },
+        {
+          nameEn: "TextCortex",
+          nameAr: "تيكست كورتكس",
+          descEn: "AI writing assistant with persona-specific content.",
+          descAr: "مساعد كتابة AI بمحتوى مخصص للشخصيات.",
+          category: "Writing",
+          url: "https://textcortex.com",
+          icon: "fas fa-user-edit",
+        },
+        {
+          nameEn: "Copilot Pro",
+          nameAr: "كوبايلوت برو",
+          descEn: "Microsoft's advanced AI assistant across Office apps.",
+          descAr: "مساعد AI المتقدم من مايكروسوفت عبر تطبيقات Office.",
+          category: "Chat",
+          url: "https://copilot.microsoft.com",
+          icon: "fab fa-microsoft",
+        },
+        {
+          nameEn: "Pi by Inflection",
+          nameAr: "باي",
+          descEn: "Personal AI with emotional intelligence & memory.",
+          descAr: "AI شخصي بالذكاء العاطفي والذاكرة.",
+          category: "Chat",
+          url: "https://pi.ai",
+          icon: "fas fa-heart",
+        },
+        {
+          nameEn: "Anthropic Console",
+          nameAr: "كونسول أنثروبيك",
+          descEn: "Build with Claude API & test prompts.",
+          descAr: "البناء مع Claude API واختبار البروبتات.",
+          category: "Coding",
+          url: "https://console.anthropic.com",
+          icon: "fas fa-terminal",
         },
       ];
 
@@ -1930,7 +3307,9 @@
         "Research",
         "Writing",
         "Video",
+        "Chat",
       ];
+
       const categoryIcons = {
         Audio: "fas fa-headphones",
         Coding: "fas fa-code",
@@ -1940,17 +3319,21 @@
         Research: "fas fa-microscope",
         Writing: "fas fa-feather-alt",
         Video: "fas fa-film",
+        Chat: "fas fa-comments",
       };
+
       const categoryColors = {
         Audio: "var(--cyan)",
         Coding: "var(--purple)",
         Design: "var(--pink)",
-        "Image Generation": "#ffc83c",
+        "Image Generation": "var(--yellow)",
         Productivity: "var(--purple)",
-        Research: "#ff9632",
+        Research: "var(--orange)",
         Writing: "var(--cyan)",
-        Video: "#3cc864",
+        Video: "var(--green)",
+        Chat: "var(--green)",
       };
+
       const categoryClasses = {
         Audio: "s-audio",
         Coding: "s-code",
@@ -1960,6 +3343,7 @@
         Research: "s-research",
         Writing: "s-write",
         Video: "s-video",
+        Chat: "s-chat",
       };
 
       const canvaCategories = [
@@ -2016,6 +3400,24 @@
           nameAr: "شعار",
           keywords: ["Logo template", "شعار", "Brand logo"],
           baseQuery: "logo",
+        },
+        {
+          nameEn: "YouTube Thumbnail",
+          nameAr: "صورة يوتيوب",
+          keywords: ["YouTube thumbnail", "صورة يوتيوب", "Video cover"],
+          baseQuery: "youtube thumbnail",
+        },
+        {
+          nameEn: "Certificate",
+          nameAr: "شهادة",
+          keywords: ["Certificate template", "شهادة", "Diploma"],
+          baseQuery: "certificate",
+        },
+        {
+          nameEn: "Menu",
+          nameAr: "قائمة طعام",
+          keywords: ["Menu template", "قائمة طعام", "Restaurant menu"],
+          baseQuery: "menu",
         },
       ];
 
@@ -2074,13 +3476,68 @@
           promptAr:
             "اكتب بريدًا إلكترونيًا احترافيًا لـ [الشخص/الشركة] عن [العرض/المنتج]. أقل من 150 كلمة، شخصي وودّي مع دعوة واضحة للتصرف.",
         },
+        {
+          category: "Video Script",
+          categoryAr: "سكريبت فيديو",
+          icon: "fas fa-video",
+          prompt:
+            "Write a 2-minute YouTube video script about [topic]. Include: hook (first 5 seconds), 3 key points, transitions, and a strong call-to-action at the end. Tone: [energetic/educational/funny].",
+          promptAr:
+            "اكتب سكريبت فيديو يوتيوب لمدة دقيقتين عن [الموضوع]. يتضمن: جملة افتتاحية، 3 نقاط رئيسية، انتقالات، ودعوة للتصرف. الأسلوب: [مفعّم/تعليمي/مضحك].",
+        },
+        {
+          category: "Social Media Ad",
+          categoryAr: "إعلان سوشيال ميديا",
+          icon: "fas fa-ad",
+          prompt:
+            "Create a high-converting Facebook/Instagram ad for [product/service]. Headline: catchy. Body: 2-3 sentences highlighting benefits. CTA: strong and urgent. Target: [demographics].",
+          promptAr:
+            "أنشئ إعلان فيسبوك/انستجرام عالي التحويل لـ [المنتج/الخدمة]. عنوان: جذاب. نص: 2-3 جمل تبرز الفوائد. دعوة للتصرف: قوية وعاجلة.",
+        },
+        {
+          category: "Product Description",
+          categoryAr: "وصف منتج",
+          icon: "fas fa-box",
+          prompt:
+            "Write a persuasive product description for [product name]. Highlight: key features, benefits, unique selling points, and who it's for. Length: 150-200 words. Tone: [luxury/casual/technical].",
+          promptAr:
+            "اكتب وصفًا مقنعًا لـ [اسم المنتج]. برز: الميزات الرئيسية، الفوائد، نقاط البيع الفريدة، والجمهور المستهدف. الطول: 150-200 كلمة.",
+        },
+        {
+          category: "Learning Plan",
+          categoryAr: "خطة تعلم",
+          icon: "fas fa-graduation-cap",
+          prompt:
+            "Create a 30-day learning plan to master [skill/topic]. Include: daily tasks, resources, practice exercises, and milestones. Adjust for [beginner/intermediate/advanced] level.",
+          promptAr:
+            "أنشئ خطة تعلم لمدة 30 يومًا لإتقان [المهارة/الموضوع]. تضمين: مهام يومية، موارد، تمارين، ومعالم. مناسب لمستوى [مبتدئ/متوسط/متقدم].",
+        },
+        {
+          category: "Resume Bullet Points",
+          categoryAr: "نقاط السيرة الذاتية",
+          icon: "fas fa-file-signature",
+          prompt:
+            "Rewrite these resume bullet points to be more impactful using the STAR method (Situation, Task, Action, Result). Add quantifiable achievements where possible: [paste bullet points].",
+          promptAr:
+            "أعد كتابة نقاط السيرة الذاتية لتكون أكثر تأثيراً باستخدام طريقة STAR. أضف إنجازات قابلة للقياس: [الصق النقاط هنا].",
+        },
+        {
+          category: "Chatbot Personality",
+          categoryAr: "شخصية شات بوت",
+          icon: "fas fa-robot",
+          prompt:
+            "Design a chatbot personality for a [industry] company. Define: name, tone of voice, greeting style, how it handles complaints, and 5 example responses to common questions.",
+          promptAr:
+            "صمم شخصية شات بوت لشركة [الصناعة]. حدد: الاسم، نبرة الصوت، أسلوب الترحيب، طريقة التعامل مع الشكاوى، و5 ردود على أسئلة شائعة.",
+        },
       ];
 
       const cssTools = [
         {
           nameEn: "CSS Glass",
           nameAr: "سي إس إس جلاس",
-          descEn: "Glassmorphism CSS generator.",
+          descEn:
+            "Glassmorphism CSS generator with customizable blur & transparency.",
           descAr: "أداة لإنشاء تأثير الزجاج Glassmorphism باستخدام CSS.",
           url: "https://css.glass/",
           icon: "fas fa-square",
@@ -2089,7 +3546,7 @@
         {
           nameEn: "Clippy",
           nameAr: "كليبي",
-          descEn: "CSS clip-path visual generator.",
+          descEn: "CSS clip-path visual generator for custom shapes.",
           descAr: "أداة لإنشاء أشكال Clip-path احترافية بـ CSS.",
           url: "https://bennettfeely.com/clippy/",
           icon: "fas fa-crop",
@@ -2098,7 +3555,7 @@
         {
           nameEn: "CSS Grid Generator",
           nameAr: "مولد Grid",
-          descEn: "Visual CSS Grid layout builder.",
+          descEn: "Visual CSS Grid layout builder with code export.",
           descAr: "أداة لإنشاء تخطيطات CSS Grid بشكل مرئي.",
           url: "https://cssgrid-generator.com/",
           icon: "fas fa-th",
@@ -2107,7 +3564,7 @@
         {
           nameEn: "Google Fonts",
           nameAr: "جوجل فونتس",
-          descEn: "Free fonts library for websites.",
+          descEn: "Free fonts library for websites with 1500+ families.",
           descAr: "مكتبة خطوط مجانية تُستخدم في المواقع.",
           url: "https://fonts.google.com/",
           icon: "fas fa-font",
@@ -2116,7 +3573,7 @@
         {
           nameEn: "Font Awesome",
           nameAr: "فونت اوسم",
-          descEn: "Huge free icon library for web & apps.",
+          descEn: "Huge free icon library for web & apps with 30,000+ icons.",
           descAr: "مكتبة أيقونات احترافية للمواقع والتطبيقات.",
           url: "https://fontawesome.com/",
           icon: "fas fa-icons",
@@ -2125,7 +3582,7 @@
         {
           nameEn: "Coolors",
           nameAr: "كولورز",
-          descEn: "Fast color palette generator.",
+          descEn: "Fast color palette generator with export options.",
           descAr: "مولد لوحات ألوان سريع ومتطور.",
           url: "https://coolors.co/",
           icon: "fas fa-palette",
@@ -2134,7 +3591,7 @@
         {
           nameEn: "Neumorphism",
           nameAr: "نيومورفيزم",
-          descEn: "Soft UI CSS generator.",
+          descEn: "Soft UI CSS generator for modern card designs.",
           descAr: "مولد تأثير الواجهة الناعمة Neumorphism.",
           url: "https://neumorphism.io/",
           icon: "fas fa-circle",
@@ -2143,10 +3600,46 @@
         {
           nameEn: "Animate.css",
           nameAr: "أنيميت CSS",
-          descEn: "Ready-made CSS animations library.",
+          descEn: "Ready-made CSS animations library with 80+ effects.",
           descAr: "مكتبة حركات CSS جاهزة الاستخدام.",
           url: "https://animate.style/",
           icon: "fas fa-running",
+          free: true,
+        },
+        {
+          nameEn: "CSS Tricks",
+          nameAr: "سي إس إس تريكس",
+          descEn: "The ultimate CSS reference & tutorial website.",
+          descAr: "المرجع الأفضل لتعلم CSS والشروحات.",
+          url: "https://css-tricks.com/",
+          icon: "fas fa-magic",
+          free: true,
+        },
+        {
+          nameEn: "UI Gradients",
+          nameAr: "تدرجات UI",
+          descEn: "Beautiful gradient generator for web backgrounds.",
+          descAr: "مولد تدرجات ألوان جميلة لخلفيات المواقع.",
+          url: "https://uigradients.com/",
+          icon: "fas fa-fill-drip",
+          free: true,
+        },
+        {
+          nameEn: "Box Shadow Generator",
+          nameAr: "مولد الظلال",
+          descEn: "CSS box-shadow visual editor with presets.",
+          descAr: "محرر ظلال CSS مرئي مع قوالب جاهزة.",
+          url: "https://html-css-js.com/css/generator/box-shadow/",
+          icon: "fas fa-layer-group",
+          free: true,
+        },
+        {
+          nameEn: "CSS Button Generator",
+          nameAr: "مولد أزرار CSS",
+          descEn: "Create stylish CSS buttons with hover effects.",
+          descAr: "إنشاء أزرار CSS أنيقة مع تأثيرات التمرير.",
+          url: "https://www.css3buttongenerator.com/",
+          icon: "fas fa-mouse-pointer",
           free: true,
         },
       ];
@@ -2156,7 +3649,7 @@
           name: "Pinterest",
           url: "https://www.pinterest.com",
           icon: "fab fa-pinterest",
-          usesEn: "Visual discovery for design & templates.",
+          usesEn: "Visual discovery for design inspiration & templates.",
           usesAr: "اكتشاف بصري للقوالب والتصميم.",
         },
         {
@@ -2170,42 +3663,42 @@
           name: "Unsplash",
           url: "https://unsplash.com",
           icon: "fas fa-cloud-sun",
-          usesEn: "High-resolution free photos.",
+          usesEn: "High-resolution free photos for any project.",
           usesAr: "صور عالية الدقة مجانية.",
         },
         {
           name: "Pexels",
           url: "https://www.pexels.com",
           icon: "fas fa-camera",
-          usesEn: "Free stock videos & images.",
-          usesAr: "فيديو وصور مجانية.",
+          usesEn: "Free stock videos & images for commercial use.",
+          usesAr: "فيديو وصور مجانية للاستخدام التجاري.",
         },
         {
           name: "Pixabay",
           url: "https://pixabay.com",
           icon: "fas fa-tree",
-          usesEn: "Millions of royalty-free media.",
+          usesEn: "Millions of royalty-free media files.",
           usesAr: "ملايين الوسائط بدون حقوق.",
         },
         {
           name: "Remove.bg",
           url: "https://www.remove.bg",
           icon: "fas fa-magic",
-          usesEn: "Instant background removal.",
-          usesAr: "إزالة الخلفية فوراً.",
+          usesEn: "Instant background removal with AI.",
+          usesAr: "إزالة الخلفية فوراً بالذكاء الاصطناعي.",
         },
         {
           name: "Icons8",
           url: "https://icons8.com",
           icon: "fas fa-icons",
-          usesEn: "Free icons & design resources.",
+          usesEn: "Free icons, illustrations & design resources.",
           usesAr: "أيقونات وموارد تصميم مجانية.",
         },
         {
           name: "Flaticon",
           url: "https://www.flaticon.com",
           icon: "fas fa-shapes",
-          usesEn: "Millions of vector icons.",
+          usesEn: "Millions of vector icons in all styles.",
           usesAr: "ملايين الأيقونات المتجهة.",
         },
         {
@@ -2215,6 +3708,27 @@
           usesEn: "Ready-made templates for all designs.",
           usesAr: "قوالب جاهزة لكل التصاميم.",
         },
+        {
+          name: "Vectr",
+          url: "https://vectr.com",
+          icon: "fas fa-vector-square",
+          usesEn: "Free vector graphics editor online.",
+          usesAr: "محرر رسومات متجهة مجاني.",
+        },
+        {
+          name: "TinyPNG",
+          url: "https://tinypng.com",
+          icon: "fas fa-compress",
+          usesEn: "Compress images without losing quality.",
+          usesAr: "ضغط الصور بدون فقدان الجودة.",
+        },
+        {
+          name: "Color Hunt",
+          url: "https://colorhunt.co",
+          icon: "fas fa-palette",
+          usesEn: "Curated color palettes for designers.",
+          usesAr: "لوحات ألوان مختارة للمصممين.",
+        },
       ];
 
       const designPlatforms = [
@@ -2222,14 +3736,14 @@
           name: "Canva",
           url: "https://www.canva.com",
           icon: "fab fa-canva",
-          descEn: "All-in-one graphic design platform with AI.",
+          descEn: "All-in-one graphic design platform with AI tools.",
           descAr: "منصة تصميم شاملة مع أدوات الذكاء الاصطناعي.",
         },
         {
           name: "Adobe Express",
           url: "https://www.adobe.com/express",
           icon: "fas fa-pen-fancy",
-          descEn: "Quick design & social media content.",
+          descEn: "Quick design & social media content with AI.",
           descAr: "تصميم سريع للسوشيال ميديا والمحتوى.",
         },
         {
@@ -2243,7 +3757,7 @@
           name: "Vista Create",
           url: "https://www.create.vista.com",
           icon: "fas fa-paint-brush",
-          descEn: "VistaCreate — templates for marketing.",
+          descEn: "Templates for marketing & social media.",
           descAr: "قوالب تصميم للتسويق والإعلانات.",
         },
         {
@@ -2251,14 +3765,28 @@
           url: "https://www.affinity.studio/",
           icon: "fas fa-bezier-curve",
           descEn: "Professional creative suite by Affinity.",
-          descAr: "مجموعة أدوات تصميم احترافية من أفينيتي.",
+          descAr: "مجموعة أدوات تصميم احترافية.",
         },
         {
           name: "Figma",
           url: "https://www.figma.com",
           icon: "fab fa-figma",
-          descEn: "Collaborative UI/UX design tool.",
+          descEn: "Collaborative UI/UX design tool with AI plugins.",
           descAr: "أداة تصميم واجهات تعاونية UI/UX.",
+        },
+        {
+          name: "Sketch",
+          url: "https://www.sketch.com",
+          icon: "fas fa-pencil-alt",
+          descEn: "Vector design tool for Mac with prototyping.",
+          descAr: "أداة تصميم متجهة لماك مع النماذج.",
+        },
+        {
+          name: "Gravit Designer",
+          url: "https://www.designer.io",
+          icon: "fas fa-drafting-compass",
+          descEn: "Free vector design app for all platforms.",
+          descAr: "تطبيق تصميم متجه مجاني لكل المنصات.",
         },
       ];
 
@@ -2267,14 +3795,14 @@
           name: "Temp Mail",
           url: "https://temp-mail.org/ar/",
           icon: "fas fa-envelope",
-          descEn: "Disposable temporary email service.",
+          descEn: "Disposable temporary email with auto-refresh.",
           descAr: "إنشاء بريد إلكتروني مؤقت لاستقبال الرسائل.",
         },
         {
           name: "Mohmal",
           url: "https://www.mohmal.com/",
           icon: "fas fa-inbox",
-          descEn: "Arabic temporary email service.",
+          descEn: "Arabic temporary email service with SMS.",
           descAr: "خدمة بريد إلكتروني مؤقت عربية.",
         },
         {
@@ -2295,15 +3823,29 @@
           name: "Yopmail",
           url: "https://yopmail.com/",
           icon: "fas fa-at",
-          descEn: "Free temporary email addresses.",
+          descEn: "Free temporary email addresses — no signup.",
           descAr: "عناوين بريد إلكتروني مؤقتة مجانية.",
         },
         {
           name: "Tempimail",
           url: "https://tempimail.org/ar",
           icon: "fas fa-hourglass",
-          descEn: "Simple temporary email service.",
+          descEn: "Simple temporary email with clean interface.",
           descAr: "خدمة بريد مؤقت بسيطة وسهلة.",
+        },
+        {
+          name: "Mail.tm",
+          url: "https://mail.tm",
+          icon: "fas fa-envelope-open",
+          descEn: "Free temporary email with API access.",
+          descAr: "بريد مؤقت مجاني مع وصول API.",
+        },
+        {
+          name: "Fake Mail Generator",
+          url: "https://www.fakemailgenerator.com/",
+          icon: "fas fa-mask",
+          descEn: "Generate fake emails with multiple domains.",
+          descAr: "إنشاء بريد وهمي بعدة نطاقات.",
         },
       ];
 
@@ -2312,29 +3854,64 @@
           name: "WhatsApp Web",
           url: "https://web.whatsapp.com/",
           icon: "fab fa-whatsapp",
-          descEn: "WhatsApp on your browser.",
-          descAr: "واتساب على المتصفح.",
+          descEn: "WhatsApp on your browser with desktop sync.",
+          descAr: "واتساب على المتصفح مع مزامنة سطح المكتب.",
         },
         {
           name: "Facebook",
           url: "https://www.facebook.com/",
           icon: "fab fa-facebook",
-          descEn: "Social media platform.",
-          descAr: "منصة التواصل الاجتماعي فيسبوك.",
+          descEn: "Social media platform for connecting & marketing.",
+          descAr: "منصة التواصل الاجتماعي والتسويق.",
         },
         {
           name: "Instagram",
           url: "https://www.instagram.com/",
           icon: "fab fa-instagram",
-          descEn: "Photo & video sharing platform.",
+          descEn: "Photo & video sharing platform for creators.",
           descAr: "منصة مشاركة الصور والفيديوهات.",
         },
         {
           name: "Pinterest",
           url: "https://www.pinterest.com/",
           icon: "fab fa-pinterest",
-          descEn: "Visual discovery & idea board.",
+          descEn: "Visual discovery & idea board for designers.",
           descAr: "اكتشاف بصري وإلهام تصميمي.",
+        },
+        {
+          name: "LinkedIn",
+          url: "https://www.linkedin.com/",
+          icon: "fab fa-linkedin",
+          descEn: "Professional networking & job search platform.",
+          descAr: "شبكة مهنية والبحث عن وظائف.",
+        },
+        {
+          name: "X (Twitter)",
+          url: "https://x.com/",
+          icon: "fab fa-x-twitter",
+          descEn: "Real-time news & microblogging platform.",
+          descAr: "منصة أخبار فورية ومدونات مصغرة.",
+        },
+        {
+          name: "TikTok",
+          url: "https://www.tiktok.com/",
+          icon: "fab fa-tiktok",
+          descEn: "Short-form video platform for viral content.",
+          descAr: "منصة فيديوهات قصيرة للمحتوى الفيروسي.",
+        },
+        {
+          name: "YouTube",
+          url: "https://www.youtube.com/",
+          icon: "fab fa-youtube",
+          descEn: "Video sharing & streaming platform.",
+          descAr: "منصة مشاركة وبث الفيديوهات.",
+        },
+        {
+          name: "Facebook Business",
+          url: "https://business.facebook.com/",
+          icon: "fab fa-facebook-f",
+          descEn: "Manage business pages, auto-replies & Messenger automation.",
+          descAr: "إدارة صفحات الأعمال والردود التلقائية وأتمتة الماسنجر.",
         },
       ];
 
@@ -2343,50 +3920,78 @@
           name: "Pinterest",
           url: "https://www.pinterest.com",
           icon: "fab fa-pinterest",
-          usesEn: "Discover high-res mood boards & photography.",
+          usesEn: "Discover mood boards & photography inspiration.",
           usesAr: "لوحات مزاجية وتصوير فوتوغرافي.",
         },
         {
           name: "Unsplash",
           url: "https://unsplash.com",
           icon: "fas fa-cloud-sun",
-          usesEn: "Premium free photos.",
-          usesAr: "صور مجانية فاخرة.",
+          usesEn: "Premium free photos for commercial projects.",
+          usesAr: "صور مجانية فاخرة للمشاريع التجارية.",
         },
         {
           name: "Pexels",
           url: "https://www.pexels.com",
           icon: "fas fa-camera",
-          usesEn: "Free stock photography & video.",
+          usesEn: "Free stock photography & video clips.",
           usesAr: "صور وفيديو مجاني.",
         },
         {
           name: "Pixabay",
           url: "https://pixabay.com",
           icon: "fas fa-tree",
-          usesEn: "Public domain images.",
-          usesAr: "صور المجال العام.",
+          usesEn: "Public domain images, vectors & music.",
+          usesAr: "صور المجال العام ومتجهات وموسيقى.",
         },
         {
           name: "Yandex Images",
           url: "https://yandex.com/images",
           icon: "fas fa-search",
-          usesEn: "Reverse image search engine.",
+          usesEn: "Advanced reverse image search engine.",
           usesAr: "محرك بحث عكسي للصور.",
         },
         {
           name: "Kaboompics",
           url: "https://kaboompics.com",
           icon: "fas fa-crop-alt",
-          usesEn: "Curated free stock photos.",
-          usesAr: "صور مخزون منسقة.",
+          usesEn: "Curated free stock photos with search by color.",
+          usesAr: "صور مخزون منسقة مع بحث باللون.",
         },
         {
           name: "Freepik",
           url: "https://www.freepik.com",
           icon: "fas fa-image",
-          usesEn: "Free vectors, photos & PSD files.",
+          usesEn: "Free vectors, photos, PSD & AI-generated images.",
           usesAr: "متجهات وصور وملفات PSD مجانية.",
+        },
+        {
+          name: "Burst by Shopify",
+          url: "https://burst.shopify.com",
+          icon: "fas fa-store",
+          usesEn: "Free stock photos for entrepreneurs.",
+          usesAr: "صور مجانية لأصحاب الأعمال.",
+        },
+        {
+          name: "Reshot",
+          url: "https://www.reshot.com",
+          icon: "fas fa-hand-holding-heart",
+          usesEn: "Handpicked free photos from photographers.",
+          usesAr: "صور مجانية مختارة يدوياً من مصورين.",
+        },
+        {
+          name: "StockSnap.io",
+          url: "https://stocksnap.io",
+          icon: "fas fa-images",
+          usesEn: "Beautiful free stock photos with no copyright.",
+          usesAr: "صور ستوك جميلة بدون حقوق نشر.",
+        },
+        {
+          name: "Shopify Stock Photos",
+          url: "https://www.shopify.com/stock-photos",
+          icon: "fas fa-store",
+          usesEn: "Free stock photos curated for e-commerce & business use.",
+          usesAr: "صور ستوك مجانية مختارة للتجارة الإلكترونية.",
         },
       ];
 
@@ -2394,7 +3999,7 @@
         {
           nameEn: "Grammarly",
           nameAr: "جرامرلي",
-          descEn: "AI grammar checker in every text field.",
+          descEn: "AI grammar checker in every text field online.",
           descAr: "تصحيح القواعد اللغوية في كل مكان تكتب فيه.",
           url: "https://www.grammarly.com",
           icon: "fas fa-spell-check",
@@ -2403,14 +4008,14 @@
           nameEn: "ChatGPT Writer",
           nameAr: "كاتب GPT",
           descEn: "Use AI to write emails & messages in any tab.",
-          descAr: "استخدم الذكاء الاصطناعي لكتابة الإيميلات في أي تبويب.",
+          descAr: "استخدم الذكاء الاصطناعي لكتابة الإيميلات.",
           url: "https://chatgptwriter.ai/",
           icon: "fas fa-pen",
         },
         {
           nameEn: "Merlin AI",
           nameAr: "ميرلين",
-          descEn: "ChatGPT sidebar on any webpage.",
+          descEn: "ChatGPT sidebar on any webpage with summarization.",
           descAr: "شريط جانبي لـ ChatGPT على أي صفحة ويب.",
           url: "https://www.getmerlin.in/",
           icon: "fas fa-hat-wizard",
@@ -2418,7 +4023,7 @@
         {
           nameEn: "uBlock Origin",
           nameAr: "يو بلوك",
-          descEn: "Powerful ad & tracker blocker.",
+          descEn: "Powerful ad & tracker blocker — lightweight.",
           descAr: "حاجب الإعلانات والمتتبعين الأقوى.",
           url: "https://ublockorigin.com/",
           icon: "fas fa-shield-alt",
@@ -2426,40 +4031,294 @@
         {
           nameEn: "Planet VPN",
           nameAr: "بلانيت VPN",
-          descEn: "Fast VPN for secure & open browsing.",
-          descAr: "خدمة VPN لتصفح الإنترنت بشكل آمن وفتح المواقع.",
+          descEn: "Fast free VPN for secure & open browsing.",
+          descAr: "خدمة VPN لتصفح الإنترنت بشكل آمن.",
           url: "https://planetvpnarab.com/",
           icon: "fas fa-lock",
         },
         {
           nameEn: "Wappalyzer",
           nameAr: "واباليزر",
-          descEn: "Identify what tech any website uses.",
-          descAr: "اعرف التقنيات المستخدمة في أي موقع ويب.",
+          descEn: "Identify what tech any website uses instantly.",
+          descAr: "اعرف التقنيات المستخدمة في أي موقع.",
           url: "https://www.wappalyzer.com/",
           icon: "fas fa-search-plus",
         },
         {
           nameEn: "ColorZilla",
           nameAr: "كولور زيلا",
-          descEn: "Pick any color from any webpage.",
-          descAr: "التقط أي لون من أي صفحة ويب بسهولة.",
+          descEn: "Pick any color from any webpage with eyedropper.",
+          descAr: "التقط أي لون من أي صفحة ويب.",
           url: "https://www.colorzilla.com/",
           icon: "fas fa-eye-dropper",
         },
         {
           nameEn: "Dark Reader",
           nameAr: "دارك ريدر",
-          descEn: "Dark mode for every website.",
-          descAr: "وضع داكن لكل المواقع.",
+          descEn: "Dark mode for every website — customizable.",
+          descAr: "وضع داكن لكل المواقع مع تخصيص.",
           url: "https://darkreader.org/",
           icon: "fas fa-moon",
+        },
+        {
+          nameEn: "Lighthouse",
+          nameAr: "لايت هاوس",
+          descEn: "Google's tool for auditing web performance & SEO.",
+          descAr: "أداة جوجل لتدقيق أداء المواقع وSEO.",
+          url: "https://developer.chrome.com/docs/lighthouse",
+          icon: "fas fa-tachometer-alt",
+        },
+        {
+          nameEn: "WhatFont",
+          nameAr: "وات فونت",
+          descEn: "Identify any font on any webpage instantly.",
+          descAr: "تعرف على أي خط على أي صفحة ويب.",
+          url: "https://www.chengyinliu.com/whatfont.html",
+          icon: "fas fa-font",
+        },
+        {
+          nameEn: "JSON Viewer",
+          nameAr: "عارض JSON",
+          descEn: "Beautiful JSON formatter & validator.",
+          descAr: "منسق ومدقق JSON جميل.",
+          url: "https://chrome.google.com/webstore/detail/json-viewer",
+          icon: "fas fa-code",
+        },
+        {
+          nameEn: "Momentum",
+          nameAr: "مومنتم",
+          descEn: "Beautiful new tab page with focus dashboard.",
+          descAr: "صفحة تبويب جديدة جميلة مع لوحة تركيز.",
+          url: "https://momentumdash.com",
+          icon: "fas fa-sun",
+        },
+      ];
+
+      const automationTools = [
+        {
+          nameEn: "Zapier",
+          nameAr: "زابير",
+          descEn: "Connect 6000+ apps & automate workflows with AI.",
+          descAr: "ربط 6000+ تطبيق وأتمتة سير العمل.",
+          url: "https://zapier.com",
+          icon: "fas fa-bolt",
+        },
+        {
+          nameEn: "Make (Integromat)",
+          nameAr: "ماك",
+          descEn: "Visual automation builder with 2000+ integrations.",
+          descAr: "بناء أتمتة مرئي مع 2000+ تكامل.",
+          url: "https://www.make.com",
+          icon: "fas fa-cogs",
+        },
+        {
+          nameEn: "n8n",
+          nameAr: "ان 8 ان",
+          descEn: "Open-source workflow automation with fair-code.",
+          descAr: "أتمتة سير العمل مفتوحة المصدر.",
+          url: "https://n8n.io",
+          icon: "fas fa-project-diagram",
+        },
+        {
+          nameEn: "IFTTT",
+          nameAr: "اف تي تي تي",
+          descEn: "Simple applets to connect apps & devices.",
+          descAr: "تطبيقات بسيطة لربط التطبيقات والأجهزة.",
+          url: "https://ifttt.com",
+          icon: "fas fa-plug",
+        },
+        {
+          nameEn: "Bardeen",
+          nameAr: "باردين",
+          descEn: "AI automation for browser tasks & scraping.",
+          descAr: "أتمتة AI لمهام المتصفح والتجميع.",
+          url: "https://www.bardeen.ai",
+          icon: "fas fa-robot",
+        },
+        {
+          nameEn: "PhantomBuster",
+          nameAr: "فانتوم باستر",
+          descEn: "Code-free web scraping & data extraction.",
+          descAr: "تجميع البيانات من الويب بدون كود.",
+          url: "https://phantombuster.com",
+          icon: "fas fa-ghost",
+        },
+        {
+          nameEn: "Browse AI",
+          nameAr: "براوز AI",
+          descEn: "Train robots to scrape any website in minutes.",
+          descAr: "تدريب روبوتات لتجميع أي موقع.",
+          url: "https://www.browse.ai",
+          icon: "fas fa-spider",
+        },
+        {
+          nameEn: "Pipedream",
+          nameAr: "بايب دريم",
+          descEn: "Connect APIs and build workflows with code.",
+          descAr: "ربط APIs وبناء سير عمل بالكود.",
+          url: "https://pipedream.com",
+          icon: "fas fa-stream",
+        },
+      ];
+
+      const seoTools = [
+        {
+          nameEn: "Ahrefs",
+          nameAr: "أهريفس",
+          descEn: "SEO toolset for backlinks, keywords & competitor analysis.",
+          descAr: "أدوات SEO للروابط والكلمات المفتاحية.",
+          url: "https://ahrefs.com",
+          icon: "fas fa-chart-line",
+        },
+        {
+          nameEn: "SEMrush",
+          nameAr: "سيم راش",
+          descEn: "All-in-one marketing toolkit for SEO & PPC.",
+          descAr: "أدوات تسويق شاملة لـ SEO وPPC.",
+          url: "https://www.semrush.com",
+          icon: "fas fa-search-dollar",
+        },
+        {
+          nameEn: "Moz",
+          nameAr: "موز",
+          descEn: "SEO software with domain authority & link explorer.",
+          descAr: "برنامج SEO مع سلطة النطاق.",
+          url: "https://moz.com",
+          icon: "fas fa-globe",
+        },
+        {
+          nameEn: "Google Search Console",
+          nameAr: "كونسول البحث",
+          descEn: "Monitor & optimize site presence in Google.",
+          descAr: "مراقبة وتحسين ظهور الموقع في جوجل.",
+          url: "https://search.google.com/search-console",
+          icon: "fab fa-google",
+        },
+        {
+          nameEn: "Ubersuggest",
+          nameAr: "أوبر ساجست",
+          descEn: "Free keyword research & SEO analyzer by Neil Patel.",
+          descAr: "بحث كلمات مفتاحية وتحليل SEO مجاني.",
+          url: "https://neilpatel.com/ubersuggest/",
+          icon: "fas fa-lightbulb",
+        },
+        {
+          nameEn: "AnswerThePublic",
+          nameAr: "أنسر ذا ببلك",
+          descEn: "Discover what people are searching for.",
+          descAr: "اكتشف ما يبحث عنه الناس.",
+          url: "https://answerthepublic.com",
+          icon: "fas fa-question-circle",
+        },
+        {
+          nameEn: "Screaming Frog",
+          nameAr: "سكرايمينج فرج",
+          descEn: "Website crawler for technical SEO audits.",
+          descAr: "زاحف مواقع لتدقيق SEO التقني.",
+          url: "https://www.screamingfrog.co.uk",
+          icon: "fas fa-bug",
+        },
+        {
+          nameEn: "Yoast SEO",
+          nameAr: "يوست SEO",
+          descEn: "WordPress SEO plugin with content analysis.",
+          descAr: "إضافة SEO لـ WordPress مع تحليل المحتوى.",
+          url: "https://yoast.com",
+          icon: "fab fa-wordpress",
+        },
+        {
+          nameEn: "Facebook Ad Library",
+          nameAr: "مكتبة إعلانات فيسبوك",
+          descEn:
+            "Study competitor ads and marketing strategies on Facebook & Instagram.",
+          descAr:
+            "دراسة إعلانات المنافسين واستراتيجيات التسويق على فيسبوك وانستجرام.",
+          category: "SEO",
+          url: "https://www.facebook.com/ads/library",
+          icon: "fab fa-facebook",
+        },
+        {
+          nameEn: "Ads Library Pro",
+          nameAr: "مكتبة الإعلانات برو",
+          descEn:
+            "Custom tool for studying and analyzing advertisements across platforms.",
+          descAr: "نظام إدارة الذمم المالية",
+          category: "SEO",
+          url: "https://omarosama50ga-boop.github.io/advertisements/",
+          icon: "fas fa-ad",
+        },
+      ];
+
+      const securityTools = [
+        {
+          nameEn: "1Password",
+          nameAr: "ون باسورد",
+          descEn: "Secure password manager with travel mode.",
+          descAr: "مدير كلمات مرور آمن مع وضع السفر.",
+          url: "https://1password.com",
+          icon: "fas fa-key",
+        },
+        {
+          nameEn: "Bitwarden",
+          nameAr: "بت واردن",
+          descEn: "Open-source password manager — free tier available.",
+          descAr: "مدير كلمات مرور مفتوح المصدر.",
+          url: "https://bitwarden.com",
+          icon: "fas fa-shield-alt",
+        },
+        {
+          nameEn: "NordVPN",
+          nameAr: "نورد VPN",
+          descEn: "Premium VPN with threat protection & mesh net.",
+          descAr: "VPN ممتاز مع حماية من التهديدات.",
+          url: "https://nordvpn.com",
+          icon: "fas fa-user-secret",
+        },
+        {
+          nameEn: "ProtonVPN",
+          nameAr: "بروتون VPN",
+          descEn: "Privacy-first VPN from Switzerland.",
+          descAr: "VPN يركز على الخصوصية من سويسرا.",
+          url: "https://protonvpn.com",
+          icon: "fas fa-lock",
+        },
+        {
+          nameEn: "Malwarebytes",
+          nameAr: "مالوير بايتس",
+          descEn: "Anti-malware & ransomware protection.",
+          descAr: "حماية من البرمجيات الخبيثة والفدية.",
+          url: "https://www.malwarebytes.com",
+          icon: "fas fa-bug",
+        },
+        {
+          nameEn: "Have I Been Pwned",
+          nameAr: "هاف آي بين باوند",
+          descEn: "Check if your email was in a data breach.",
+          descAr: "تحقق مما إذا كان بريدك في خرق بيانات.",
+          url: "https://haveibeenpwned.com",
+          icon: "fas fa-exclamation-triangle",
+        },
+        {
+          nameEn: "Privacy Badger",
+          nameAr: "بريفاسي بادجر",
+          descEn: "Block invisible trackers automatically.",
+          descAr: "حجب المتتبعين غير المرئيين تلقائياً.",
+          url: "https://privacybadger.org",
+          icon: "fas fa-user-shield",
+        },
+        {
+          nameEn: "DuckDuckGo",
+          nameAr: "دك دك جو",
+          descEn: "Privacy-focused search engine.",
+          descAr: "محرك بحث يركز على الخصوصية.",
+          url: "https://duckduckgo.com",
+          icon: "fas fa-duck",
         },
       ];
 
       const sectionChips = [
-        { key: "canva", labelEn: "🎨 Canva", labelAr: "🎨 كانفا" },
         { key: "prompts", labelEn: "⚡ Prompts", labelAr: "⚡ بروبتات" },
+        { key: "canva", labelEn: "🎨 Canva", labelAr: "🎨 كانفا" },
         { key: "css", labelEn: "💻 CSS Tools", labelAr: "💻 CSS" },
         {
           key: "free",
@@ -2475,14 +4334,17 @@
         { key: "social", labelEn: "📱 Social", labelAr: "📱 سوشيال" },
         { key: "imgres", labelEn: "🖼️ Images", labelAr: "🖼️ صور" },
         { key: "ext", labelEn: "🧩 Extensions", labelAr: "🧩 إضافات" },
+        { key: "automation", labelEn: "🤖 Automation", labelAr: "🤖 أتمتة" },
+        { key: "seo", labelEn: "📈 SEO", labelAr: "📈 SEO" },
+        { key: "security", labelEn: "🔒 Security", labelAr: "🔒 أمان" },
       ];
 
       const translations = {
         en: {
           preloader: "INITIALIZING DARCK CODE",
-          heroBadge: "AI-Powered Creative Hub",
+          heroBadge: "AI-Powered Creative Hub 2026",
           heroTitle: "The Ultimate AI Arsenal",
-          heroSub: "Curating frontier intelligence & creative tools",
+          heroSub: "Curating frontier intelligence & creative tools for 2026",
           statTools: "+ AI tools",
           statSections: "sections",
           statUpdate: "Real-time ready",
@@ -2492,29 +4354,59 @@
           toolsLabel: "results",
           noResultTitle: "No results found",
           noResultDesc: "Try adjusting your search or category",
-          canvaTitle: "🎨 Canva Design Vault",
-          canvaSubtitle: "Billboard, Medical, Invoice & More",
           promptsTitle: "⚡ AI Prompt Templates",
           promptsSubtitle: "Ready-to-use prompts for ChatGPT, Claude & more",
-          cssTitle: "🎨 CSS & Frontend Tools",
+          promptsExplain:
+            "This section contains professional prompt templates that you can copy and use directly with AI models like ChatGPT, Claude, and Gemini. Each prompt is optimized for specific tasks and includes placeholders [like this] that you should replace with your own content.",
+          canvaTitle: "🎨 Canva Design Vault",
+          canvaSubtitle: "Billboard, Medical, Invoice, Business Card & More",
+          canvaExplain:
+            "Quick links to Canva templates for professional designs. Click any category to browse ready-made templates, or click keywords for specific searches. Perfect for creating marketing materials, business documents, and social media content without design skills.",
+          cssTitle: "💻 CSS & Frontend Tools",
           cssSubtitle: "Generators, validators, and visual helpers",
+          cssExplain:
+            "Essential tools for web developers and designers. Generate CSS effects like glassmorphism and neumorphism, create color palettes, find fonts and icons, and build grid layouts visually — all without writing code from scratch.",
           freeTitle: "💎 Free Essential Services",
           freeSubtitle: "Icons, stock photos, design tools — all free",
+          freeExplain:
+            "A curated collection of completely free resources for creators. High-resolution stock photos, vector icons, background removal tools, and design assets that you can use for personal and commercial projects without any cost.",
           designPlatTitle: "🖌️ Design Platforms",
           designPlatSubtitle: "Canva, Adobe, Microsoft Designer & more",
+          designPlatExplain:
+            "Professional design platforms for creating everything from social media posts to complete brand identities. Includes AI-powered tools that can generate designs from text descriptions and collaborative platforms for team projects.",
           emailTitle: "📧 Temporary Email Services",
           emailSubtitle: "Disposable emails for privacy",
+          emailExplain:
+            "Protect your privacy when signing up for websites or testing services. These temporary email services provide disposable addresses that self-destruct after a set time, keeping your real inbox spam-free and your identity secure.",
           socialTitle: "📱 Social & Communication",
           socialSubtitle: "WhatsApp, Facebook, Instagram & more",
+          socialExplain:
+            "Quick access to major social media and communication platforms. Use these links to manage your social presence, communicate with clients, or discover visual inspiration for your creative projects.",
           imageResTitle: "🖼️ High-Quality Image Resources",
           imageResSubtitle: "Royalty-free photos, vectors & visuals",
+          imageResExplain:
+            "Find stunning, royalty-free images for any project. These platforms offer high-resolution photography, illustrations, and vectors that you can use commercially without attribution. Includes reverse image search to find similar images.",
           extTitle: "🧩 Must-Have Browser Extensions",
-          extSubtitle: "Supercharge your browser with AI & productivity",
+          extSubtitle: "Supercharge your browser with AI & productivity tools",
+          extExplain:
+            "Browser extensions that add AI capabilities directly to your workflow. From grammar checking and AI writing assistants to ad blockers, VPNs, and color pickers — these tools make browsing smarter and more productive.",
+          automationTitle: "🤖 AI Automation & Workflow",
+          automationSubtitle: "Zapier, Make, n8n & no-code automation",
+          automationExplain:
+            "Connect apps and automate repetitive tasks without coding. These tools let you create workflows that trigger actions across multiple platforms — like automatically posting to social media when you publish a blog, or syncing data between your CRM and email.",
+          seoTitle: "📈 SEO & Marketing Tools",
+          seoSubtitle: "Analytics, keywords, and growth hacking",
+          seoExplain:
+            "Tools to grow your online presence and track performance. Includes keyword research, competitor analysis, backlink checkers, and analytics platforms that help you understand your audience and optimize your content for search engines.",
+          securityTitle: "🔒 Security & Privacy Tools",
+          securitySubtitle: "VPNs, password managers & safety",
+          securityExplain:
+            "Protect your digital life with these security essentials. Password managers, VPN services, malware scanners, and privacy tools that keep your data safe from hackers, trackers, and surveillance while you work online.",
           visit: "Visit",
           copy: "Copy",
           copied: "Copied!",
           footerText:
-            "© 2025 DARCK CODE — Multilingual AI Hub & Creative Companion",
+            "© 2026 DARCK CODE — Multilingual AI Hub & Creative Companion",
           cats: {
             Audio: "🎵 Audio",
             Coding: "💻 Coding",
@@ -2524,11 +4416,12 @@
             Research: "🔍 Research",
             Writing: "✍️ Writing",
             Video: "🎬 Video",
+            Chat: "💬 Chat",
           },
         },
         ar: {
           preloader: "تشغيل دارك كود",
-          heroBadge: "مركز ذكاء اصطناعي وإبداع",
+          heroBadge: "مركز ذكاء اصطناعي وإبداع 2026",
           heroTitle: "أقوى ترسانة للذكاء الاصطناعي",
           heroSub: "أحدث أدوات الذكاء والإبداع في مكان واحد",
           statTools: "+ أداة ذكاء",
@@ -2540,28 +4433,58 @@
           toolsLabel: "نتيجة",
           noResultTitle: "لم يتم العثور على نتائج",
           noResultDesc: "عدّل البحث أو التصنيف",
-          canvaTitle: "🎨 قبو كانفا للتصميم",
-          canvaSubtitle: "لوحات إعلانية، تقارير طبية، فواتير والمزيد",
           promptsTitle: "⚡ قوالب بروبت AI",
           promptsSubtitle: "بروبتات جاهزة للاستخدام مع ChatGPT وكلود وغيرها",
-          cssTitle: "🎨 أدوات CSS والواجهات",
+          promptsExplain:
+            "يحتوي هذا القسم على قوالب بروبت احترافية يمكنك نسخها واستخدامها مباشرة مع نماذج الذكاء الاصطناعي مثل ChatGPT وClaude وGemini. كل بروبت محسّن لمهام محددة ويتضمن عناصر نائبة [مثل هذا] يجب استبدالها بمحتواك الخاص.",
+          canvaTitle: "🎨 قبو كانفا للتصميم",
+          canvaSubtitle: "لوحات إعلانية، تقارير طبية، فواتير والمزيد",
+          canvaExplain:
+            "روابط سريعة لقوالب Canva للتصاميم الاحترافية. انقر أي فئة لتصفح القوالب الجاهزة، أو انقر الكلمات المفتاحية للبحث المحدد. مثالي لإنشاء مواد تسويقية ومستندات أعمال ومحتوى سوشيال ميديا بدون مهارات تصميم.",
+          cssTitle: "💻 أدوات CSS والواجهات",
           cssSubtitle: "مولدات وأدوات مساعدة لتطوير الواجهات",
+          cssExplain:
+            "أدوات أساسية للمطورين والمصممين. أنشئ تأثيرات CSS مثل الزجاجية والنيومورفيزم، أنشئ لوحات ألوان، ابحث عن خطوط وأيقونات، وابنِ تخطيطات Grid بشكل مرئي — كل ذلك بدون كتابة كود من الصفر.",
           freeTitle: "💎 خدمات أساسية مجانية",
           freeSubtitle: "أيقونات، صور ستوك، أدوات تصميم — كلها مجانية",
+          freeExplain:
+            "مجموعة مختارة من الموارد المجانية تماماً للمبدعين. صور ستوك عالية الدقة، أيقونات متجهة، أدوات إزالة الخلفية، وموارد تصميم يمكنك استخدامها للمشاريع الشخصية والتجارية بدون أي تكلفة.",
           designPlatTitle: "🖌️ منصات التصميم",
           designPlatSubtitle: "كانفا، أدوبي، مايكروسوفت ديزاينر والمزيد",
+          designPlatExplain:
+            "منصات تصميم احترافية لإنشاء كل شيء من منشورات السوشيال ميديا إلى هويات علامة تجارية كاملة. تتضمن أدوات مدعومة بالذكاء الاصطناعي يمكنها إنشاء تصاميم من أوصاف نصية ومنصات تعاونية لمشاريع الفريق.",
           emailTitle: "📧 خدمات البريد المؤقت",
           emailSubtitle: "إيميلات مؤقتة للخصوصية",
+          emailExplain:
+            "احمِ خصوصيتك عند التسجيل في المواقع أو اختبار الخدمات. توفر خدمات البريد المؤقت هذه عناوين يمكن التخلص منها تتلاشى تلقائياً بعد فترة محددة، مما يحافظ على صندوق بريدك الحقيقي خالياً من الرسائل المزعجة.",
           socialTitle: "📱 السوشيال والتواصل",
           socialSubtitle: "واتساب، فيسبوك، انستجرام والمزيد",
+          socialExplain:
+            "وصول سريع لمنصات التواصل الاجتماعي والاتصال الرئيسية. استخدم هذه الروابط لإدارة حضورك الاجتماعي، التواصل مع العملاء، أو اكتشاف إلهام بصري لمشاريعك الإبداعية.",
           imageResTitle: "🖼️ موارد صور عالية الجودة",
           imageResSubtitle: "صور ومتجهات وفيديو بدون حقوق ملكية",
+          imageResExplain:
+            "ابحث عن صور مذهلة بدون حقوق ملكية لأي مشروع. توفر هذه المنصات تصويراً فوتوغرافياً عالي الدقة ورسوم توضيحية ومتجهات يمكنك استخدامها تجارياً بدون نسب. يتضمن بحث عكسي للصور للعثور على صور مشابهة.",
           extTitle: "🧩 إضافات متصفح لا غنى عنها",
           extSubtitle: "طوّر تجربتك في التصفح بالذكاء الاصطناعي",
+          extExplain:
+            "إضافات المتصفح التي تضيف قدرات AI مباشرة إلى سير عملك. من التحقق النحوي ومساعدي الكتابة بالذكاء الاصطناعي إلى حاجبات الإعلانات وشبكات VPN ومنتقيات الألوان — هذه الأدوات تجعل التصفح أكثر ذكاءً وإنتاجية.",
+          automationTitle: "🤖 أتمتة AI وسير العمل",
+          automationSubtitle: "زابير، ماك، ان 8 ان وأتمتة بدون كود",
+          automationExplain:
+            "اربط التطبيقات وأتمت المهام المتكررة بدون برمجة. تتيح لك هذه الأدوات إنشاء سير عمل تُطلق إجراءات عبر منصات متعددة — مثل النشر التلقائي على السوشيال ميديا عند نشر مدونة، أو مزامنة البيانات بين CRM وبريدك الإلكتروني.",
+          seoTitle: "📈 أدوات SEO والتسويق",
+          seoSubtitle: "تحليلات، كلمات مفتاحية، ونمو",
+          seoExplain:
+            "أدوات لتنمية حضورك على الإنترنت وتتبع الأداء. يتضمن بحث الكلمات المفتاحية وتحليل المنافسين وفحص الروابط الخلفية ومنصات التحليلات التي تساعدك على فهم جمهورك وتحسين محتواك لمحركات البحث.",
+          securityTitle: "🔒 أدوات الأمان والخصوصية",
+          securitySubtitle: "VPNs، مديرو كلمات المرور والسلامة",
+          securityExplain:
+            "احمِ حياتك الرقمية بهذه الأساسيات الأمنية. مديرو كلمات المرور وخدمات VPN وماسحات البرمجيات الخبيثة وأدوات الخصوصية التي تحافظ على بياناتك آمنة من المتسللين والمتتبعين أثناء عملك عبر الإنترنت.",
           visit: "زيارة",
           copy: "نسخ",
           copied: "تم النسخ!",
-          footerText: "© 2025 DARCK CODE — مركز متعدد اللغات ورفيق الإبداع",
+          footerText: "© 2026 DARCK CODE — مركز متعدد اللغات ورفيق الإبداع",
           cats: {
             Audio: "🎵 صوت",
             Coding: "💻 برمجة",
@@ -2571,6 +4494,7 @@
             Research: "🔍 بحث",
             Writing: "✍️ كتابة",
             Video: "🎬 فيديو",
+            Chat: "💬 محادثة",
           },
         },
       };
@@ -2589,6 +4513,7 @@
         if (icon)
           icon.style.transform = isOpen ? "rotate(-90deg)" : "rotate(0deg)";
       }
+
       function openSection(bodyId, iconId) {
         const body = document.getElementById(bodyId);
         const icon = document.getElementById(iconId);
@@ -2598,12 +4523,12 @@
       }
 
       const sectionBodyMap = {
-        canva: { body: "canva-body", icon: "canva-icon", sec: "sec-canva" },
         prompts: {
           body: "prompts-body",
           icon: "prompts-icon",
           sec: "sec-prompts",
         },
+        canva: { body: "canva-body", icon: "canva-icon", sec: "sec-canva" },
         css: { body: "css-body", icon: "css-icon", sec: "sec-css" },
         free: { body: "free-body", icon: "free-icon", sec: "sec-free" },
         designplatforms: {
@@ -2615,6 +4540,17 @@
         social: { body: "social-body", icon: "social-icon", sec: "sec-social" },
         imgres: { body: "imgres-body", icon: "imgres-icon", sec: "sec-imgres" },
         ext: { body: "ext-body", icon: "ext-icon", sec: "sec-ext" },
+        automation: {
+          body: "automation-body",
+          icon: "automation-icon",
+          sec: "sec-automation",
+        },
+        seo: { body: "seo-body", icon: "seo-icon", sec: "sec-seo" },
+        security: {
+          body: "security-body",
+          icon: "security-icon",
+          sec: "sec-security",
+        },
       };
 
       function isSectionFilter(f) {
@@ -2627,17 +4563,15 @@
         const cats = categoriesOrder.filter((c) =>
           toolsData.some((tool) => tool.category === c),
         );
-
         let html = `<button class="filter-chip ${activeFilter === "all" ? "active" : ""}" data-cat="all">${t.allTools}</button>`;
         cats.forEach((cat) => {
           html += `<button class="filter-chip ${activeFilter === cat ? "active" : ""}" data-cat="${cat}">${t.cats[cat] || cat}</button>`;
         });
-        html += `<span style="display:inline-flex;align-items:center;padding:0 6px;color:rgba(0,245,255,.3);font-size:.9rem;">|</span>`;
+        html += `<span style="display:inline-flex;align-items:center;padding:0 8px;color:rgba(0,245,255,.3);font-size:.9rem;">|</span>`;
         sectionChips.forEach((sc) => {
           const label = currentLang === "en" ? sc.labelEn : sc.labelAr;
           html += `<button class="filter-chip section-chip ${activeFilter === sc.key ? "active" : ""}" data-cat="${sc.key}">${label}</button>`;
         });
-
         container.innerHTML = html;
         container.querySelectorAll(".filter-chip").forEach((btn) => {
           btn.addEventListener("click", () => {
@@ -2652,9 +4586,9 @@
         if (isSectionFilter(activeFilter)) {
           document.getElementById("mainToolsArea").classList.add("hidden");
           document.getElementById("noResultsMsg").classList.add("hidden");
-          document.querySelectorAll(".search-section").forEach((s) => {
-            s.classList.add("filtered-out");
-          });
+          document
+            .querySelectorAll(".search-section")
+            .forEach((s) => s.classList.add("filtered-out"));
           const target = sectionBodyMap[activeFilter];
           const sec = document.getElementById(target.sec);
           if (sec) {
@@ -2664,15 +4598,14 @@
           updateCount(0, true);
         } else {
           document.getElementById("mainToolsArea").classList.remove("hidden");
-          document.querySelectorAll(".search-section").forEach((s) => {
-            s.classList.remove("filtered-out");
-          });
+          document
+            .querySelectorAll(".search-section")
+            .forEach((s) => s.classList.remove("filtered-out"));
           renderTools();
         }
       }
 
       function updateCount(n, isSec) {
-        const t = translations[currentLang];
         document.getElementById("visibleCount").textContent = isSec ? "—" : n;
       }
 
@@ -2723,12 +4656,12 @@
             if (!grouped[cat] || grouped[cat].length === 0) return;
             const cls = categoryClasses[cat] || "";
             const color = categoryColors[cat] || "var(--cyan)";
-            html += `<div class="section-header" style="grid-column:1/-1;cursor:default;margin-top:1rem;padding:.8rem 0;border-color:rgba(255,255,255,.06)">
-        <div class="section-header-left">
-          <div class="section-icon-wrap ${cls}" style="background:${color}22;color:${color}"><i class="${categoryIcons[cat] || "fas fa-tag"}"></i></div>
-          <div class="section-title-text" style="font-size:1rem">${t.cats[cat] || cat}</div>
-        </div>
-      </div>`;
+            html += `<div class="section-header" style="grid-column:1/-1;cursor:default;margin-top:1.2rem;padding:1rem 0;border-color:rgba(255,255,255,.06)">
+                <div class="section-header-left">
+                    <div class="section-icon-wrap ${cls}" style="background:${color}22;color:${color}"><i class="${categoryIcons[cat] || "fas fa-tag"}"></i></div>
+                    <div class="section-title-text" style="font-size:1.05rem">${t.cats[cat] || cat}</div>
+                </div>
+            </div>`;
             grouped[cat].forEach((tool) => {
               html += buildCard(tool);
             });
@@ -2746,15 +4679,15 @@
         const cls = categoryClasses[tool.category] || "";
         const color = categoryColors[tool.category] || "var(--cyan)";
         const cat = t.cats[tool.category] || tool.category;
-        return `<div class="ai-card ${cls}">
-    <div class="card-icon-wrap" style="background:${color}18;color:${color}"><i class="${tool.icon}"></i></div>
-    <span class="card-cat-badge">${cat}</span>
-    <div class="card-title">${name}</div>
-    <div class="card-desc">${desc}</div>
-    <div class="card-actions">
-      <a href="${tool.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a>
-    </div>
-  </div>`;
+        return `<div class="ai-card ${cls} fade-in">
+        <div class="card-icon-wrap" style="background:${color}18;color:${color}"><i class="${tool.icon}"></i></div>
+        <span class="card-cat-badge">${cat}</span>
+        <div class="card-title">${name}</div>
+        <div class="card-desc">${desc}</div>
+        <div class="card-actions">
+            <a href="${tool.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a>
+        </div>
+    </div>`;
       }
 
       function performGlobalSearch() {
@@ -2773,7 +4706,7 @@
       function searchStaticSections() {
         const q = searchTerm;
         const allCards = document.querySelectorAll(
-          "#canva-body .resource-card, #css-body .resource-card, #free-body .resource-card, #designplatforms-body .resource-card, #email-body .resource-card, #social-body .resource-card, #imgres-body .resource-card, #ext-body .resource-card, #prompts-body .prompt-card",
+          "#canva-body .resource-card, #css-body .resource-card, #free-body .resource-card, #designplatforms-body .resource-card, #email-body .resource-card, #social-body .resource-card, #imgres-body .resource-card, #ext-body .resource-card, #automation-body .resource-card, #seo-body .resource-card, #security-body .resource-card, #prompts-body .prompt-card",
         );
         allCards.forEach((card) => {
           card.style.display = card.textContent.toLowerCase().includes(q)
@@ -2799,14 +4732,14 @@
           .map((cat) => {
             const name = currentLang === "en" ? cat.nameEn : cat.nameAr;
             const url = `https://www.canva.com/templates/search/${encodeURIComponent(cat.baseQuery)}`;
-            return `<div class="resource-card">
-      <div class="card-icon-wrap" style="background:rgba(0,200,120,.12);color:#00c878"><i class="fas fa-search"></i></div>
-      <div class="card-title">${name}</div>
-      <div class="keyword-group">${cat.keywords.map((kw) => `<span class="keyword-badge" onclick="window.open('https://www.canva.com/templates/search/${encodeURIComponent(kw)}','_blank')">${kw}</span>`).join("")}</div>
-      <div class="card-actions" style="margin-top:12px">
-        <a href="${url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a>
-      </div>
-    </div>`;
+            return `<div class="resource-card fade-in">
+            <div class="card-icon-wrap" style="background:rgba(0,200,120,.12);color:#00c878"><i class="fas fa-search"></i></div>
+            <div class="card-title">${name}</div>
+            <div class="keyword-group">${cat.keywords.map((kw) => `<span class="keyword-badge" onclick="window.open('https://www.canva.com/templates/search/${encodeURIComponent(kw)}','_blank')">${kw}</span>`).join("")}</div>
+            <div class="card-actions" style="margin-top:12px">
+                <a href="${url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a>
+            </div>
+        </div>`;
           })
           .join("");
       }
@@ -2816,19 +4749,19 @@
         const container = document.getElementById("prompts-body");
         if (!container) return;
         container.innerHTML = promptsData
-          .map((p) => {
+          .map((p, i) => {
             const cat = currentLang === "en" ? p.category : p.categoryAr;
             const prompt = currentLang === "en" ? p.prompt : p.promptAr;
-            return `<div class="prompt-card">
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:.8rem">
-        <div style="width:38px;height:38px;border-radius:10px;background:rgba(168,85,247,.12);color:var(--purple);display:flex;align-items:center;justify-content:center"><i class="${p.icon}"></i></div>
-        <span class="prompt-tag">${cat}</span>
-      </div>
-      <div class="prompt-text">${prompt}</div>
-      <button class="copy-prompt-btn" onclick="copyPrompt(this,'${encodeURIComponent(prompt)}')">
-        <i class="fas fa-copy"></i> ${t.copy}
-      </button>
-    </div>`;
+            return `<div class="prompt-card fade-in">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:.8rem">
+                <div style="width:40px;height:40px;border-radius:12px;background:rgba(168,85,247,.12);color:var(--purple);display:flex;align-items:center;justify-content:center"><i class="${p.icon}"></i></div>
+                <span class="prompt-tag">${cat}</span>
+            </div>
+            <div class="prompt-text">${prompt}</div>
+            <button class="btn-copy" onclick="copyPrompt(this,'${encodeURIComponent(prompt)}')">
+                <i class="fas fa-copy"></i> ${t.copy}
+            </button>
+        </div>`;
           })
           .join("");
       }
@@ -2839,10 +4772,10 @@
           .writeText(decodeURIComponent(encodedText))
           .then(() => {
             btn.innerHTML = `<i class="fas fa-check"></i> ${t.copied}`;
-            btn.style.color = "var(--cyan)";
+            btn.classList.add("copied");
             setTimeout(() => {
               btn.innerHTML = `<i class="fas fa-copy"></i> ${t.copy}`;
-              btn.style.color = "";
+              btn.classList.remove("copied");
             }, 2000);
           });
       };
@@ -2855,13 +4788,13 @@
           .map((tool) => {
             const name = currentLang === "en" ? tool.nameEn : tool.nameAr;
             const desc = currentLang === "en" ? tool.descEn : tool.descAr;
-            return `<div class="resource-card">
-      <div class="card-icon-wrap" style="background:rgba(0,245,255,.1);color:var(--cyan)"><i class="${tool.icon}"></i></div>
-      ${tool.free ? '<span class="free-badge">FREE</span>' : ""}
-      <div class="card-title">${name}</div>
-      <div class="card-desc">${desc}</div>
-      <div class="card-actions"><a href="${tool.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
-    </div>`;
+            return `<div class="resource-card fade-in">
+            <div class="card-icon-wrap" style="background:rgba(0,245,255,.1);color:var(--cyan)"><i class="${tool.icon}"></i></div>
+            ${tool.free ? '<span class="free-badge">FREE</span>' : ""}
+            <div class="card-title">${name}</div>
+            <div class="card-desc">${desc}</div>
+            <div class="card-actions"><a href="${tool.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+        </div>`;
           })
           .join("");
       }
@@ -2872,13 +4805,13 @@
         if (!container) return;
         container.innerHTML = freeServices
           .map(
-            (s) => `<div class="resource-card">
-    <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${s.icon}"></i></div>
-    <span class="free-badge">FREE</span>
-    <div class="card-title">${s.name}</div>
-    <div class="card-desc">${currentLang === "en" ? s.usesEn : s.usesAr}</div>
-    <div class="card-actions"><a href="${s.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
-  </div>`,
+            (s) => `<div class="resource-card fade-in">
+        <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${s.icon}"></i></div>
+        <span class="free-badge">FREE</span>
+        <div class="card-title">${s.name}</div>
+        <div class="card-desc">${currentLang === "en" ? s.usesEn : s.usesAr}</div>
+        <div class="card-actions"><a href="${s.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+    </div>`,
           )
           .join("");
       }
@@ -2889,12 +4822,12 @@
         if (!container) return;
         container.innerHTML = designPlatforms
           .map(
-            (p) => `<div class="resource-card">
-    <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${p.icon}"></i></div>
-    <div class="card-title">${p.name}</div>
-    <div class="card-desc">${currentLang === "en" ? p.descEn : p.descAr}</div>
-    <div class="card-actions"><a href="${p.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
-  </div>`,
+            (p) => `<div class="resource-card fade-in">
+        <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${p.icon}"></i></div>
+        <div class="card-title">${p.name}</div>
+        <div class="card-desc">${currentLang === "en" ? p.descEn : p.descAr}</div>
+        <div class="card-actions"><a href="${p.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+    </div>`,
           )
           .join("");
       }
@@ -2905,13 +4838,13 @@
         if (!container) return;
         container.innerHTML = tempEmails
           .map(
-            (e) => `<div class="resource-card">
-    <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${e.icon}"></i></div>
-    <span class="free-badge">FREE</span>
-    <div class="card-title">${e.name}</div>
-    <div class="card-desc">${currentLang === "en" ? e.descEn : e.descAr}</div>
-    <div class="card-actions"><a href="${e.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
-  </div>`,
+            (e) => `<div class="resource-card fade-in">
+        <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${e.icon}"></i></div>
+        <span class="free-badge">FREE</span>
+        <div class="card-title">${e.name}</div>
+        <div class="card-desc">${currentLang === "en" ? e.descEn : e.descAr}</div>
+        <div class="card-actions"><a href="${e.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+    </div>`,
           )
           .join("");
       }
@@ -2922,12 +4855,12 @@
         if (!container) return;
         container.innerHTML = socialLinks
           .map(
-            (s) => `<div class="resource-card">
-    <div class="card-icon-wrap" style="background:rgba(0,245,255,.1);color:var(--cyan)"><i class="${s.icon}"></i></div>
-    <div class="card-title">${s.name}</div>
-    <div class="card-desc">${currentLang === "en" ? s.descEn : s.descAr}</div>
-    <div class="card-actions"><a href="${s.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
-  </div>`,
+            (s) => `<div class="resource-card fade-in">
+        <div class="card-icon-wrap" style="background:rgba(0,245,255,.1);color:var(--cyan)"><i class="${s.icon}"></i></div>
+        <div class="card-title">${s.name}</div>
+        <div class="card-desc">${currentLang === "en" ? s.descEn : s.descAr}</div>
+        <div class="card-actions"><a href="${s.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+    </div>`,
           )
           .join("");
       }
@@ -2938,12 +4871,12 @@
         if (!container) return;
         container.innerHTML = imageResources
           .map(
-            (r) => `<div class="resource-card">
-    <div class="card-icon-wrap" style="background:rgba(255,200,60,.1);color:#ffc83c"><i class="${r.icon}"></i></div>
-    <div class="card-title">${r.name}</div>
-    <div class="card-desc">${currentLang === "en" ? r.usesEn : r.usesAr}</div>
-    <div class="card-actions"><a href="${r.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
-  </div>`,
+            (r) => `<div class="resource-card fade-in">
+        <div class="card-icon-wrap" style="background:rgba(255,200,60,.1);color:#ffc83c"><i class="${r.icon}"></i></div>
+        <div class="card-title">${r.name}</div>
+        <div class="card-desc">${currentLang === "en" ? r.usesEn : r.usesAr}</div>
+        <div class="card-actions"><a href="${r.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+    </div>`,
           )
           .join("");
       }
@@ -2956,12 +4889,66 @@
           .map((e) => {
             const name = currentLang === "en" ? e.nameEn : e.nameAr;
             const desc = currentLang === "en" ? e.descEn : e.descAr;
-            return `<div class="resource-card">
-      <div class="card-icon-wrap" style="background:rgba(255,150,50,.1);color:#ff9632"><i class="${e.icon}"></i></div>
-      <div class="card-title">${name}</div>
-      <div class="card-desc">${desc}</div>
-      <div class="card-actions"><a href="${e.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
-    </div>`;
+            return `<div class="resource-card fade-in">
+            <div class="card-icon-wrap" style="background:rgba(255,150,50,.1);color:#ff9632"><i class="${e.icon}"></i></div>
+            <div class="card-title">${name}</div>
+            <div class="card-desc">${desc}</div>
+            <div class="card-actions"><a href="${e.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+        </div>`;
+          })
+          .join("");
+      }
+
+      function renderAutomation() {
+        const t = translations[currentLang];
+        const container = document.getElementById("automation-body");
+        if (!container) return;
+        container.innerHTML = automationTools
+          .map((tool) => {
+            const name = currentLang === "en" ? tool.nameEn : tool.nameAr;
+            const desc = currentLang === "en" ? tool.descEn : tool.descAr;
+            return `<div class="resource-card fade-in">
+            <div class="card-icon-wrap" style="background:rgba(168,85,247,.1);color:var(--purple)"><i class="${tool.icon}"></i></div>
+            <div class="card-title">${name}</div>
+            <div class="card-desc">${desc}</div>
+            <div class="card-actions"><a href="${tool.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+        </div>`;
+          })
+          .join("");
+      }
+
+      function renderSeo() {
+        const t = translations[currentLang];
+        const container = document.getElementById("seo-body");
+        if (!container) return;
+        container.innerHTML = seoTools
+          .map((tool) => {
+            const name = currentLang === "en" ? tool.nameEn : tool.nameAr;
+            const desc = currentLang === "en" ? tool.descEn : tool.descAr;
+            return `<div class="resource-card fade-in">
+            <div class="card-icon-wrap" style="background:rgba(255,200,60,.1);color:#ffc83c"><i class="${tool.icon}"></i></div>
+            <div class="card-title">${name}</div>
+            <div class="card-desc">${desc}</div>
+            <div class="card-actions"><a href="${tool.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+        </div>`;
+          })
+          .join("");
+      }
+
+      function renderSecurity() {
+        const t = translations[currentLang];
+        const container = document.getElementById("security-body");
+        if (!container) return;
+        container.innerHTML = securityTools
+          .map((tool) => {
+            const name = currentLang === "en" ? tool.nameEn : tool.nameAr;
+            const desc = currentLang === "en" ? tool.descEn : tool.descAr;
+            return `<div class="resource-card fade-in">
+            <div class="card-icon-wrap" style="background:rgba(255,62,157,.1);color:var(--pink)"><i class="${tool.icon}"></i></div>
+            <div class="card-title">${name}</div>
+            <div class="card-desc">${desc}</div>
+            <div class="card-actions"><a href="${tool.url}" target="_blank" class="btn-visit"><i class="fas fa-external-link-alt"></i> ${t.visit}</a></div>
+        </div>`;
           })
           .join("");
       }
@@ -2970,6 +4957,7 @@
         localStorage.setItem("aiLang", currentLang);
         const t = translations[currentLang];
         document.documentElement.dir = currentLang === "ar" ? "rtl" : "ltr";
+
         document.getElementById("preloaderText").textContent = t.preloader;
         document.getElementById("heroBadge").textContent = t.heroBadge;
         document.getElementById("heroTitle").textContent = t.heroTitle;
@@ -2979,29 +4967,72 @@
           t.statSections;
         document.getElementById("statUpdateLabel").textContent = t.statUpdate;
         document.getElementById("filterLabel").textContent = t.filterLabel;
-        document.getElementById("canvaTitle").textContent = t.canvaTitle;
-        document.getElementById("canvaSubtitle").textContent = t.canvaSubtitle;
+
+        // Section titles
         document.getElementById("promptsTitle").textContent = t.promptsTitle;
         document.getElementById("promptsSubtitle").textContent =
           t.promptsSubtitle;
+        document.getElementById("promptsExplainText").textContent =
+          t.promptsExplain;
+
+        document.getElementById("canvaTitle").textContent = t.canvaTitle;
+        document.getElementById("canvaSubtitle").textContent = t.canvaSubtitle;
+        document.getElementById("canvaExplainText").textContent =
+          t.canvaExplain;
+
         document.getElementById("cssTitle").textContent = t.cssTitle;
         document.getElementById("cssSubtitle").textContent = t.cssSubtitle;
+        document.getElementById("cssExplainText").textContent = t.cssExplain;
+
         document.getElementById("freeTitle").textContent = t.freeTitle;
         document.getElementById("freeSubtitle").textContent = t.freeSubtitle;
+        document.getElementById("freeExplainText").textContent = t.freeExplain;
+
         document.getElementById("designPlatTitle").textContent =
           t.designPlatTitle;
         document.getElementById("designPlatSubtitle").textContent =
           t.designPlatSubtitle;
+        document.getElementById("designPlatExplainText").textContent =
+          t.designPlatExplain;
+
         document.getElementById("emailTitle").textContent = t.emailTitle;
         document.getElementById("emailSubtitle").textContent = t.emailSubtitle;
+        document.getElementById("emailExplainText").textContent =
+          t.emailExplain;
+
         document.getElementById("socialTitle").textContent = t.socialTitle;
         document.getElementById("socialSubtitle").textContent =
           t.socialSubtitle;
+        document.getElementById("socialExplainText").textContent =
+          t.socialExplain;
+
         document.getElementById("imageResTitle").textContent = t.imageResTitle;
         document.getElementById("imageResSubtitle").textContent =
           t.imageResSubtitle;
+        document.getElementById("imgresExplainText").textContent =
+          t.imageResExplain;
+
         document.getElementById("extTitle").textContent = t.extTitle;
         document.getElementById("extSubtitle").textContent = t.extSubtitle;
+        document.getElementById("extExplainText").textContent = t.extExplain;
+
+        document.getElementById("automationTitle").textContent =
+          t.automationTitle;
+        document.getElementById("automationSubtitle").textContent =
+          t.automationSubtitle;
+        document.getElementById("automationExplainText").textContent =
+          t.automationExplain;
+
+        document.getElementById("seoTitle").textContent = t.seoTitle;
+        document.getElementById("seoSubtitle").textContent = t.seoSubtitle;
+        document.getElementById("seoExplainText").textContent = t.seoExplain;
+
+        document.getElementById("securityTitle").textContent = t.securityTitle;
+        document.getElementById("securitySubtitle").textContent =
+          t.securitySubtitle;
+        document.getElementById("securityExplainText").textContent =
+          t.securityExplain;
+
         document.getElementById("footerText").textContent = t.footerText;
         document.getElementById("globalSearch").placeholder =
           currentLang === "en"
@@ -3014,8 +5045,8 @@
 
         renderCategories();
         handleFilter();
-        renderCanva();
         renderPrompts();
+        renderCanva();
         renderCssTools();
         renderFreeServices();
         renderDesignPlatforms();
@@ -3023,16 +5054,19 @@
         renderSocial();
         renderImageResources();
         renderExtensions();
+        renderAutomation();
+        renderSeo();
+        renderSecurity();
       }
 
       function enableDragScroll() {
         const container = document.getElementById("categoryFilters");
         if (!container) return;
-        let isDown = false;
-        let startX;
-        let scrollLeft;
+        let isDown = false,
+          startX,
+          scrollLeft;
         container.addEventListener("mousedown", (e) => {
-          if (e.target.closest(".filter-chip")) return; // allow chip click
+          if (e.target.closest(".filter-chip")) return;
           isDown = true;
           container.style.cursor = "grabbing";
           startX = e.pageX - container.offsetLeft;
@@ -3053,6 +5087,16 @@
         container.style.cursor = "grab";
       }
 
+      // Back to top button
+      function initBackToTop() {
+        const btn = document.getElementById("backToTop");
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 500) btn.classList.add("visible");
+          else btn.classList.remove("visible");
+        });
+      }
+
+      // Event Listeners
       document.getElementById("langToggle").addEventListener("click", () => {
         currentLang = currentLang === "en" ? "ar" : "en";
         applyLanguage();
@@ -3076,12 +5120,14 @@
         }
       });
 
-      const glow = document.getElementById("cursorGlow");
+      // Cursor glow
       document.addEventListener("mousemove", (e) => {
+        const glow = document.getElementById("cursorGlow");
         glow.style.left = e.clientX + "px";
         glow.style.top = e.clientY + "px";
       });
 
+      // Initialize
       window.addEventListener("load", () => {
         document.getElementById("totalToolsCount").textContent =
           toolsData.length;
@@ -3089,6 +5135,8 @@
           toolsData.length;
         applyLanguage();
         enableDragScroll();
+        initBackToTop();
+
         const preloader = document.getElementById("preloader");
         setTimeout(() => {
           preloader.style.opacity = "0";
